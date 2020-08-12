@@ -1,0 +1,24 @@
+# Alothemes
+# Ignore All
+/*
+!/.gitignore
+!/app
+/app/*
+!/app/code
+!/app/design
+/app/design/*
+!/app/design/frontend
+/app/design/frontend/*
+!/app/design/frontend/Alothemes
+!/pub
+/pub/*
+!/pub/media
+/pub/media/*
+!/pub/media/alothemes
+!/pub/media/magiccart
+!/pub/media/wysiwyg
+
+# Private
+!/pub/media/Furniture
+!/pub/media/Furniture-2
+!/pub/media/week_specail.png

@@ -1,0 +1,111 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $this->helper('Magento\Search\Helper\Data');
+?>
+<div class="block-search">
+    <div class="block block-content">
+        <form class="form minisearch form-search" id="search_mini_form" action="<?php /* @escapeNotVerified */ echo $helper->getResultUrl() ?>" method="get">
+        <div class="block-title"><strong><?php /* @escapeNotVerified */ echo __('Search'); ?></strong></div>
+            <div class="field search">
+                <?php 
+                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    $config = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('alothemes/categorysearch', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                    $catalogsearch = isset($config['enabled']) ? $config['enabled'] : 0;
+                    $depth       = isset($config['depth'])   ? $config['depth']   : 0;
+          
+                ?>
+                <div class="control <?php echo $catalogsearch ? 'catalogsearch' : ''?>">
+                      <input id="search"
+                             data-mage-init='{"quickSearch":{
+                                  "formSelector":"#search_mini_form",
+                                  "url":"<?php /* @escapeNotVerified */ echo $block->getUrl('search/ajax/suggest'); ?>",
+                                  "destinationSelector":"#search_autocomplete"}
+                             }'
+                             type="text"
+                             name="<?php /* @escapeNotVerified */ echo $helper->getQueryParamName() ?>"
+                             value="<?php /* @escapeNotVerified */ echo $helper->getEscapedQueryText() ?>"
+                             placeholder="<?php /* @escapeNotVerified */ echo __('Search here...'); ?>"
+                             class="input-text"
+                             maxlength="<?php /* @escapeNotVerified */ echo $helper->getMaxQueryLength();?>"
+                             role="combobox"
+                             aria-haspopup="false"
+                             aria-autocomplete="both"
+                             autocomplete="off"/>
+                      <div id="search_autocomplete" class="search-autocomplete"></div>
+                      <?php echo $block->getChildHtml() ?>
+                      <?php if($catalogsearch) : ?>
+                      <div class="catalogsearch-box">
+                        <span id="select-box-category"><?php echo __('All Categories') ?></span>
+                        <div id="categories-box" style="display:none;">
+                          <input style="display:none;" type="text" value="" id="qsearch">
+                          <ul class="cat-list dd-container" id="cat">
+                            <?php
+                            if($depth) $depth ++;
+                              $categoryFactory = $objectManager->create('Magiccart\Alothemes\Model\System\Config\CatalogSearch');
+                                $categories = $categoryFactory->toOptionArray($depth);
+                                echo '<li data-q="0">' . __('All Categories') . '</li>';
+                                foreach ($categories as $category){
+                                  echo '<li data-q="'.$category['value'].'" class="' . $category['class'] . '">' . $category['label'] . '</li>';
+                                }
+                            ?>
+                          </ul>
+                        </div>                        
+                      </div>
+                      <script type="text/javascript">
+                        document.addEventListener("DOMContentLoaded", function() {
+                          var qsearch, select, ul, li, a, i;
+                          qsearch = document.getElementById("qsearch");
+                          select = document.getElementById("select-box-category");
+                          ul = document.getElementById("categories-box");
+                          document.querySelector('body').addEventListener("click", function(){
+                              ul.style.display = 'none';
+                          });
+                          select.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            if (ul.style.display === 'none') {
+                                ul.style.display = 'block';
+                            } else {
+                                ul.style.display = 'none';
+                            }
+                          });
+                          li = ul.getElementsByTagName("li");
+                          for (i = 0; i < li.length; i++) {
+                            a = li[i];
+                            a.addEventListener("click", function(){
+                              qsearch.value = this.getAttribute("data-q");
+                              select.innerHTML = this.innerHTML;
+                            });
+                          }
+                        });
+
+                        window.onload = function(){
+                          var form = document.getElementById("search_mini_form");
+                          form.onsubmit = function(){
+                            var search = document.getElementById("search");
+                            var qsearch = document.getElementById("qsearch");
+                            var csearch = qsearch.value ? '&cat='+qsearch.value : '';
+                            window.location = form.action + '/?q=' + search.value + csearch;
+                              return false;
+                          };
+                        };
+                      </script>
+                  <?php endif ?>
+                </div>
+            </div>
+      <button type="submit"
+                    title="<?php echo $block->escapeHtml(__('Search')) ?>"
+                    class="action search button">
+                <span><span><i class="fa fa-search"></i><?php /* @escapeNotVerified */ //echo __('Search'); ?></span></span>
+            </button>
+        </form>
+    </div>
+</div>

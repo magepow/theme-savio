@@ -1,0 +1,54 @@
+<?php
+if(!$this->getEnabled()) return;
+$selector = 'alo-content-'.rand(0,999999999);
+$testimonials = $this->getTestimonials();
+if(!count($testimonials)) return;
+?>
+<div class="<?php echo $selector ?>">
+   <div class="block-testimonial">
+        <?php echo $this->getTitle() ? '<h3 class="block-title title item">' . '<span>' . $this->getTitle() . '</span>' . '</h3>' : '' ?>
+	</div>
+   <div class="block-content">
+		<div class="testimonial"
+			data-fade='true'
+		<?php foreach ($this->getFrontendCfg() as $opt) :?>
+			data-<?php echo $opt ?>='<?php echo $this->getData($opt) ?>'
+		<?php endforeach;?>  
+		>
+			<?php $i=0; foreach ($testimonials as $testimonial) :?>
+				<div class="item">
+					<div class="inner-customer clearfix">
+						<div class="inner-left">
+							<div class="customer">
+								<a href="<?php // echo $this->getUrlTestimonial($testimonial) ?>">
+									<img class="avatar img-responsive" src="<?php echo $this->getImage($testimonial)?>" alt="<?php echo __($testimonial->getName()) ?>" title="<?php echo __($testimonial->getName()) ?>" />
+								</a>
+							</div>
+						</div>
+						<div class="inner-right">
+							<p class="name title-name"><?php echo $testimonial->getName(); ?></p>
+						</div>
+					</div>
+					 <div class="testimonial_text">
+						<div class="content sub-text"><?php echo $testimonial->getText(); ?></div>
+					</div>
+				</div>
+			<?php endforeach ?>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magiccart/slick',
+        'alothemes',
+        ], function($){
+            (function($) {
+                var testimonial  = $('.<?php echo $selector ?> .testimonial');
+                if(testimonial.length) $('head').append(magicproduct(testimonial, '.item'));
+            })(jQuery); 
+    });
+</script>
+
+

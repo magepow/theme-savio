@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magiccart
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magepow.com/license-agreement.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magiccart
+ * @package     Magiccart_Alothemes
+ * @copyright   Copyright (c) 2014 Magepow (http://www.magepow.com/)
+ * @license     http://www.magepow.com/license-agreement.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="mage/gallery/gallery.css"/>
+    </head>
+	<body>
+		<referenceBlock name="head.additional">
+			<block class="Magiccart\Alothemes\Block\Themecfg" name="alo.themecfg" template="themecfg.phtml" />
+		</referenceBlock>
+	    <referenceContainer name="before.body.end">
+	    	<block class="Magiccart\Alothemes\Block\Social" ifconfig="alosocial/general/enabled" name="social.profile" template="social.phtml" />
+	    	<block class="Magiccart\Alothemes\Block\Messenger" ifconfig="alosocial/messenger/enabled" name="social.messenger" template="messenger.phtml" />
+	    	<block class="Magiccart\Alothemes\Block\RecentOrder" ifconfig="alothemes/recentorder/enabled" name="alothemes.recent.order" template="recentorder.phtml" />
+	    </referenceContainer>
+	</body>
+</page>

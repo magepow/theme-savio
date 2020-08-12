@@ -1,0 +1,21 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog sidebar custom HTML template
+ *
+ * @var $block \Magefan\Blog\Block\Sidebar\Search
+ */
+?>
+<?php $content = $block->getContent() ?>
+<?php if ($content) { ?>
+    <div class="widget block blog-custom" >
+        <?= /*@noEscape*/ $content ?>
+    </div>
+<?php } ?>

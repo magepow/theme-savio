@@ -1,0 +1,51 @@
+<?php
+/**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: Magiccart<team.magiccart@gmail.com>
+ * @@Create Date: 2017-08-29 22:55:21
+ * @@Modify Date: 2020-07-29 00:21:25
+ * @@Function:
+ */
+?>
+<?php
+$socialCfg  = $this->_sysCfg->twitter;
+$username   = isset($socialCfg["twitterid"]) ? $socialCfg["twitterid"] : '';
+if(!$username) return;
+$limit      = isset($socialCfg["limit"])    ? $socialCfg["limit"] : 10;
+$tweets = $this->getLatestTweets();
+if(!$tweets) return;
+?>
+<div class="block block-creare-twitter">
+    <div class="block-content">
+        <ul>
+        <?php foreach($tweets as $tweet): ?>
+            <li class="clearfix">
+                <div class="alo-twitter">
+                    <div class="twitter-pic pull-left">
+                        <a href="https://twitter.com/<?php /* @escapeNotVerified */ echo $tweet["screen_name"] ?>" ><img class="img-responsive" src="<?php /* @escapeNotVerified */ echo $tweet["profile_image_url"] ?>" alt="twitter icon" /></a>
+                    </div>
+                    <div class="twitter-links pull-left">
+                        <div class="pull-left-none">
+                            <span class="tweetprofilelink">
+                                <strong><a href="https://twitter.com/<?php /* @escapeNotVerified */ echo $tweet["screen_name"] ?>" ><?php echo $tweet["name"] ?></a></strong>
+                                <a href="https://twitter.com/<?php /* @escapeNotVerified */ echo $tweet["screen_name"] ?>" >@<?php echo $tweet["screen_name"] ?></a>
+                            </span>
+                            <p><?php echo (string) trim($tweet["tweet"]); ?></p>
+                        </div>
+                        <div class="date"><?php echo (string) trim($tweet["time"]); ?></div>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+        <?php if($this->tweetCfg['showfollow']): ?>
+            <li>
+                <a href="https://twitter.com/<?php /* @escapeNotVerified */ echo $this->tweetCfg['twitterid'] ?>" class="twitter-follow-button" data-show-count="false">Follow @<?php echo $this->tweetCfg['twitterid'] ?></a>
+                <script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </li>
+        <?php endif; ?>
+        </ul>
+    </div>
+</div>

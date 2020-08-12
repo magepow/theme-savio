@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Magento\Theme\Block\Html\Header $block
+ */
+
+?>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+ 
+<header class="page-header alothemes">
+    <div class="header">
+        <div class="header-top">
+			<div class="container">
+			    <div class="main-fix bg-white clearfix">
+				    <div class="top-left top-mobile">
+				    	 <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('support')->toHtml();?>
+				    </div>
+					<div class="top-right top-mobile">
+					    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('store-location')->toHtml();?>
+					    <div class="tool-setting">
+				    	    <div class="header-setting">
+						    	<div class="settting-switcher">
+									<?php echo $this->getChildHtml('store_language'); ?>
+							    </div>
+						    </div>
+						    <div class="header-setting currency_top">
+						    	<div class="settting-switcher">
+							    	<?php echo $this->getChildHtml('currency'); ?>
+							    </div>
+						    </div>
+		    			</div>
+						<?php echo $this->getChildHtml('header.links'); ?> 
+					</div>
+				</div>
+			</div>
+		</div>	
+		<div class="header-content">
+			<div class="container">
+				<div class="row clearfix">
+					<div class="content-logo col-sm-12 col-md-3 col-lg-3">
+						<div class="header-logo">
+							<?php echo $this->getChildHtml('logo'); ?>
+						</div>
+					</div>
+					<div class="under-top-bar col-sm-12 col-md-6 col-lg-6">
+						<div class="tool-topsearch toggle-tab-mobile">
+							<div class="toggle-content-none">
+								<?php echo $this->getChildHtml('top.search'); ?>
+							</div>
+						</div>
+					</div>
+					<div class="content-cart col-md-3 col-lg-3">
+						<div class="tool-header">
+							 <div class="top-link-product">
+								<a title="Compare" href="<?php echo $this->getUrl('catalog/product_compare') ?>" target="_blank" class="btn-compare icon-refresh icons icon compare">
+								<?php $counter = $this->helper('Magento\Catalog\Helper\Product\Compare')->getItemCount() ?>
+									<?php if($counter): ?>
+										<span class="counter"><?php echo $counter > 0 ? $counter:0; ?></span>
+									<?php endif; ?>
+								</a>
+								 <a title="My wishlist" href="<?php echo $this->getUrl('wishlist') ?>" target="_blank" class="wishlist icon icon-heart icons"> <?php // echo __('wishlist'); ?>
+								 <?php $counter = $this->helper('Magento\Wishlist\Helper\Data')->getItemCount() ?>
+									<?php if($counter): ?>
+										<span class="counter"><?php echo $counter > 0 ? $counter:0; ?></span>
+									<?php endif; ?>
+								</a>
+							</div>
+							<?php echo $this->getChildHtml('minicart'); ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="header-bottom">
+            <div class="header-sticker">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 visible-md-on hidden-icon">
+							<?php echo $this->getChildHtml('navigation.sections'); ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</header>

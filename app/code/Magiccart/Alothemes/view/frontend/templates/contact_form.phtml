@@ -1,0 +1,81 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<form class="form contact"
+      action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>"
+      id="contact-form"
+      method="post"
+      data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>"
+      data-mage-init='{"validation":{}}'>
+    <div class="contact-content">
+        <div class="contact-form row clearfix">
+			<div class="fix-width col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<fieldset class="fieldset">
+					<div class="field name required">
+						<label class="label" for="name"><span><?php /* @escapeNotVerified */ echo __('Name') ?></span></label>
+						<div class="control">
+							<input placeholder="<?php /* @escapeNotVerified */ echo __('Name') ?>" name="name" id="name" title="<?php /* @escapeNotVerified */ echo __('Name') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+						</div>
+					</div>
+					<div class="field email required">
+						<label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+						<div class="control">
+							<input placeholder="<?php /* @escapeNotVerified */ echo __('Email') ?>" name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+						</div>
+					</div>
+					<div class="field telephone">
+						<label class="label" for="telephone"><span><?php /* @escapeNotVerified */ echo __('Phone Number') ?></span></label>
+						<div class="control">
+							<input placeholder="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" name="telephone" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" value="" class="input-text" type="text" />
+						</div>
+					</div>
+					<div class="field comment required">
+						<label class="label" for="comment"><span><?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?></span></label>
+						<div class="control">
+							<textarea placeholder="<?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?>" name="comment" id="comment" title="<?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+						</div>
+					</div>
+					<input type="hidden" name="link" id="link" value="<?php echo $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]) ?>" />
+					<?php //echo $block->getChildHtml('form.additional.info'); ?>
+					<?php 
+					echo $block->getLayout()
+					    ->createBlock('MSP\ReCaptcha\Block\Frontend\ReCaptcha',
+					        'msp-recaptcha',
+					        ['data' => 
+					            [
+					                'jsLayout' => 
+					                [
+					                    'components' => 
+					                    [
+					                        'msp-recaptcha' => 
+					                        [
+					                            'component' => 'MSP_ReCaptcha/js/reCaptcha',
+					                            'zone' => 'contact'
+					                        ]
+					                    ]
+					                ]
+					            ]
+					        ]
+					    )
+					    ->setTemplate('MSP_ReCaptcha::msp_recaptcha.phtml')
+					    ->toHtml();
+					?>
+					<div class="actions-toolbar">
+						<div class="primary">
+							<input type="hidden" name="hideit" id="hideit" value="" />
+							<button type="submit" title="<?php /* @escapeNotVerified */ echo __('Submit') ?>" class="action submit primary">
+								<span><?php /* @escapeNotVerified */ echo __('Submit') ?></span>
+							</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+    	</div>
+    </div>
+</form>

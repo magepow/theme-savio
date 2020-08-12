@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $this->helper('Magento\Search\Helper\Data');
+?>
+<div class="block-search">
+    <div class="block block-content">
+        <form class="form minisearch form-search" id="search_mini_form" action="<?php /* @escapeNotVerified */ echo $helper->getResultUrl() ?>" method="get">
+        <div class="block-title"><strong><?php /* @escapeNotVerified */ echo __('Search'); ?></strong></div>
+            <div class="field search clearfix">
+				<?php $catalogsearch = true; ?>
+                <div class="control <?php echo $catalogsearch ? 'catalogsearch' : ''?>">
+                    <?php if(!$catalogsearch) : ?>
+                      <input id="search"
+                             data-mage-init='{"quickSearch":{
+                                  "formSelector":"#search_mini_form",
+                                  "url":"<?php /* @escapeNotVerified */ echo $block->getUrl('search/ajax/suggest'); ?>",
+                                  "destinationSelector":"#search_autocomplete"}
+                             }'
+                             type="text"
+                             name="<?php /* @escapeNotVerified */ echo $helper->getQueryParamName() ?>"
+                             value="<?php /* @escapeNotVerified */ echo $helper->getEscapedQueryText() ?>"
+                             placeholder="<?php /* @escapeNotVerified */ echo __('Search here...'); ?>"
+                             class="input-text"
+                             maxlength="<?php /* @escapeNotVerified */ echo $helper->getMaxQueryLength();?>"
+                             role="combobox"
+                             aria-haspopup="false"
+                             aria-autocomplete="both"
+                             autocomplete="off"/>
+                      <div id="search_autocomplete" class="search-autocomplete"></div>
+                      <?php echo $block->getChildHtml() ?>
+                  <?php else : ?>
+                      <input id="search"
+                             type="text"
+                             name="<?php /* @escapeNotVerified */ echo $helper->getQueryParamName() ?>"
+                             value="<?php /* @escapeNotVerified */ echo $helper->getEscapedQueryText() ?>"
+                             placeholder="<?php /* @escapeNotVerified */ echo __('Search here...'); ?>"
+                             class="input-text"
+                             maxlength="<?php /* @escapeNotVerified */ echo $helper->getMaxQueryLength();?>"
+                             role="combobox"
+                             aria-haspopup="false"
+                             aria-autocomplete="both"
+                             autocomplete="off"/>
+                      <input id="catalogsearch" type="hidden" value="">
+                      <select class="cat-list dd-container" id="cat">
+                        <?php
+                          $objectManagerr = \Magento\Framework\App\ObjectManager::getInstance();
+                          $categoryFactory = $objectManagerr->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
+                          $categories = $categoryFactory->create()->addAttributeToSelect('*');
+                          foreach ($categories as $category){
+                            if($category->getLevel() == 2) echo "<option value=".$category->getId().">" . $category->getName() . "</option>";
+                          }
+                        ?>
+                      </select>
+                      <script type="text/javascript">
+                        window.onload = function(){
+                          jQuery('.cat-list').on('change',function(){
+                            jQuery('#catalogsearch').attr('value',jQuery(this).val());    
+                          });
+                          var form = document.getElementById("search_mini_form");
+                          form.onsubmit = function(){
+                            window.location = "<?php echo $this->getBaseUrl() ?>catalogsearch/result/?q=" + jQuery('#search').val() +"&cat="+ jQuery('#catalogsearch').attr('value');
+                              return false;
+                          };
+                        };
+                      </script>
+                  <?php endif ?>
+                </div>
+            </div>
+			<button type="submit"
+                    title="<?php echo $block->escapeHtml(__('Search')) ?>"
+                    class="action search button">
+                <span><span><i class="fa fa-search icons"></i><i class="seach-text"><?php /* @escapeNotVerified */ echo __('Search'); ?></i></span></span>
+            </button>
+        </form>
+    </div>
+</div>

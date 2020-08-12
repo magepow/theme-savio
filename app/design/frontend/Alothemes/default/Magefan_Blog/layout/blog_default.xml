@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Ihor Vansach (ihor@magefan.com). All rights reserved.
+ * See LICENSE.txt for license details (http://opensource.org/licenses/osl-3.0.php).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magefan_Blog::css/blog-m.css" />
+        <!-- <css src="Magefan_Blog::css/blog-l.css" media="screen and (min-width: 768px)"/> -->
+        <css src="Magefan_Blog::css/blog-custom.css" />
+    </head>
+    <body>
+	    <referenceBlock name="accordion.sidebar" remove="true"/>
+	    <referenceBlock name="page.main.title" remove="true"/>
+    	<referenceContainer name="sidebar.additional">
+            <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+            <referenceBlock name="wishlist_sidebar" remove="true"/>
+			<referenceBlock name="blog.sidebar.search" remove="true"/>
+        </referenceContainer>
+    </body>
+</page>

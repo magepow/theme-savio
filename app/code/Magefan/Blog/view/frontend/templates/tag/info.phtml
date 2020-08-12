@@ -1,0 +1,19 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog tag info template
+ *
+ * @var $block \Magefan\Blog\Block\Tag\Info
+ */
+?>
+
+<?php if ($content = $block->getContent()): ?>
+    <div class="tag-content"><?= /*@noEscape*/ $content ?></div>
+<?php endif ?>

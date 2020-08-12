@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <magicproduct>
+    <item>
+      <title><![CDATA[Phones - Tablets]]></title>
+      <identifier><![CDATA[phones-tablets]]></identifier>
+      <type_id><![CDATA[2]]></type_id>
+      <config><![CDATA[a:32:{s:9:"countdown";s:0:"";s:5:"title";s:16:"Phones - Tablets";s:10:"identifier";s:14:"phones-tablets";s:5:"image";s:46:"magiccart/magicproduct/category//i/m/img1d.jpg";s:4:"ajax";s:1:"1";s:5:"types";s:6:"latest";s:5:"limit";s:2:"10";s:6:"status";s:1:"1";s:12:"category_ids";a:8:{i:0;s:1:"9";i:1;s:3:"104";i:2;s:3:"105";i:3;s:3:"106";i:4;s:3:"107";i:5;s:3:"108";i:6;s:3:"109";i:7;s:3:"111";}s:9:"activated";s:1:"9";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"2";s:6:"tablet";s:1:"2";s:8:"notebook";s:1:"2";s:7:"desktop";s:1:"2";s:7:"visible";s:1:"3";s:5:"timer";s:1:"0";s:5:"slide";s:1:"1";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:5:"false";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"1";s:5:"speed";s:3:"400";s:14:"autoplay-Speed";s:4:"6000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"1";s:7:"compare";s:1:"1";s:8:"wishlist";s:1:"1";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+    <item>
+      <title><![CDATA[Electronics - Digital]]></title>
+      <identifier><![CDATA[electronics-digital]]></identifier>
+      <type_id><![CDATA[2]]></type_id>
+      <config><![CDATA[a:32:{s:9:"countdown";s:0:"";s:5:"title";s:21:"Electronics - Digital";s:10:"identifier";s:19:"electronics-digital";s:5:"image";s:46:"magiccart/magicproduct/category//i/m/img1e.jpg";s:4:"ajax";s:1:"1";s:5:"types";s:8:"featured";s:5:"limit";s:2:"10";s:6:"status";s:1:"1";s:12:"category_ids";a:8:{i:0;s:1:"3";i:1;s:2:"46";i:2;s:2:"48";i:3;s:2:"31";i:4;s:2:"35";i:5;s:2:"36";i:6;s:2:"37";i:7;s:2:"38";}s:9:"activated";s:1:"3";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"2";s:6:"tablet";s:1:"2";s:8:"notebook";s:1:"2";s:7:"desktop";s:1:"2";s:7:"visible";s:1:"3";s:5:"timer";s:1:"0";s:5:"slide";s:1:"1";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:5:"false";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"1";s:5:"speed";s:3:"300";s:14:"autoplay-Speed";s:4:"3000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"1";s:7:"compare";s:1:"1";s:8:"wishlist";s:1:"1";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+    <item>
+      <title><![CDATA[Refrigetation]]></title>
+      <identifier><![CDATA[refrigetation]]></identifier>
+      <type_id><![CDATA[2]]></type_id>
+      <config><![CDATA[a:32:{s:9:"countdown";s:0:"";s:5:"title";s:13:"Refrigetation";s:10:"identifier";s:13:"refrigetation";s:5:"image";s:46:"magiccart/magicproduct/category//i/m/img1f.jpg";s:4:"ajax";s:1:"1";s:5:"types";s:6:"random";s:5:"limit";s:2:"10";s:6:"status";s:1:"1";s:12:"category_ids";a:8:{i:0;s:1:"8";i:1;s:2:"95";i:2;s:2:"96";i:3;s:2:"10";i:4;s:2:"11";i:5;s:2:"12";i:6;s:2:"13";i:7;s:2:"14";}s:9:"activated";s:1:"8";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"2";s:6:"tablet";s:1:"2";s:8:"notebook";s:1:"2";s:7:"desktop";s:1:"2";s:7:"visible";s:1:"3";s:5:"timer";s:1:"0";s:5:"slide";s:1:"1";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:5:"false";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"1";s:5:"speed";s:3:"400";s:14:"autoplay-Speed";s:4:"6000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"1";s:7:"compare";s:1:"1";s:8:"wishlist";s:1:"1";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+    <item>
+      <title><![CDATA[Computers - Accessories]]></title>
+      <identifier><![CDATA[computers-accessories]]></identifier>
+      <type_id><![CDATA[2]]></type_id>
+      <config><![CDATA[a:32:{s:9:"countdown";s:0:"";s:5:"title";s:23:"Computers - Accessories";s:10:"identifier";s:21:"computers-accessories";s:5:"image";s:46:"magiccart/magicproduct/category//i/m/img1g.jpg";s:4:"ajax";s:1:"1";s:5:"types";s:8:"featured";s:5:"limit";s:2:"10";s:6:"status";s:1:"1";s:12:"category_ids";a:9:{i:0;s:1:"7";i:1;s:2:"74";i:2;s:2:"82";i:3;s:2:"83";i:4;s:2:"87";i:5;s:2:"75";i:6;s:2:"88";i:7;s:2:"89";i:8;s:2:"90";}s:9:"activated";s:1:"7";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"2";s:6:"tablet";s:1:"2";s:8:"notebook";s:1:"2";s:7:"desktop";s:1:"2";s:7:"visible";s:1:"3";s:5:"timer";s:1:"0";s:5:"slide";s:1:"1";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:4:"true";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"1";s:5:"speed";s:3:"300";s:14:"autoplay-Speed";s:4:"3000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"1";s:7:"compare";s:1:"1";s:8:"wishlist";s:1:"1";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+    <item>
+      <title><![CDATA[Electric Appliances]]></title>
+      <identifier><![CDATA[electric-appliances]]></identifier>
+      <type_id><![CDATA[2]]></type_id>
+      <config><![CDATA[a:32:{s:9:"countdown";s:0:"";s:5:"title";s:19:"Electric Appliances";s:10:"identifier";s:19:"electric-appliances";s:5:"image";s:46:"magiccart/magicproduct/category//i/m/img1h.jpg";s:4:"ajax";s:1:"1";s:5:"types";s:8:"featured";s:5:"limit";s:2:"10";s:6:"status";s:1:"1";s:12:"category_ids";a:8:{i:0;s:1:"4";i:1;s:2:"16";i:2;s:2:"17";i:3;s:2:"18";i:4;s:2:"19";i:5;s:2:"20";i:6;s:2:"25";i:7;s:2:"26";}s:9:"activated";s:1:"4";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"2";s:6:"tablet";s:1:"2";s:8:"notebook";s:1:"2";s:7:"desktop";s:1:"2";s:7:"visible";s:1:"3";s:5:"timer";s:1:"0";s:5:"slide";s:1:"1";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:4:"true";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"1";s:5:"speed";s:3:"300";s:14:"autoplay-Speed";s:4:"3000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"1";s:7:"compare";s:1:"1";s:8:"wishlist";s:1:"1";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+    <item>
+      <title><![CDATA[Product Tab Demo1]]></title>
+      <identifier><![CDATA[product-tab-demo1]]></identifier>
+      <type_id><![CDATA[1]]></type_id>
+      <config><![CDATA[a:31:{s:8:"form_key";s:16:"KR1OQU67fzJCDcKi";s:15:"magicproduct_id";s:1:"6";s:9:"countdown";s:0:"";s:5:"title";s:17:"Product Tab Demo1";s:4:"ajax";s:1:"1";s:5:"types";a:3:{i:0;s:8:"featured";i:1;s:6:"latest";i:2;s:6:"random";}s:9:"activated";s:8:"featured";s:5:"limit";s:2:"16";s:6:"status";s:1:"1";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"2";s:6:"tablet";s:1:"3";s:8:"notebook";s:1:"3";s:7:"desktop";s:1:"3";s:7:"visible";s:1:"4";s:5:"timer";s:1:"0";s:5:"slide";s:1:"1";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:5:"false";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"2";s:5:"speed";s:3:"400";s:14:"autoplay-Speed";s:4:"6000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"0";s:7:"compare";s:1:"1";s:8:"wishlist";s:1:"1";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+    <item>
+      <title><![CDATA[product-timer-demo1]]></title>
+      <identifier><![CDATA[product-timer-demo1]]></identifier>
+      <type_id><![CDATA[1]]></type_id>
+      <config><![CDATA[a:31:{s:8:"form_key";s:16:"KR1OQU67fzJCDcKi";s:15:"magicproduct_id";s:1:"7";s:9:"countdown";s:0:"";s:5:"title";s:19:"product-timer-demo1";s:4:"ajax";s:1:"1";s:5:"types";a:1:{i:0;s:4:"sale";}s:9:"activated";s:4:"sale";s:5:"limit";s:1:"3";s:6:"status";s:1:"1";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"1";s:6:"tablet";s:1:"1";s:8:"notebook";s:1:"1";s:7:"desktop";s:1:"1";s:7:"visible";s:1:"1";s:5:"timer";s:1:"1";s:5:"slide";s:1:"1";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:5:"false";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"1";s:5:"speed";s:3:"400";s:14:"autoplay-Speed";s:4:"6000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"0";s:7:"compare";s:1:"1";s:8:"wishlist";s:1:"1";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+    <item>
+      <title><![CDATA[Latest Product Sidebar Category]]></title>
+      <identifier><![CDATA[latest-product-sidebar-category]]></identifier>
+      <type_id><![CDATA[1]]></type_id>
+      <config><![CDATA[a:31:{s:8:"form_key";s:16:"KR1OQU67fzJCDcKi";s:9:"countdown";s:0:"";s:5:"title";s:31:"Latest Product Sidebar Category";s:10:"identifier";s:31:"latest-product-sidebar-category";s:4:"ajax";s:1:"1";s:5:"types";a:1:{i:0;s:6:"latest";}s:9:"activated";s:6:"latest";s:5:"limit";s:1:"3";s:6:"status";s:1:"1";s:6:"mobile";s:1:"1";s:8:"portrait";s:1:"1";s:9:"landscape";s:1:"1";s:6:"tablet";s:1:"1";s:8:"notebook";s:1:"1";s:7:"desktop";s:1:"1";s:7:"visible";s:1:"1";s:5:"timer";s:1:"0";s:5:"slide";s:1:"0";s:8:"vertical";s:5:"false";s:8:"infinite";s:4:"true";s:8:"autoplay";s:4:"true";s:6:"arrows";s:4:"true";s:4:"dots";s:5:"false";s:4:"rows";s:1:"1";s:5:"speed";s:3:"300";s:14:"autoplay-Speed";s:4:"3000";s:7:"padding";s:1:"0";s:4:"cart";s:1:"0";s:7:"compare";s:1:"0";s:8:"wishlist";s:1:"0";s:6:"review";s:1:"1";}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+  </magicproduct>
+</root>

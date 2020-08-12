@@ -1,0 +1,156 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+?>
+<?php
+$_product = $block->getProduct();
+$_wishlistSubmitParams = $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product);
+$compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()): ?>
+
+<?php if ($_product->isSaleable()) : ?>
+<div class="alo-social-links socials clearfix addit">
+	<div class="custom-html">
+	    <h3 class="title-social"><?php /* @escapeNotVerified */ echo __('Share it') ?></h3>
+		<ul class="icon-share list-inline">
+			<li class="facebook">
+				<a class="trasition-all social-link facebook" title="<?php echo __('Share on Facebook') ?>" href="#" target="_blank" rel="nofollow" onclick="window.open('//www.facebook.com/sharer/sharer.php?u='+'<?php echo $_product->getProductUrl();?>&picture=<?php echo $_product->getImageUrl();?>');return false;"><em class="fa fa-facebook"><span class="hidden"><?php /* @escapeNotVerified */ echo __('facebook') ?></span></em>
+				</a>
+			</li>
+			<li class="twitter">
+				<a class="trasition-all social-link twitter" href="#" title="<?php echo __('Share on Twitter') ?>" rel="nofollow" target="_blank" onclick="window.open('//twitter.com/share?text=<?php echo $_product->getName();?>&amp;url=<?php echo $_product->getProductUrl();?>');return false;"><em class="fa fa-twitter"><span class="hidden"><?php /* @escapeNotVerified */ echo __('twitter') ?></span></em>
+				</a>
+			</li>
+			<li class="pinterest">
+				<a class="trasition-all social-link pinterest" href="#" title="<?php echo __('Pin this') ?>" rel="nofollow" target="_blank" onclick="window.open('//pinterest.com/pin/create/button/?url=<?php echo $_product->getProductUrl();?>&amp;media=http%3A%2F%2Fdemo.cactusthemes.com%2Fnewstube%2Fwp-content%2Fuploads%2F2015%2F06%2F014-Surf-woman.jpg&amp;description=<?php echo $_product->getName();?>');return false;"><em class="fa fa-pinterest"><span class="hidden"><?php /* @escapeNotVerified */ echo __('pinterest') ?></span></em>
+				</a>
+			</li>
+			<li class="google-plus">
+				<a class="trasition-all social-link google-plus" href="#" title="<?php echo __('Share on Google Plus') ?>" rel="nofollow" target="_blank" onclick="window.open('//plus.google.com/share?url=<?php echo $_product->getProductUrl();?>');return false;"><em class="fa fa-google-plus"><span class="hidden"><?php /* @escapeNotVerified */ echo __('google-plus') ?></span></em>
+				</a>
+			</li>
+			<li class="linkedin">
+				<a class="trasition-all social-link linkedin" href="#" title="<?php echo __('Share on LinkedIn') ?>" rel="nofollow" target="_blank" onclick="window.open('//www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo $_product->getProductUrl();?>&amp;title=<?php echo $_product->getName();?>');return false;"><em class="fa fa-linkedin"><span class="hidden"><?php /* @escapeNotVerified */ echo __('linkedin') ?></span></em>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<?php endif; ?>	
+<div class="box-tocart">
+    <div class="fieldset">
+        <div class="actions add-to-cart">
+        <?php if ($block->shouldRenderQuantity()): ?>
+        <div class="field qty clearfix">
+		    <div class="product-qty">
+				<label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
+				<div class="control custom-qty">
+				    <div class="btn-plus">	
+						<button  type="button" class="reduced items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) && qty > 1 ) result.value--;return false;">
+							<i class="fa fa-minus"></i>
+						</button> 
+					</div>
+				    <input type="number"
+						   name="qty"
+						   id="qty"
+						   maxlength="12"
+						   value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
+						   title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
+						   data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+						   />
+				    <div class="btn-plus">		   
+						<button  type="button" class="increase items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+        </div>
+        <?php endif; ?>
+            <button type="submit"
+                    title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
+                    class="action primary tocart button btn-cart"
+                    id="product-addtocart-button">
+                <span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
+            </button>
+            <?php echo $block->getChildHtml('', true) ?>
+        </div>
+        <div class="product-social-links clearfix">
+			<div class="product-addto-links add-to-links" data-role="add-to-links">
+				<?php $_product = $block->getProduct() ?>
+				
+				<?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+					<a href="#"
+						class="action towishlist"
+						data-post='<?php /* @escapeNotVerified */ echo $_wishlistSubmitParams; ?>'
+						data-action="add-to-wishlist">
+						<i class="fa fa-heart-o icons"></i><span><?php /* @escapeNotVerified */ echo __('Wishlist') ?></span>
+					</a>
+				<?php endif; ?>
+				<a href="#" data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product);?>'
+					data-role="add-to-links"
+					class="action tocompare">
+					<i class="fa fa-exchange icons"></i><span><?php /* @escapeNotVerified */ echo __('Compare') ?></span>
+				</a>
+				<?php if ($block->canEmailToFriend()): ?>
+					<a href="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"
+					   class="action mailto friend">
+					   <i class="fa fa-envelope-o icons"></i><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></a>
+				<?php endif; ?>
+			</div>
+		</div>
+    </div>
+</div>
+
+<?php endif; ?>
+<?php if ($block->isRedirectToCartEnabled()) : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/product/view/validation": {
+                "radioCheckboxClosest": ".nested"
+            }
+        }
+    }
+</script>
+<?php else : ?>
+<script>
+    require([
+        'jquery',
+        'mage/mage',
+        'Magento_Catalog/product/view/validation',
+        'Magento_Catalog/js/catalog-add-to-cart'
+    ], function ($) {
+        'use strict';
+
+        $('#product_addtocart_form').mage('validation', {
+            radioCheckboxClosest: '.nested',
+            submitHandler: function (form) {
+                var widget = $(form).catalogAddToCart({
+                    bindSubmit: false
+                });
+
+                widget.catalogAddToCart('submitForm', $(form));
+
+                return false;
+            }
+        });
+    });
+</script>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "addToWishlist": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($block->getWishlistOptions())?>
+        }
+    }
+</script>

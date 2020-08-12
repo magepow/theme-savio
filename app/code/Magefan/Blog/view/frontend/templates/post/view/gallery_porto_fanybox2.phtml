@@ -1,0 +1,43 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog post media gallery images template for Fancybox 2.x
+ * Use this template for porto theme. Copy this file to your porto theme as
+ * app/design/frontend/Smartwave/theme-name/Magefan_Blog/templates/post/view/gallery.phtml
+ *
+ * @var $block \Magefan\Blog\Block\Post\View\Gallery
+ */
+?>
+
+<?php
+    $post = $block->getPost();
+    $galleryImages = $post->getGalleryImages();
+?>
+
+<?php if (count($galleryImages)) { ?>
+    <div class="post-gallery clearfix">
+        <?php foreach ($galleryImages as $image) { ?>
+            <a class="gallery-image-hld fancybox-thumb"
+               href="<?= $block->escapeUrl($image) ?>"
+               rel="fancybox-thumb">
+                <img class="gallery-image" src="<?= $block->escapeUrl($image->resize(200)) ?>" alt="" />
+            </a>
+        <?php } ?>
+    </div>
+    <script>
+    require(['jquery', 'domReady!'], function($){
+        require(['fancybox/js/jquery.fancybox'], function(){
+            $(document).ready(function() {
+                $('.gallery-image-hld').fancybox();
+            });
+        });
+    });
+</script>
+<?php } ?>

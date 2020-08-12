@@ -1,0 +1,52 @@
+<?php
+/**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: Magiccart<team.magiccart@gmail.com>
+ * @@Create Date: 2019-06-15 20:49:45
+ * @@Modify Date: 2019-06-15 09:03:07
+ * @@Function:
+ */
+?>
+<?php
+
+$_aloHelper = $this->helper('Magiccart\Alothemes\Helper\Data');
+
+if(!$_aloHelper->getConfig('alosocial/messenger/enabled')) return;
+
+$appId      = $_aloHelper->getConfig('alosocial/messenger/app_id');
+$pageId     = $_aloHelper->getConfig('alosocial/messenger/page_id');
+$color      = $_aloHelper->getConfig('alosocial/messenger/theme_color');
+$loginText  = $_aloHelper->getConfig('alosocial/messenger/login_message');
+$logoutText = $_aloHelper->getConfig('alosocial/messenger/logout_message');
+?>
+<div id="fb-root"></div>
+<script type="text/javascript">
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId            : '<?php echo $appId;?>',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v3.2'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-customerchat"
+     attribution=setup_tool
+     page_id="<?php echo $pageId;?>"
+     theme_color="<?php echo $color;?>"
+     logged_in_greeting="<?php echo $loginText;?>"
+     logged_out_greeting="<?php echo $logoutText;?>"
+     >
+</div>

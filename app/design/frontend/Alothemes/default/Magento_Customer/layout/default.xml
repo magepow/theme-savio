@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+	    <referenceBlock name="links.header">
+			<block class="Magento\Customer\Block\Account\Link" name="my-account-link" before="-">
+				<arguments>
+					<argument name="label" xsi:type="string" translate="true">My Account</argument>
+					<argument name="class" xsi:type="string">top-link-myaccount</argument>
+				</arguments>
+			</block>
+			<block class="Magento\Wishlist\Block\Link" name="wish-list-link" after="my-account-link">
+				<arguments>
+					<argument name="label" xsi:type="string" translate="true">My Wish List</argument>
+					<argument name="class" xsi:type="string">top-link-mywishlist</argument>
+				</arguments>
+			</block>
+			<block class="Magento\Framework\View\Element\Html\Link\Current" name="my-link1" after="wish-list-link">
+				<arguments>
+					<argument name="label" xsi:type="string" translate="true">Checkout</argument>
+					<argument name="path" xsi:type="string">checkout</argument>
+				</arguments>
+			</block>  
+			<!-- <block class="Magento\Framework\View\Element\Template" name="catalog.compare.link" 
+                               template="Magento_Catalog::product/compare/link.phtml">
+                            <arguments>
+                                <argument name="jsLayout" xsi:type="array">
+                                    <item name="components" xsi:type="array">
+                                        <item name="compareProducts" xsi:type="array">
+                                            <item name="component" xsi:type="string">Magento_Catalog/js/view/compare-products</item>
+                                        </item>
+                                    </item>
+                                </argument>
+                            </arguments>
+                        </block> -->
+            <block class="Magento\Customer\Block\Account\RegisterLink" name="register-link">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Register</argument>
+                </arguments>
+            </block>
+             <block class="Magento\Customer\Block\Account\AuthorizationLink" name="authorization-link"
+                   template="account/link/authorization.phtml"/>
+        </referenceBlock>
+        <referenceBlock name="header.links">
+            <block class="Magento\Customer\Block\Account\Customer" name="customer" template="account/customer.phtml" before="-"/>
+            <block class="Magento\Customer\Block\Account\AuthorizationLink" name="authorization-link-login" template="account/link/authorization.phtml"/>
+        </referenceBlock>
+        <move element="register-link" destination="header.links"/>
+        <move element="links.header" destination="customer"/>
+        <move element="authorization-link" destination="top.links" after="-"/>
+    </body>
+</page>

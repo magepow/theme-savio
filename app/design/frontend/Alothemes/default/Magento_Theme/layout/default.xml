@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+		<referenceContainer name="page.wrapper">
+			<block class="Magento\Theme\Block\Html\Header" name="alothemes_header" template="html/header.phtml" before="-">
+				<block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+                    <arguments>
+                        <argument name="css_class" xsi:type="string">header links</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Links" name="links.header">
+                    <arguments>
+                        <argument name="css_class" xsi:type="string">links header</argument>
+                    </arguments>
+                </block>
+				<block class="Magento\Theme\Block\Html\Header\Logo" name="logo">
+                    <arguments>
+					    <!-- <argument name="logo_file" xsi:type="string">images/logo.png</argument> -->
+                        <argument name="logo_img_width" xsi:type="number">201</argument>
+                        <argument name="logo_img_height" xsi:type="number">54</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Template" name="top.search" as="topSearch" template="Magento_Search::form.mini.phtml"/>
+                <block class="Magento\Theme\Block\Html\Header" name="welcometop" template="html/welcome.phtml" as="welcometop">
+                     <arguments>
+                      <argument name="show_part" xsi:type="string">welcome</argument>
+                     </arguments>
+                </block>
+                <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
+            </block>
+		</referenceContainer>
+		<referenceContainer name="alo.pagemenu">
+			<block class="Magento\Cms\Block\Block" name="page_menu">
+				<arguments>
+					<argument name="block_id" xsi:type="string">page_menu</argument>
+				</arguments>
+			</block>
+		</referenceContainer>
+        <move element="catalog.compare.link" destination="alothemes_header"/>
+		<move element="minicart" destination="alothemes_header"/>
+		<move element="top.search" destination="alothemes_header"/>
+		<move element="logo" destination="alothemes_header"/>
+		<move element="store_language" destination="alothemes_header"/>
+        <move element="currency" destination="alothemes_header"/>
+		<move element="navigation.sections" destination="alothemes_header"/>
+		<move element="vmenu" destination="alothemes_header"/>
+        <move element="store_switcher" destination="alothemes_header"/>
+		<move element="skip_to_content" destination="alothemes_header"/>
+		<container name="page.wrapper" as="page_wrapper" htmlTag="div" htmlClass="page-wrapper">
+            <container name="main.content.fix" htmlTag="main" htmlId="maincontent" htmlClass="page-main-pal container">
+			    <container name="columns.top" label="Before Main Columns"/>
+                <container name="columns" htmlTag="div" htmlClass="alocolumns clearfix">
+                    <container name="main" label="Main Content Container" htmlTag="div" htmlClass="column main"/>
+                </container>
+            </container>
+        </container>
+		<referenceContainer name="footer-container">
+			<container name="footer-top" label="Footer Top" htmlTag="div" htmlClass="block-footer-top" before="-">
+                <block class="Magento\Cms\Block\Block" name="block_footer_top">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">block_footer_top</argument>
+                    </arguments>
+                </block>
+            </container>
+			<container name="footer-bottom" label="Footer Bottom" htmlTag="div" htmlClass="block-footer-bottom" after="footer-top">
+                <block class="Magento\Cms\Block\Block" name="block_footer_bottom">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">block_footer_bottom</argument>
+                    </arguments>
+                </block>
+            </container>
+			<container name="footer-links-company" label="Footer Links" htmlTag="div" htmlClass="footer-links-company" after="footer-bottom">
+			    <container name="sections.company" label="Page Footer Company" htmlTag="div" htmlClass="container">
+                    <container name="sections.main" label="Page Footer Main" htmlTag="div" htmlClass="company-inner clearfix">
+                        <container name="sections.innner" label="Page Footer Inner" htmlTag="div" htmlClass="company-top clearfix">
+        					<block class="Magento\Theme\Block\Html\Footer" name="copyright" template="html/copyright.phtml"/>
+        					<block class="Magento\Cms\Block\Block" name="footer_links_company">
+        						<arguments>
+        							<argument name="block_id" xsi:type="string">payment</argument>
+        						</arguments>
+        					</block>
+                        </container>
+                    </container>
+				</container>
+            </container>
+        </referenceContainer>
+        <!-- <referenceContainer name="main.content" remove="true"/ -->
+		<referenceContainer name="header.container" remove="true"/>
+        <referenceContainer name="header.panel" remove="true"/>
+        <referenceContainer name="header-wrapper" remove="true"/>
+		<referenceBlock name="report.bugs" remove="true"/>
+		<referenceBlock name="footer_links" remove="true"/>
+		<referenceBlock name="form.subscribe" remove="true"/>
+		<referenceBlock name="store.links" remove="true"/>
+		<!-- <referenceBlock name="store_switcher" remove="true"/> -->
+		<!-- <referenceContainer name="footer" remove="true"/> -->
+    </body>
+</page>

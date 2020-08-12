@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.top">
+           <container name="category.view.container" htmlTag="div" htmlClass="category-view" after="-">
+               <!-- <block class="Magento\Catalog\Block\Category\View" name="category.image" template="Magento_Catalog::category/image.phtml"/> -->
+               <block class="Magento\Theme\Block\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs" after="category.image"/>
+           </container>
+        </referenceContainer>
+        <referenceContainer name="content">
+		    <block class="Magento\Cms\Block\Block" name="before.category.products" before="-">
+				<arguments>
+					<argument name="block_id" xsi:type="string">before-category-products</argument>
+				</arguments>
+			</block>
+			<block class="Magento\Catalog\Block\Category\View" name="category.image" template="Magento_Catalog::category/image.phtml"/>
+			<block class="Magento\Theme\Block\Html\Title" name="page.main.title" template="html/title.phtml" after="category.image" />
+            <block class="Magento\Catalog\Block\Category\View" name="category.description" template="Magento_Catalog::category/description.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="sidebar.additional">
+          <block class="Magento\Cms\Block\Block" name="sidebar_additional_custom_block" after="-">
+            <arguments>
+              <argument name="block_id" xsi:type="string">sidebar-additional-custom</argument>
+            </arguments>
+          </block>
+          <referenceBlock name="wishlist_sidebar" remove="true"/>
+          <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+        </referenceContainer>
+    </body>
+</page>

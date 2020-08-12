@@ -1,0 +1,139 @@
+& when (@media-common = true) {
+	.magicslider {
+		text-align: center;
+		display: block;
+		img {
+			display: block;
+			max-width: 100%;
+			height: auto;
+		}
+		>.item {
+			&:nth-child(n+2) {
+				display: none;
+			}
+			.figcaption {
+				display: none;
+			}
+		}
+		>.item.slick-slide {
+			display: block;
+			.figcaption {
+				display: block;
+			}
+		}
+		.external-video {
+			&:after {
+				background: rgba(0, 0, 0, 0) url("../images/gallery-sprite.png") repeat scroll right bottom;
+				bottom: 0;
+				content: "";
+				height: 100px;
+				left: 0;
+				margin: auto;
+				position: absolute;
+				right: 0;
+				top: 12px;
+				width: 100px;
+			}
+		}
+		.external-video.embed {
+			&:after {
+				display: none;
+			}
+		}
+		.magicslider-caption {
+			display: none;
+		}
+		.magicslider-caption.mobile.desktop {
+			display: block;
+		}
+		.slick-next {
+			transition: all .3s ease-in-out;
+			z-index: 3;
+			opacity: 0;
+			visibility: hidden;
+			right: 15px;
+			&:before { 
+				font-family: @icon-font;
+				color: #333;
+				content: @icon-next;
+			}
+		}
+		.slick-prev {
+			transition: all .3s ease-in-out;
+			z-index: 3;
+			opacity: 0;
+			visibility: hidden;
+			left: 15px;
+			&:before { 
+				font-family: @icon-font;
+				color: #333;
+				content: @icon-prev;
+			}
+		}
+		.slick-slider {
+			&:hover { 
+				.slick-prev, .slick-next { 
+					opacity: 1;
+					visibility: visible;
+				}
+			}
+		}
+		button {
+			&:not(.primary) {
+				&:active {
+					box-shadow: none;
+				}
+			}
+			&:hover {
+				border: none;
+			}
+			&:focus {
+				border: none;
+			}
+			&:active {
+				border: none;
+			}
+		}
+		.slick-dots {
+			bottom: 20px;
+			text-align: right;
+			right: 10px;
+			li {
+				button {
+					background: #ccc;
+					width: 8px;
+					height: 8px;
+					padding: 0;
+					border-radius: 50%;
+					&:before {
+						width: 8px;
+						height: 8px;
+						border-radius: 50%;
+					}
+				}
+				&:hover,
+				&.slick-active {
+					button {
+						background: #666;
+					}
+				}
+			}
+			&.slick-active {
+				button { 
+					background: #666;
+				}
+			}
+		}
+
+	}
+
+	@media only screen and (max-width: 480px) {
+		.magicslider {
+			.slick-dots {
+				bottom: 10px;
+				right: 3px;
+			}
+		}
+	}
+
+}

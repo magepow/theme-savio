@@ -1,0 +1,116 @@
+// /**
+//  * Copyright © 2015 Magento. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Common
+//  _____________________________________________
+
+@toolbar-mode-icon-font-size: 24px;
+@toolbar-element-background: @panel__background-color;
+
+& when (@media-common = true) {
+
+    .page-products {
+        .columns {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .toolbar {
+        &:extend(.abs-add-clearfix all);
+        &-amount {
+            display: block;
+            line-height: @toolbar-mode-icon-font-size+2;
+            margin: 0;
+            padding: 4px 0 0;
+            vertical-align: middle;
+            .products.wrapper ~ .toolbar & {
+                display: none;
+            }
+        }
+        &-products {
+            margin-bottom: @indent__xl;
+            padding: 0 @indent__s;
+            text-align: center;
+            &:extend(.abs-add-clearfix all);
+            .pages {
+                display: none;
+                .products.wrapper ~ & {
+                    display: block;
+                }
+            }
+            .limiter {
+                .control {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    .sorter {
+        padding: 4px 0 0;
+        .products.wrapper ~ .toolbar & {
+            display: none;
+        }
+        &-options {
+            width: auto;
+        }
+        &-action {
+            vertical-align: top;
+            .lib-icon-font(
+            @icon-arrow-up,
+            @_icon-font-size: 28px,
+            @_icon-font-line-height: 32px,
+            @_icon-font-color: @header-icons-color,
+            @_icon-font-color-hover: @header-icons-color-hover,
+            @_icon-font-text-hide: true
+            );
+            &.sort-desc:before {
+                content: @icon-arrow-down;
+            }
+        }
+    }
+    .limiter {
+        &-options {
+            width: auto;
+            margin: 0 5px 0 7px;
+        }
+        &-label {
+            font-weight: 400;
+        }
+    }
+}
+
+//
+//  Desctop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .page-products {
+        .columns {
+            padding-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .toolbar {
+        &-amount {
+            float: left;
+        }
+    }
+
+    .sorter {
+        float: left;
+    }
+    .limiter {
+        float: left;
+		padding: 4px 0 0;
+        .products.wrapper ~ .toolbar & {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,63 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog feedback button
+ *
+ * @var $block \Magento\Backend\Block\Template
+ */
+?>
+<?php
+$reviewProductUrl = 'https://magefan.com/review/product/list/id/1797/
+                     ?utm_source=m2admin_blog_leave_feedback&utm_medium=link&utm_campaign=regular';
+$contactUrl = 'https://magefan.com/review/product/list/id/1797/
+               ?utm_source=m2admin_blog_leave_feedback&utm_medium=link&utm_campaign=regular';
+?>
+<?php if (\Magefan\Community\Model\UrlChecker::showUrl($block->getUrl())) { ?>
+<div id="blog-feedback-block">
+    <div class="blog-leave-feedback blog-leave-review">
+        <img  src="<?= $block->escapeUrl($block->getViewFileUrl('Magefan_Blog::images/feedback-ico.png')) ?>" />
+        <a target="_blank"
+           href="<?php $reviewProductUrl; ?>">
+            <?= $block->escapeHtml(__('Leave a review about the blog extension')) ?>
+        </a>
+    </div>
+    <div class="blog-leave-feedback blog-leave-suggest">
+        <img  src="<?= $block->escapeUrl($block->getViewFileUrl('Magefan_Blog::images/add-feature-ico.png')) ?>" />
+        <a target="_blank"
+           href="<?= $block->escapeUrl($contactUrl); ?>">
+            <?= $block->escapeHtml(__('Nead a new blog feature?')) ?>
+        </a>
+    </div>
+</div>
+
+<style>
+    .blog-leave-feedback {display:inline-block;padding: 15px 15px 0 0}
+    .blog-leave-feedback a {color:#000;text-decoration:underline}
+    .blog-leave-feedback img {float:left; margin-right: 10px; height:20px}
+</style>
+
+<script>
+    require(['jquery', 'jquery/ui', 'domReady!'], function($){
+        $(document).ready( function() {
+            if (Math.floor(Math.random() * 10) == 1) {
+                var s = 1000;
+                var d = 2000;
+                for(var i=0;i<3;i++) {
+                    setTimeout(function () {
+                        $('#blog-feedback-block').animate({opacity: "0.2"}, parseInt(d/2)).animate({opacity: "1"}, d);
+                    }, s);
+                    s+=d;
+                }
+
+            }
+        });
+    });
+</script>
+<?php } ?>

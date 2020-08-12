@@ -1,0 +1,21 @@
+<?php $welcomeMessage = $block->getWelcome(); ?>
+<div class="welcome greet welcome-msg" data-bind="scope: 'customer'">
+	<span class="welcome-title" data-bind="text: customer().fullname ? $t('Welcome, %1!').replace('%1', customer().fullname) : '<?php echo $block->escapeHtml($welcomeMessage) ?>'">
+		<?php echo $block->escapeHtml($welcomeMessage) ?>
+	</span>
+</div>
+
+
+<script type="text/x-magento-init">
+{
+	"*": {
+		"Magento_Ui/js/core/app": {
+			"components": {
+				"customer": {
+					"component": "Magento_Customer/js/view/customer"
+				}
+			}
+		}
+	}
+}
+</script>

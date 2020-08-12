@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2016-02-23 18:59:34
+ * @@Modify Date: 2016-05-05 11:30:54
+ * @@Function:
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="formkey"/>
+    <head>
+        <title>Manage Import</title>
+    </head>
+    <body>
+        <referenceBlock name="menu">
+            <action method="setActive">
+                <argument name="itemId" xsi:type="string">Magiccart_Alothemes::alothemes</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="page.title">
+            <action method="setPageTitle">
+                <argument name="pageTitle" xsi:type="string">Manage Import</argument>
+            </action>
+        </referenceBlock>
+<!--         <referenceContainer name="page.main.actions">
+            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher">
+                <action method="setUseConfirm">
+                    <argument name="params" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </referenceContainer> -->
+        <referenceContainer name="page.main.actions">
+            <block class="Magento\Backend\Block\Store\Switcher" name="adminhtml.system.config.switcher" template="Magento_Backend::store/switcher.phtml">
+                <arguments>
+                    <argument name="switch_websites" xsi:type="string">1</argument>
+                    <argument name="switch_store_groups" xsi:type="string">0</argument>
+                    <argument name="switch_store_views" xsi:type="string">1</argument>
+                    <argument name="default_selection_name" xsi:type="string" translate="true">Default Config</argument>
+                    <argument name="show_manage_stores_link" xsi:type="string">1</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Magiccart\Alothemes\Block\Adminhtml\Import\Index" name="magiccart.alothemes.import" />
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,55 @@
+// /**
+//  * Copyright © 2015 Magento. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .table-wrapper {
+        margin-bottom: @indent__base;
+    }
+
+    table {
+        .lib-table-caption();
+    }
+
+    .table {
+        &:not(.cart) {
+            &:not(.totals) {
+                .lib-table-bordered(
+                @_table_type: light,
+                @_table_border-width: @table__border-width
+                );
+                tfoot {
+                    > tr {
+                        &:first-child {
+                            th,
+                            td {
+                                border-top: @table__border-width @table__border-style @table__border-color;
+                                padding-top: @indent__base;
+                            }
+                        }
+                    }
+                    .mark {
+                        font-weight: @font-weight__regular;
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .table-wrapper {
+        .lib-table-overflow();
+        position: relative; // to hide unnecessary horizontal scrollbar in Safari
+    }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- /**
+ * @Author: nguyen
+ * @Date:   2020-02-12 14:01:01
+ * @Last Modified by:   nguyen
+ * @Last Modified time: 2020-02-15 18:55:34
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="view_block_abstract_to_html_after">
+        <observer name="quickedit_view_block_abstract_to_html_after" instance="Magepow\Quickedit\Observer\Framework\View\Element\AbstractBlock" />
+    </event>
+</config>

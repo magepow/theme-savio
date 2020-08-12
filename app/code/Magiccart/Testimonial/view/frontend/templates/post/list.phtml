@@ -1,0 +1,74 @@
+<?php
+
+if($this->getConfig('customers_submit'))
+	{
+		if($this->getConfig('allowGuest'))
+			$urlsubmit = $this->getUrl('testimonial/index/post');
+		else {
+			if($this->checklogin())
+				$urlsubmit = $this->getUrl('testimonial/index/post');
+			else
+				$urlsubmit = $this->getUrl('customer/account/login');
+		}
+		$show_submit = true;
+	}else{
+		$show_submit = false;
+	}
+?>
+<div class="testimonial-container">
+	<?php if($show_submit): ?>
+	<a class="button-o action submit primary" data-toggle="modal" href="<?php echo $urlsubmit; ?>">
+		<span><?php echo __('Add New Testimonial') ?></span>
+	</a>
+	<?php endif;?>
+	<?php  
+	$mediaUrl = $this->getMediabaseUrl();
+	$_testimonialrecords = $this->getCollection(); 
+	if($_testimonialrecords && count($_testimonialrecords))
+	{
+	?>
+	<div class="magiccart-testimonials magiccart-testimonials-grid">
+		<?php foreach ($_testimonialrecords as $testimonial): ?> 
+			<div class="magiccart-testimonials-grid-left">
+				<img src="<?php echo $mediaUrl . $testimonial->getData('image');?>" alt="<?php echo __($testimonial->getData('name')); ?>" width="100" height="100" />
+			</div>
+			<div class="magiccart-testimonials-grid-right">
+				<div class="magiccart-testimonial-author">
+					<span><?php echo __($testimonial->getData('name'));?></span>
+				</div>
+				<div class="magiccart-testimonial-rating">
+					<div class="rating-result">
+						<div class="field-summary_rating">
+							<span class="rating-box" style="display:block;">
+								<span style="display:block; width:<?php echo $testimonial->getData('rating_summary')*20; ?>%;" class="rating"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="magiccart-testimonial-content">
+					<?php
+						echo __($testimonial->getData('text')); 
+					?>
+				</div>
+				<div class="magiccart-testimonial-jobandcompany">
+					<span><?php echo __($testimonial->getData('job'))?></span>
+					<span>/</span>
+					<span><?php echo __($testimonial->getData('company'))?></span>
+				</div>
+			</div>
+		<?php endforeach; ?>
+
+	</div>
+	<?php
+	}else{
+	?>
+		<p class="note-msg"><?php echo __('There is no testimonial submitted.'); ?></p>
+	<?php
+	}
+	?>
+	<?php if ($block->getPagerHtml()): ?>
+			<div class="order-products-toolbar toolbar bottom">
+				<?php echo $block->getPagerHtml(); ?>
+			</div>
+	<?php endif; ?>
+</div>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2016-02-23 18:59:34
+ * @@Modify Date: 2019-08-11 12:12:58
+ * @@Function:
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="magiccart" title="Magiccart" module="Magiccart_Alothemes" sortOrder="10" resource="Magiccart_Alothemes::magiccart"/>
+
+	        <add id="Magiccart_Alothemes::alothemes" title="ALO Themes" module="Magiccart_Alothemes" sortOrder="10" parent="magiccart" resource="Magiccart_Alothemes::alothemes"/>
+
+				<add id="Magiccart_Alothemes::configuration" title="Configuration" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::alothemes" action="adminhtml/system_config/edit/section/alothemes" resource="Magiccart_Alothemes::configuration"/>
+
+				<add id="Magiccart_Alothemes::alothemes_import" title="Import" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::alothemes" action="alothemes/import/index" resource="Magiccart_Alothemes::alothemes_import"/>
+
+
+				<add id="Magiccart_Alothemes::tools" title="ALO Tools" module="Magiccart_Alothemes" sortOrder="20" parent="magiccart" resource="Magiccart_Alothemes::tools"/>
+				<add id="Magiccart_Alothemes::alothemes_export_menu" title="Export Menu" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::tools" action="alothemes/export/magicmenu" resource="Magiccart_Alothemes::alothemes_export_magicmenu"/>
+				
+				<add id="Magiccart_Alothemes::alothemes_export_magicslider" title="Export Magicslider" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::tools" action="alothemes/export/magicslider" resource="Magiccart_Alothemes::alothemes_export_magicslider"/>
+
+				<add id="Magiccart_Alothemes::alothemes_export_lookbook" title="Export Lookbook" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::tools" action="alothemes/export/lookbook" resource="Magiccart_Alothemes::alothemes_export_lookbook"/>
+
+				<add id="Magiccart_Alothemes::alothemes_export_magicproduct" title="Export Magicproduct" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::tools" action="alothemes/export/magicproduct" resource="Magiccart_Alothemes::alothemes_export_magicproduct"/>
+
+				<add id="Magiccart_Alothemes::alothemes_export_page" title="Export Page" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::tools" action="alothemes/export/page" resource="Magiccart_Alothemes::alothemes_export_page"/>
+
+				<add id="Magiccart_Alothemes::alothemes_export_block" title="Export Block" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::tools" action="alothemes/export/block" resource="Magiccart_Alothemes::alothemes_export_block"/>
+	        
+				<add id="Magiccart_Alothemes::alothemes_export_system" title="Export System" module="Magiccart_Alothemes" sortOrder="10" parent="Magiccart_Alothemes::tools" action="alothemes/export/system" resource="Magiccart_Alothemes::alothemes_export_system"/>
+
+
+<!-- 				<add id="Magiccart_Alothemes::alothemes_product_index" 
+					title="Edit Products" 
+					module="Magiccart_Alothemes" 
+					sortOrder="15" 
+					parent="Magiccart_Alothemes::tools" 
+					action="alothemes/product/index" 
+					resource="Magiccart_Alothemes::alothemes_product_index"/> -->
+
+<!-- 				<add id="Magiccart_Alothemes::alothemes_category" title="Edit Category" module="Magiccart_Alothemes" sortOrder="15" parent="Magiccart_Alothemes::tools" action="alothemes/category" resource="Magiccart_Alothemes::alothemes_category"/> -->
+
+<!-- 				<add id="Magiccart_Alothemes::alothemes_catalog" title="Edit Catalog" module="Magiccart_Alothemes" sortOrder="15" parent="Magiccart_Alothemes::tools" action="alothemes/catalog" resource="Magiccart_Alothemes::alothemes_catalog"/>
+
+
+				<add id="Magiccart_Alothemes::alothemes_manage_product" title="Manage Products" module="Magiccart_Alothemes" sortOrder="20" parent="Magiccart_Alothemes::tools" action="alothemes/manage/product" resource="Magiccart_Alothemes::alothemes_manage_product"/>
+				<add id="Magiccart_Alothemes::alothemes_manage_urlrewrite" title="Manage Urlrewrite" module="Magiccart_Alothemes" sortOrder="20" parent="Magiccart_Alothemes::tools" action="alothemes/manage/urlrewrite" resource="Magiccart_Alothemes::alothemes_manage_urlrewrite"/> -->
+
+    </menu>
+</config>

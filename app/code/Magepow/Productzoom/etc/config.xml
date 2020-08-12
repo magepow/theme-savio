@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!-- /**
+ * @Author: nguyen
+ * @Date:   2020-02-12 14:01:01
+ * @Last Modified by:   nguyen
+ * @Last Modified time: 2020-04-28 18:55:34
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+	    <magepow_productzoom>
+            <general>
+                <enabled>1</enabled>
+                <responsive>false</responsive>
+                <scrollZoom>true</scrollZoom>
+                <zIndex>999</zIndex>
+                <imageCrossfade>false</imageCrossfade>
+                <loadingIcon>false</loadingIcon>
+                <cursor>default</cursor>
+                <borderSize>1</borderSize>
+                <borderColour>#666</borderColour>
+                <easing>false</easing>
+                <easingType>zoomdefault</easingType>
+                <easingDuration>2000</easingDuration>
+                <lensBorder>1</lensBorder>
+                <lensColour>#fff</lensColour>
+                <lensOpacity>0.4</lensOpacity>
+                <tintColour>#333</tintColour>
+                <tintOpacity>0.4</tintOpacity>
+            </general>
+        </magepow_productzoom>    
+	</default>
+</config>

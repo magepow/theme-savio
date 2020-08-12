@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <page>
+    <item>
+      <title><![CDATA[404 Not Found]]></title>
+      <page_layout><![CDATA[1column]]></page_layout>
+      <identifier><![CDATA[no-route]]></identifier>
+      <content_heading><![CDATA[Whoops, our bad...]]></content_heading>
+      <content><![CDATA[<dl>
+<dt>The page you requested was not found, and we have a fine guess why.</dt>
+<dd>
+<ul class="disc">
+<li>If you typed the URL directly, please make sure the spelling is correct.</li>
+<li>If you clicked on a link to get here, the link is outdated.</li>
+</ul></dd>
+</dl>
+<dl>
+<dt>What can you do?</dt>
+<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>
+<dd>
+<ul class="disc">
+<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>
+<li>Use the search bar at the top of the page to search for your products.</li>
+<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>
+]]></content>
+      <layout_update_xml><![CDATA[]]></layout_update_xml>
+      <is_active><![CDATA[1]]></is_active>
+    </item>
+    <item>
+      <title><![CDATA[Enable Cookies]]></title>
+      <page_layout><![CDATA[1column]]></page_layout>
+      <identifier><![CDATA[enable-cookies]]></identifier>
+      <content_heading><![CDATA[What are Cookies?]]></content_heading>
+      <content><![CDATA[<div class="enable-cookies cms-content">
+<p>"Cookies" are little pieces of data we send when you visit our store. Cookies help us get to know you better and personalize your experience. Plus they help protect you and other shoppers from fraud.</p>
+<p style="margin-bottom: 20px;">Set your browser to accept cookies so you can buy items, save items, and receive customized recommendations. Here’s how:</p>
+<ul>
+<li><a href="https://support.google.com/accounts/answer/61416?hl=en" target="_blank">Google Chrome</a></li>
+<li><a href="http://windows.microsoft.com/en-us/internet-explorer/delete-manage-cookies" target="_blank">Internet Explorer</a></li>
+<li><a href="http://support.apple.com/kb/PH19214" target="_blank">Safari</a></li>
+<li><a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank">Mozilla/Firefox</a></li>
+</ul>
+</div>]]></content>
+      <layout_update_xml><![CDATA[]]></layout_update_xml>
+      <is_active><![CDATA[1]]></is_active>
+    </item>
+    <item>
+      <title><![CDATA[Privacy and Cookie Policy]]></title>
+      <page_layout><![CDATA[1column]]></page_layout>
+      <identifier><![CDATA[privacy-policy-cookie-restriction-mode]]></identifier>
+      <content_heading><![CDATA[Privacy and Cookie Policy]]></content_heading>
+      <content><![CDATA[<div class="privacy-policy cms-content">
+    <div class="message info">
+        <span>
+            Please replace this text with you Privacy Policy.
+            Please add any additional cookies your website uses below (e.g. Google Analytics).
+        </span>
+    </div>
+    <p>
+        This privacy policy sets out how this website (hereafter "the Store") uses and protects any information that
+        you give the Store while using this website. The Store is committed to ensuring that your privacy is protected.
+        Should we ask you to provide certain information by which you can be identified when using this website, then
+        you can be assured that it will only be used in accordance with this privacy statement. The Store may change
+        this policy from time to time by updating this page. You should check this page from time to time to ensure
+        that you are happy with any changes.
+    </p>
+    <h2>What we collect</h2>
+    <p>We may collect the following information:</p>
+    <ul>
+        <li>name</li>
+        <li>contact information including email address</li>
+        <li>demographic information such as postcode, preferences and interests</li>
+        <li>other information relevant to customer surveys and/or offers</li>
+    </ul>
+    <p>
+        For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.
+    </p>
+    <h2>What we do with the information we gather</h2>
+    <p>
+        We require this information to understand your needs and provide you with a better service,
+        and in particular for the following reasons:
+    </p>
+    <ul>
+        <li>Internal record keeping.</li>
+        <li>We may use the information to improve our products and services.</li>
+        <li>
+            We may periodically send promotional emails about new products, special offers or other information which we
+            think you may find interesting using the email address which you have provided.
+        </li>
+        <li>
+            From time to time, we may also use your information to contact you for market research purposes.
+            We may contact you by email, phone, fax or mail. We may use the information to customise the website
+            according to your interests.
+        </li>
+    </ul>
+    <h2>Security</h2>
+    <p>
+        We are committed to ensuring that your information is secure. In order to prevent unauthorised access or
+        disclosure, we have put in place suitable physical, electronic and managerial procedures to safeguard and
+        secure the information we collect online.
+    </p>
+    <h2>How we use cookies</h2>
+    <p>
+        A cookie is a small file which asks permission to be placed on your computer's hard drive.
+        Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit
+        a particular site. Cookies allow web applications to respond to you as an individual. The web application
+        can tailor its operations to your needs, likes and dislikes by gathering and remembering information about
+        your preferences.
+    </p>
+    <p>
+        We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page
+        traffic and improve our website in order to tailor it to customer needs. We only use this information for
+        statistical analysis purposes and then the data is removed from the system.
+    </p>
+    <p>
+        Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find
+        useful and which you do not. A cookie in no way gives us access to your computer or any information about you,
+        other than the data you choose to share with us. You can choose to accept or decline cookies.
+        Most web browsers automatically accept cookies, but you can usually modify your browser setting
+        to decline cookies if you prefer. This may prevent you from taking full advantage of the website.
+    </p>
+    <h2>Links to other websites</h2>
+    <p>
+        Our website may contain links to other websites of interest. However, once you have used these links
+        to leave our site, you should note that we do not have any control over that other website.
+        Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst
+        visiting such sites and such sites are not governed by this privacy statement.
+        You should exercise caution and look at the privacy statement applicable to the website in question.
+    </p>
+    <h2>Controlling your personal information</h2>
+    <p>You may choose to restrict the collection or use of your personal information in the following ways:</p>
+    <ul>
+        <li>
+            whenever you are asked to fill in a form on the website, look for the box that you can click to indicate
+            that you do not want the information to be used by anybody for direct marketing purposes
+        </li>
+        <li>
+            if you have previously agreed to us using your personal information for direct marketing purposes,
+            you may change your mind at any time by letting us know using our Contact Us information
+        </li>
+    </ul>
+    <p>
+        We will not sell, distribute or lease your personal information to third parties unless we have your permission
+        or are required by law to do so. We may use your personal information to send you promotional information
+        about third parties which we think you may find interesting if you tell us that you wish this to happen.
+    </p>
+    <p>
+        You may request details of personal information which we hold about you under the Data Protection Act 1998.
+        A small fee will be payable. If you would like a copy of the information held on you please email us this
+        request using our Contact Us information.
+    </p>
+    <p>
+        If you believe that any information we are holding on you is incorrect or incomplete,
+        please write to or email us as soon as possible, at the above address.
+        We will promptly correct any information found to be incorrect.
+    </p>
+    <h2><a name="list"></a>List of cookies we collect</h2>
+    <p>The table below lists the cookies we collect and what information they store.</p>
+    <table class="data-table data-table-definition-list">
+        <thead>
+        <tr>
+            <th>Cookie Name</th>
+            <th>Cookie Description</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>FORM_KEY</th>
+                <td>Stores randomly generated key used to prevent forged requests.</td>
+            </tr>
+            <tr>
+                <th>PHPSESSID</th>
+                <td>Your session ID on the server.</td>
+            </tr>
+            <tr>
+                <th>GUEST-VIEW</th>
+                <td>Allows guests to view and edit their orders.</td>
+            </tr>
+            <tr>
+                <th>PERSISTENT_SHOPPING_CART</th>
+                <td>A link to information about your cart and viewing history, if you have asked for this.</td>
+            </tr>
+            <tr>
+                <th>STF</th>
+                <td>Information on products you have emailed to friends.</td>
+            </tr>
+            <tr>
+                <th>STORE</th>
+                <td>The store view or language you have selected.</td>
+            </tr>
+            <tr>
+                <th>USER_ALLOWED_SAVE_COOKIE</th>
+                <td>Indicates whether a customer allowed to use cookies.</td>
+            </tr>
+            <tr>
+                <th>MAGE-CACHE-SESSID</th>
+                <td>Facilitates caching of content on the browser to make pages load faster.</td>
+            </tr>
+            <tr>
+                <th>MAGE-CACHE-STORAGE</th>
+                <td>Facilitates caching of content on the browser to make pages load faster.</td>
+            </tr>
+            <tr>
+                <th>MAGE-CACHE-STORAGE-SECTION-INVALIDATION</th>
+                <td>Facilitates caching of content on the browser to make pages load faster.</td>
+            </tr>
+            <tr>
+                <th>MAGE-CACHE-TIMEOUT</th>
+                <td>Facilitates caching of content on the browser to make pages load faster.</td>
+            </tr>
+            <tr>
+                <th>SECTION-DATA-IDS</th>
+                <td>Facilitates caching of content on the browser to make pages load faster.</td>
+            </tr>
+            <tr>
+                <th>PRIVATE_CONTENT_VERSION</th>
+                <td>Facilitates caching of content on the browser to make pages load faster.</td>
+            </tr>
+            <tr>
+                <th>X-MAGENTO-VARY</th>
+                <td>Facilitates caching of content on the server to make pages load faster.</td>
+            </tr>
+            <tr>
+                <th>MAGE-TRANSLATION-FILE-VERSION</th>
+                <td>Facilitates translation of content to other languages.</td>
+            </tr>
+            <tr>
+                <th>MAGE-TRANSLATION-STORAGE</th>
+                <td>Facilitates translation of content to other languages.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>]]></content>
+      <layout_update_xml><![CDATA[]]></layout_update_xml>
+      <is_active><![CDATA[1]]></is_active>
+    </item>
+    <item>
+      <title><![CDATA[Home Page 4]]></title>
+      <page_layout><![CDATA[2columns-left]]></page_layout>
+      <identifier><![CDATA[savio4]]></identifier>
+      <content_heading><![CDATA[]]></content_heading>
+      <content><![CDATA[<!-- Banner -->
+<div class="row banner">
+	<div class="col-md-6 col-sm-6 banner-col-6">
+	    <div class="banner-ads1">
+			<div class="banner-boder-zoom hover-effect">
+				<a href="#"><img class="img-responsive" src="{{media url="wysiwyg/alothemes/static/demo4/img4a.jpg"}}" alt="img" /></a>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-6 banner-col-6">
+	    <div class="banner-ads1">
+			<div class="banner-boder-zoom hover-effect">
+				<a href="#"><img class="img-responsive" src="{{media url="wysiwyg/alothemes/static/demo4/img4b.jpg"}}" alt="img" /></a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Banner -->
+<!-- magicproduct -->
+<div class="cms-page-main-product box-products box-products-one">
+	<div class="product-tab cms-page-mix-product">{{widget type="Magiccart\Magicproduct\Block\Widget\Product" template="product.phtml" identifier="product-tab-demo1"}}</div>
+</div>
+<!-- Banner -->
+<div class="banner banner2">
+	<div class="banner-ads1">
+		<div class="banner-boder-zoom hover-effect">
+			<a href="#"><img class="img-responsive" src="{{media url="wysiwyg/alothemes/static/demo4/img4c.jpg"}}" alt="img" /></a>
+		</div>
+	</div>
+</div>
+<!-- End Banner -->
+<!-- magicproduct -->
+<div class="cms-page-main-product box-products box-products-two latest-stock hidden-label">
+	{{widget type="Magiccart\Magicproduct\Block\Widget\Product" template="product.phtml" identifier="latest-product-demo3"}}
+</div>
+<!-- countdown -->
+<div class="cms-page-countdown-product">
+	<div class="block-title-tabs title-font clearfix">
+		<h3>Deals of the Week</h3>
+	</div>
+	{{widget type="Magiccart\Magicproduct\Block\Widget\Product" identifier="product-timer-demo1" template="product.phtml"}}
+</div>]]></content>
+      <layout_update_xml><![CDATA[<referenceContainer name="slide.showcase">
+            <block class="Magento\Cms\Block\Block" name="cms-static-main-slide">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">cms-static-main-slide</argument>
+                </arguments>
+            </block>
+</referenceContainer>
+<!-- alo sectionsbottom-->
+<referenceContainer name="alo.sectionsbottom">
+ <block class="Magento\Cms\Block\Block" name="static_sections_bottom">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">static_sections_bottom</argument>
+                    </arguments>
+                </block>
+</referenceContainer>
+<!-- sidebar.main -->
+<referenceContainer name="sidebar.main">
+          <block class="Magento\Cms\Block\Block" name="block_sidebar_home" after="-">
+    				<arguments>
+    					<argument name="block_id" xsi:type="string">block_view_sidebar_home</argument>
+    				</arguments>
+    			</block>
+<referenceBlock name="accordion.sidebar" remove="true"/>
+</referenceContainer>
+<!-- sidebar.additional -->
+<referenceContainer name="sidebar.additional">
+			    <referenceBlock name="wishlist_sidebar" remove="true"/>
+          <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+</referenceContainer>]]></layout_update_xml>
+      <is_active><![CDATA[1]]></is_active>
+    </item>
+    <item>
+      <title><![CDATA[Locations]]></title>
+      <page_layout><![CDATA[1column]]></page_layout>
+      <identifier><![CDATA[locations]]></identifier>
+      <content_heading><![CDATA[]]></content_heading>
+      <content><![CDATA[<div class="store-contact locations">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 store1">
+				<div class="store-item clearfix">
+				    <h3 class="block-title">Store 1</h3>
+					<div class="single-store">
+						<img class="img-responsive single-images" src="{{media url="wysiwyg/alothemes/cms/store1.jpg"}}" alt="" />
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
+					</div>
+					<div class="column_right">
+						<ul class="store_info">
+							<li>
+								<span class="fa fa-envelope icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Email</span>
+									<span class="tit-contain"><a href="mailto:suport@alothemes.com">suport@alothemes.com</a></span>
+									<span class="tit-contain"><a href="mailto:techone@gmail.com">techone@gmail.com</a></span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-phone icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Phone</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-map-marker icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Mail Office</span>
+									<span class="tit-contain">Sed ut perspiciatis unde omnis <br> Street Name, Los Angeles</span>
+								</p>
+							</li>
+						</ul>
+						<div class="onmap">
+							<div class="tool-map">
+								<div class="onclick-map">
+									<span>Find us on Map</span>
+								</div>
+								<div class="over-lay"><span class="hidden">hidden</span></div>
+								<div class="toggle-content-close toggle-content">
+									<div class="google-map">
+									     <div class="button btn-close"><span></span><span class="hidden">hidden</span><span></span></div>
+										<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d423283.33632842556!2d-118.69193052427944!3d34.02075039412672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos+Angeles%2C+California!5e0!3m2!1svi!2s!4v1481819994909" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 store2">
+				<div class="store-item clearfix">
+				    <h3 class="block-title">Store 2</h3>
+					<div class="single-store">
+						<img class="img-responsive single-images" src="{{media url="wysiwyg/alothemes/cms/store2.jpg"}}" alt="" />
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
+					</div>
+					<div class="column_right">
+						<ul class="store_info">
+							<li>
+								<span class="fa fa-envelope icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Email</span>
+									<span class="tit-contain"><a href="mailto:suport@alothemes.com">suport@alothemes.com</a></span>
+									<span class="tit-contain"><a href="mailto:techone@gmail.com">techone@gmail.com</a></span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-phone icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Phone</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-map-marker icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Mail Office</span>
+									<span class="tit-contain">Sed ut perspiciatis unde omnis <br> Street Name, New York</span>
+								</p>
+							</li>
+						</ul>
+						<div class="onmap">
+							<div class="tool-map">
+								<div class="onclick-map">
+									<span>Find us on Map</span>
+								</div>
+								<div class="over-lay"><span class="hidden">hidden</span></div>
+								<div class="toggle-content-close toggle-content">
+									<div class="google-map">
+									    <div class="button btn-close"><span></span><span class="hidden">hidden</span><span></span></div>
+										<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193572.19492844603!2d-74.11808565615138!3d40.70556503857166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY!5e0!3m2!1sen!2s!4v1496922928887" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 store3">
+				<div class="store-item clearfix">
+				    <h3 class="block-title">Store 3</h3>
+					<div class="single-store">
+						<img class="img-responsive single-images" src="{{media url="wysiwyg/alothemes/cms/store3.jpg"}}" alt="" />
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
+					</div>
+					<div class="column_right">
+						<ul class="store_info">
+							<li>
+								<span class="fa fa-envelope icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Email</span>
+									<span class="tit-contain"><a href="mailto:suport@alothemes.com">suport@alothemes.com</a></span>
+									<span class="tit-contain"><a href="mailto:techone@gmail.com">techone@gmail.com</a></span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-phone icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Phone</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-map-marker icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Mail Office</span>
+									<span class="tit-contain">Sed ut perspiciatis unde omnis <br> Street Name, Paris</span>
+								</p>
+							</li>
+						</ul>
+						<div class="onmap">
+							<div class="tool-map">
+								<div class="onclick-map">
+									<span>Find us on Map</span>
+								</div>
+								<div class="over-lay"><span class="hidden">hidden</span></div>
+								<div class="toggle-content-close toggle-content">
+									<div class="google-map">
+									    <div class="button btn-close"><span></span><span class="hidden">hidden</span><span></span></div>
+										<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83998.94722604656!2d2.2775176578011154!3d48.85883773961771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C+France!5e0!3m2!1sen!2s!4v1496923013711" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 store4 last">
+				<div class="store-item clearfix">
+				    <h3 class="block-title">Store 4</h3>
+					<div class="single-store">
+						<img class="img-responsive single-images" src="{{media url="wysiwyg/alothemes/cms/store4.jpg"}}" alt="" />
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
+					</div>
+					<div class="column_right">
+						<ul class="store_info">
+							<li>
+								<span class="fa fa-envelope icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Email</span>
+									<span class="tit-contain"><a href="mailto:suport@alothemes.com">suport@alothemes.com</a></span>
+									<span class="tit-contain"><a href="mailto:techone@gmail.com">techone@gmail.com</a></span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-phone icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Phone</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+									<span class="tit-contain">+ 021.343.7575</span>
+								</p>
+							</li>
+							<li>
+								<span class="fa fa-map-marker icons"><span class="hidden">hidden</span></span>
+								<p class="flex">
+									<span class="tit-name">Mail Office</span>
+									<span class="tit-contain">Sed ut perspiciatis unde omnis <br> Street Name, Tokyo</span>
+								</p>
+							</li>
+						</ul>
+						<div class="onmap">
+							<div class="tool-map">
+								<div class="onclick-map">
+									<span>Find us on Map</span>
+								</div>
+								<div class="over-lay"><span class="hidden">hidden</span></div>
+								<div class="toggle-content-close toggle-content">
+									<div class="google-map">
+									    <div class="button btn-close"><span></span><span class="hidden">hidden</span><span></span></div>
+										<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d207432.99597381358!2d139.5703044659214!3d35.67354078930046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x605d1b87f02e57e7%3A0x2e01618b22571b89!2sTokyo%2C+Japan!5e0!3m2!1sen!2s!4v1496923187452" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+</div>]]></content>
+      <layout_update_xml><![CDATA[]]></layout_update_xml>
+      <is_active><![CDATA[1]]></is_active>
+    </item>
+    <item>
+      <title><![CDATA[About Us]]></title>
+      <page_layout><![CDATA[1column]]></page_layout>
+      <identifier><![CDATA[about-magento-demo-store]]></identifier>
+      <content_heading><![CDATA[]]></content_heading>
+      <content><![CDATA[<!-- about-magento-demo-store -->
+<div class="our-works">
+	<div class="row our-story">
+		<div class="col-md-6 col-sm-12 col-xs-12 custom-mobile"><img class="img-responsive" src="{{media url="wysiwyg/alothemes/cms/about-us.jpg"}}" alt="images" /></div>
+		<div class="col-md-6 col-sm-12 col-xs-12 custom-mobile">
+			<div class="block-title">
+				<h2>Some works About Us</h2>
+			</div>
+			<div class="block-content">
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. </p>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- crazy-team -->
+<div class="crazy-team">
+	<div class="page-team-content">
+		<div class="block-title">
+			<h2>OUR MEMBER</h2>
+			<p class="sub-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. </p>
+		</div>
+		<div class="block-content">
+			<div class="crazy-team-slide">
+				<div class="row">
+					<div class="item col-xs-6 col-sm-3 col-md-3 col-lg-3">
+						<div class="team-item">
+							<div class="images-team"><a href="#"> <img class="img-responsive" src="{{media url="wysiwyg/alothemes/cms/people1.jpg"}}" alt="team" /> </a></div>
+							<h2 class="team-name">Director</h2>
+							<h3>Michael Jordan's</h3>
+						</div>
+					</div>
+					<div class="item col-xs-6 col-sm-3 col-md-3 col-lg-3">
+						<div class="team-item">
+							<div class="images-team"><a href="#"> <img class="img-responsive" src="{{media url="wysiwyg/alothemes/cms/people2.jpg"}}" alt="team" /> </a></div>
+							<h2 class="team-name">Manager</h2>
+							<h3>Susan Mcsain</h3>
+						</div>
+					</div>
+					<div class="item col-xs-6 col-sm-3 col-md-3 col-lg-3">
+						<div class="team-item">
+							<div class="images-team"><a href="#"> <img class="img-responsive" src="{{media url="wysiwyg/alothemes/cms/people3.jpg"}}" alt="team" /> </a></div>
+							<h2 class="team-name">Ceo Founder</h2>
+							<h3>Join lopper</h3>
+						</div>
+					</div>
+					<div class="item col-xs-6 col-sm-3 col-md-3 col-lg-3">
+						<div class="team-item">
+							<div class="images-team"><a href="#"> <img class="img-responsive" src="{{media url="wysiwyg/alothemes/cms/people4.jpg"}}" alt="team" /> </a></div>
+							<h2 class="team-name">Tech Leader</h2>
+							<h3>Join Owen</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- cms-static-detail-about -->
+<div class="cms-static-detail-about detail-about">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 left-detail-about">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 item box">
+						<h3 class="title">What we really do?</h3>
+						<p class="text">Donec libero dolor, tincidunt id laoreet vitae, ullamcorper eu tortor. Maecenas pellentesque, dui vitae iaculis mattis, tortor nisi faucibus magna, vitae ultrices lacus purus vitae metus. Ut nec odio facilisis, ultricies nunc eget, fringilla orci.</p>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 item box">
+						<h3 class="title">Our version</h3>
+						<p class="text">Vestibulum velit nibh, egestas vel faucibus vitae, feugiat sollicitudin urna. Praesent iaculis id ipsum sit amet pretium. Aliquam tristique sapien nec enim euismod, scelerisque facilisis arcu consectetur. Vestibulum velit nibh, egestas vel faucibus vitae.</p>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 item box">
+						<h3 class="title">History of the company</h3>
+						<p class="text">Mauris rhoncus aliquet purus, a ornare nisi euismod in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam imperdiet eu metus vel ornare. Nullam in risus vel orci feugiat vestibulum. In sed aliquam mi. Nullam condimentum sollicitudin dui.</p>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 item box">
+						<h3 class="title">Cooperate with Us!</h3>
+						<p class="text">Donec libero dolor, tincidunt id laoreet vitae, ullamcorper eu tortor. Maecenas pellentesque, dui vitae iaculis mattis, tortor nisi faucibus magna, vitae ultrices lacus purus vitae metus. Ut nec odio facilisis, ultricies nunc eget, fringilla orci.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 right-detail-about">
+				<h3 class="title">What we can do for you</h3>
+				<div class="box">
+					<input type="radio" name="toggle" id="box1" checked="" />
+					<label for="box1"><i class="hidden">hidden</i></label>
+					<div class="box-content">
+						<h3 class="sub-title">support 24/7</h3>
+						<p class="subcribe">Vestibulum velit nibh, egestas vel faucibus vitae, feugiat sollicitudin urna. Praesent iaculis id ipsum sit amet pretium. Aliquam tristique sapien nec enim euismod, scelerisque facilisis arcu consectetur. </p>
+					</div>
+				</div>
+				<div class="box">
+					<input type="radio" name="toggle" id="box2"/>
+					<label for="box2"><i class="hidden">hidden</i></label>
+					<div class="box-content">
+						<h3 class="sub-title">Best quality</h3>
+						<p class="subcribe">Vestibulum velit nibh, egestas vel faucibus vitae, feugiat sollicitudin urna. Praesent iaculis id ipsum sit amet pretium. Aliquam tristique sapien nec enim euismod, scelerisque facilisis arcu consectetur. </p>
+					</div>
+				</div>
+				<div class="box">
+					<input type="radio" name="toggle" id="box3"/>
+					<label for="box3"><i class="hidden">hidden</i></label>
+					<div class="box-content">
+						<h3 class="sub-title">Faster delivery</h3>
+						<p class="subcribe">Vestibulum velit nibh, egestas vel faucibus vitae, feugiat sollicitudin urna. Praesent iaculis id ipsum sit amet pretium. Aliquam tristique sapien nec enim euismod, scelerisque facilisis arcu consectetur. </p>
+					</div>
+				</div>
+				<div class="box">
+					<input type="radio" name="toggle" id="box4"/>
+					<label for="box4"><i class="hidden">hidden</i></label>
+					<div class="box-content">
+						<h3 class="sub-title">Customer care</h3>
+						<p class="subcribe">Vestibulum velit nibh, egestas vel faucibus vitae, feugiat sollicitudin urna. Praesent iaculis id ipsum sit amet pretium. Aliquam tristique sapien nec enim euismod, scelerisque facilisis arcu consectetur. </p>
+					</div>
+				</div>
+				<div class="box">
+					<input type="radio" name="toggle" id="box5"/>
+					<label for="box5"><i class="hidden">hidden</i></label>
+					<div class="box-content">
+						<h3 class="sub-title">Over 200 Satisfied Customers</h3>
+						<p class="subcribe">Vestibulum velit nibh, egestas vel faucibus vitae, feugiat sollicitudin urna. Praesent iaculis id ipsum sit amet pretium. Aliquam tristique sapien nec enim euismod, scelerisque facilisis arcu consectetur. </p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>]]></content>
+      <layout_update_xml><![CDATA[]]></layout_update_xml>
+      <is_active><![CDATA[1]]></is_active>
+    </item>
+  </page>
+</root>

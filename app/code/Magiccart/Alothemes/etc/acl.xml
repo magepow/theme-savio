@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2016-02-23 18:59:34
+ * @@Modify Date: 2018-04-21 11:45:31
+ * @@Function:
+ */ -->
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+	<acl>
+	    <resources>
+	        <resource id="Magento_Backend::admin">
+	        	<resource id="Magiccart_Alothemes::magiccart" title="Magiccart" sortOrder="10">
+	        	    <resource id="Magiccart_Alothemes::alothemes" title="ALO Themes" sortOrder="10">
+	        	    	<resource id="Magiccart_Alothemes::configuration" title="Configuration" sortOrder="10" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_import" title="Import" sortOrder="20" />
+	        	    </resource>
+	        	    <resource id="Magiccart_Alothemes::tools" title="ALO Tools" sortOrder="10">
+	        	    	<resource id="Magiccart_Alothemes::alothemes_export_menu" title="Export Menu" sortOrder="10" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_export_magicslider" title="Export Magicslider" sortOrder="20" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_export_lookbook" title="Export Lookbook" sortOrder="30" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_export_magicproduct" title="Export Magicproduct" sortOrder="40" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_export_page" title="Export Page" sortOrder="50" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_export_block" title="Export Block" sortOrder="50" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_export_system" title="Export System" sortOrder="60" />
+
+	        	        <resource id="Magiccart_Alothemes::alothemes_product_index" title="Edit Products" sortOrder="70" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_catalog_index" title="Edit Catalog" sortOrder="80" />
+	        	        
+	        	        <resource id="Magiccart_Alothemes::alothemes_manage_product" title="Manage Products" sortOrder="90" />
+	        	        <resource id="Magiccart_Alothemes::alothemes_manage_urlrewrite" title="Manage Urlrewrite" sortOrder="100" />
+
+	        	    </resource>
+	        	</resource>
+<!--                 <resource id="Magento_Catalog::inventory">
+                    <resource id="Magiccart_Alothemes::alothemes_product" title="Manage Products" />
+                </resource> -->
+	            <resource id="Magento_Backend::stores">
+	                <resource id="Magento_Backend::stores_settings">
+	                    <resource id="Magento_Config::config">
+	                        <resource id="Magiccart_Alothemes::config_alothemes" title="ALO Themes" />
+							<resource id="Magiccart_Alothemes::config_alodesign" title="Color Themes" />
+	                    </resource>
+	                </resource>
+	            </resource>
+	        </resource>
+	    </resources>
+	</acl>
+</config>

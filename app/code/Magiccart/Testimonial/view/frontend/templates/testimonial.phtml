@@ -1,0 +1,52 @@
+<?php
+if(!$this->getEnabled()) return;
+$selector = 'alo-content-'.uniqid();
+$testimonials = $this->getTestimonials();
+if(!count($testimonials)) return;
+?>
+<div class="<?php /* @escapeNotVerified */ echo $selector ?>">
+    <div class="testimonial"
+    <?php foreach ($this->getFrontendCfg() as $opt) :?>
+        data-<?php /* @escapeNotVerified */ echo $opt ?>='<?php /* @escapeNotVerified */ echo $this->getData($opt) ?>'
+    <?php endforeach;?>  
+    >
+        <?php $i=0; foreach ($testimonials as $testimonial) :?>
+			<div class="item">
+				<div class="customer">
+					<a href="<?php echo $this->getUrl('testimonial'); ?>">
+						<img class="avatar img-responsive" src="<?php echo $this->escapeUrl($this->getImage($testimonial))?>" alt="<?php echo __($this->escapeHtml($testimonial->getName())) ?>" title="<?php echo __($this->escapeHtml($testimonial->getName())) ?>" />
+					</a>
+				</div>
+				<div class="testimonial_text">
+                    <?php echo $this->getTitle() ? '<h2 class="title item">' . '<span>' . $this->escapeHtml($this->getTitle()) . '</span>' . '</h2>' : '' ?>
+					<p class="name title-name"><?php echo $this->escapeHtml($testimonial->getName()); ?></p>
+					<div class="content"><?php echo $this->escapeHtml($testimonial->getText()); ?></div>
+					<div class="info">
+						<a href="<?php echo $this->getUrl('testimonial'); ?>" class="name"><?php echo $testimonial->getName(); ?></a>
+						<span class="job"><?php echo $testimonial->getJob(); ?></span>
+					</div>
+					<div class="testimonial-rating">
+						<div class="rating-result">
+							<div class="field-summary_rating">
+								<span class="rating-box" style="display:block;">
+									<span style="display:block; width:<?php echo $testimonial->getData('rating_summary')*20; ?>%;" class="rating"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        <?php endforeach ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magiccart/slick',
+        'alothemes',
+        ], function($, slick, alothemes){
+            var testimonial  = $('.<?php echo $selector ?> .testimonial');
+            if(testimonial.length) $('head').append(magicproduct(testimonial, '.item'));
+    });
+</script>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2016-02-23 18:59:34
+ * @@Modify Date: 2020-05-31 13:35:00
+ * @@Function:
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+	    <testimonial>
+            <general>
+                <enabled>1</enabled>
+                <title>Testimonials</title>
+                <topLink>1</topLink>
+                <customers_submit>1</customers_submit>
+                <allowGuest>1</allowGuest>
+               
+                <autoApprove>1</autoApprove>
+                <per_page>2</per_page>
+                <slide>1</slide>
+                <vertical>false</vertical>
+                <infinite>true</infinite>
+                <autoplay>true</autoplay>
+                <dots>false</dots>
+                <fade>true</fade>
+                <rows>1</rows>
+                <speed>300</speed>
+                <autoplay-Speed>3000</autoplay-Speed>
+                <padding>15</padding>
+                <mobile>1</mobile>
+                <portrait>1</portrait>
+                <landscape>1</landscape>
+                <tablet>1</tablet>
+                <notebook>1</notebook>
+                <laptop>1</laptop>
+                <desktop>1</desktop>
+                <visible>1</visible>
+            </general>
+	    </testimonial>
+	</default>
+</config>

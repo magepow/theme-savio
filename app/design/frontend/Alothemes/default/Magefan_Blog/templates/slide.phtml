@@ -1,0 +1,86 @@
+<?php
+/**
+ * Copyright © 2015 Ihor Vansach (ihor@magefan.com). All rights reserved.
+ * See LICENSE.txt for license details (http://opensource.org/licenses/osl-3.0.php).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+?>
+<?php
+/**
+ * Blog sidebar recent posts template
+ *
+ * @var $block \Magefan\Blog\Block\Sidebar\Recent
+ */
+?>
+
+<?php
+	$_postCollection = $block->getPostCollection();
+    $imageHelper = $this->helper('Magefan\Blog\Helper\Image');
+    $imageWidth = 370;
+    $imageHeight = 200;
+?>
+<?php $selector = 'alo-content-'.rand(0,999999999); ?>
+<?php if ($_postCollection->count()) { ?>
+<div class="<?php echo $selector?> widget block block-recent-posts" data-bind="scope: 'recent-posts'">
+    <div class="blogtabs block-title-tabs">
+        <h3><?php echo __($this->getTitle()) ?></h3>
+    </div>
+    <div class="block-content"
+    <?php foreach ($this->getFrontendCfg() as $opt) :?>
+        data-<?php echo $opt ?>='<?php echo $this->getData($opt) ?>'
+    <?php endforeach;?>     
+    >
+    	<?php foreach ($_postCollection as $_post) { ?>
+            <?php $_postUrl = $_post->getPostUrl(); ?>
+            <?php $_postName = $block->escapeHtml($_post->getTitle()) ?>
+            <div class="item">
+                <div class="post-description clearfix">
+                    <?php if ($featuredImage = $_post->getFeaturedImage()) { ?>
+                    <div class="post-ftimg-hld blog-image al-style-2 image-container">
+                        <a href="<?php echo $_postUrl ?>" title="<?php echo $_postName ?>">
+                            <!-- <img src="<?php //echo $featuredImage ?>" alt="<?php // echo $_postName ?>" /-->
+                            <img src="<?php echo $imageHelper->init($_post->getFeaturedImg())->resize($imageWidth, $imageHeight) ?>" alt="<?php echo $_postName ?>" />
+                        </a>
+                    </div>
+                    <?php } ?>
+					<div class="blog_short_text clearfix">
+						<div class="post-info clear">
+                            <div class="content-inner">
+    							<a class="post-item-link" href="<?php echo $_post->getPostUrl() ?>">
+    								<?php echo $_postName ?>
+    							</a>
+                                <div class="post-posed-date post-date-bottom">
+                                    <?php echo date('F', strtotime($_post->getData('publish_time'))) ?>
+                                    <?php echo date('d', strtotime($_post->getData('publish_time'))) ?>
+                                    <?php echo date('Y', strtotime($_post->getData('publish_time'))) ?>
+                                </div>
+    							<a class="post-read-more" href="<?php echo $_postUrl ?>" title="<?php echo $_postName ?>">
+    							   <?php echo __('Read more') ?>
+    							</a>
+                            </div>
+						</div>
+					</div>
+                    
+                </div>
+                
+            </div>
+
+        <?php } ?>
+    </div>
+</div>
+<?php if($this->getSlide()) : ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magiccart/slick',
+        'alothemes',
+        ], function($){
+            (function($) {
+                var blog  = $('.<?php echo $selector ?> .block-content');
+                if(blog.length) $('head').append(magicproduct(blog, '.item'));
+            })(jQuery); 
+    });
+</script>
+<?php endif ?>
+<?php } ?>

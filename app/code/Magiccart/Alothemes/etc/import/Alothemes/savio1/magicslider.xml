@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <magicslider>
+    <item>
+      <title><![CDATA[Slide Demo 1]]></title>
+      <identifier><![CDATA[slide]]></identifier>
+      <config><![CDATA[{"magicslider_id":"1","title":"Slide Demo 1","status":"1","mobile":"1","portrait":"1","landscape":"1","tablet":"1","notebook":"1","desktop":"1","visible":"1","vertical":"false","infinite":"true","autoplay":"true","arrows":"true","dots":"false","rows":"1","speed":"400","autoplay-Speed":"6000","padding":"0","media_gallery":{"images":{"enmw3mj50tu":{"position":"1","media_type":"image","video_provider":"","file":"\/s\/l\/slide1-1.jpg","value_id":"","label":"Alotheme Savio","link":"alothemes.com","caption":"<div class=\"container figcaption\">\r\n\t<div class=\"text-slide text-slide1\">\r\n\t\t<h3 class=\"caption1 black\">Samsung Galaxy<\/h3>\r\n\t\t<h3 class=\"caption2 black\">Note 4 N9<\/h3> \r\n\t\t<h3 class=\"caption3 black\">up to <span class=\"sale-off bold red\">70% off<\/span> in the new <br> Smartphone Collection<\/h3>\r\n\t\t<h3 class=\"caption5\"><a href=\"#\" class=\"btn-shop\">Shop Now<\/a><\/h3>\r\n\t<\/div>\r\n<\/div>","disabled":"0","removed":"","video_url":"","video_title":"","video_description":"","video_metadata":"","role":""},"nvago75cgw9":{"position":"2","media_type":"image","video_provider":"","file":"\/s\/l\/slide1-2.jpg","value_id":"","label":"Alotheme Savio","link":"alothemes.com","caption":"<div class=\"container figcaption\">\r\n\t<div class=\"text-slide text-slide2\">\r\n\t\t<h3 class=\"caption1 black\">All-in-One Touchscreen<\/h3>\r\n\t\t<h3 class=\"caption2 black\">Lenovo C40<\/h3>\r\n\t\t<h3 class=\"caption3 black\">up to <span class=\"sale-off bold red\">70% off<\/span> in the new <br> Desktops Collection<\/h3>\r\n\t\t<h3 class=\"caption5\"><a href=\"#\" class=\"btn-shop\">Shop Now<\/a><\/h3>\r\n\t<\/div>\r\n<\/div>","disabled":"0","removed":"","video_url":"","video_title":"","video_description":"","video_metadata":"","role":""}}}}]]></config>
+      <status><![CDATA[1]]></status>
+    </item>
+  </magicslider>
+</root>

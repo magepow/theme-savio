@@ -1,0 +1,196 @@
+/* Slider */
+.slick-slider
+{
+    position: relative;
+
+    display: block;
+
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.slick-list
+{
+    position: relative;
+
+    display: block;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+}
+.slick-list:focus
+{
+    outline: none;
+}
+.slick-list.dragging
+{
+    cursor: pointer;
+    cursor: hand;
+}
+
+.slick-slider .slick-track,
+.slick-slider .slick-list
+{
+    -webkit-transform: translate3d(0, 0, 0);
+       -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+         -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+}
+
+.slick-track
+{
+    position: relative;
+    top: 0;
+    left: 0;
+
+    display: block;
+}
+.slick-track:before,
+.slick-track:after
+{
+    display: table;
+
+    content: '';
+}
+.slick-track:after
+{
+    clear: both;
+}
+.slick-loading .slick-track
+{
+    visibility: hidden;
+}
+
+.slick-slide
+{
+    display: none;
+    float: left;
+
+    height: 100%;
+    min-height: 1px;
+}
+[dir='rtl'] .slick-slide
+{
+    float: right;
+}
+.slick-slide img
+{
+    display: block;
+}
+.slick-slide.slick-loading img
+{
+    display: none;
+}
+.slick-slide.dragging img
+{
+    pointer-events: none;
+}
+.slick-initialized .slick-slide
+{
+    display: block;
+}
+.slick-loading .slick-slide
+{
+    visibility: hidden;
+}
+.slick-vertical .slick-slide
+{
+    display: block;
+
+    height: auto;
+
+    border: 1px solid transparent;
+}
+.slick-arrow.slick-hidden {
+    display: none;
+}
+@charset 'UTF-8';
+/* Slider */
+.slick-loading .slick-list{
+    background: #fff url('./ajax-loader.gif') center center no-repeat;}
+/* Icons */
+@font-face
+{
+    font-family: 'slick';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('./fonts/slick.eot');
+    src: url('./fonts/slick.eot?#iefix') format('embedded-opentype'), url('./fonts/slick.woff') format('woff'), url('./fonts/slick.ttf') format('truetype'), url('./fonts/slick.svg#slick') format('svg');
+}
+/* Arrows */
+.slick-prev,.slick-next{
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+	border-color: #888;
+    font-size: 0;
+    line-height: 33px;
+    position: absolute;
+    top: 35%;
+    display: block;
+    height: 33px;
+    width: 33px;
+    padding: 0;
+    margin-top: -10px\9; /*lte IE 8*/
+    cursor: pointer;
+    color: #727272;
+    outline: none;
+    background: transparent;
+	z-index: 10;
+    transition: all 400ms ease-in-out 0s;
+    -moz-transition: all 400ms ease-in-out 0s;
+    -webkit-transition: all 400ms ease-in-out 0s;
+    -o-transition: all 400ms ease-in-out 0s;
+    -ms-transition: all 400ms ease-in-out 0s;
+}
+.slick-arrow:focus,.slick-arrow:hover{border-width: 1px !important;}
+.slick-prev{ -webkit-transform: translate(50px, 0px);-ms-transform: translate(50px, 0px);transform: translate(50px, 0px);}
+.slick-next{ -webkit-transform: translate(-50px, 0px);-ms-transform: translate(-50px, 0px);transform: translate(-50px, 0px);}
+.slick-prev:hover,.slick-next:hover{ background-color: #ff5555;border-color: #ff5555;color: #ffffff;}
+.slick-prev:before,.slick-next:before{font-family: "FontAwesome";font-size: 24px;line-height: 30px;}
+.slick-prev{left: 20px;}
+[dir='rtl'] .slick-prev
+{
+    right: -25px;
+    left: auto;
+}
+.slick-prev:before{content: "\f104";}
+[dir='rtl'] .slick-prev:before
+{
+    content: '?';
+}
+.slick-next{right: 20px;}
+[dir='rtl'] .slick-next
+{
+    right: auto;
+    left: -25px;
+}
+.slick-next:before{content: "\f105";}
+[dir='rtl'] .slick-next:before
+{
+    content: '?';
+}
+/* Dots */
+.slick-slider{ margin-bottom: 30px;}
+.slick-dots{position: absolute;bottom: 20px;display: block;width: 100%;padding: 0;margin: 0;list-style: none;text-align: center;}
+.slick-dots li{position: relative;display: inline-block;margin: 0 2px;padding: 0;cursor: pointer;}
+.slick-dots li button{ text-indent: -999em;width: 10px;height: 10px;line-height: normal;margin:0 ;padding: 0;text-align: center;border-radius: 50%;border-width:2px;border-color: #fff;border-style: solid;font-size: 12px;vertical-align: middle;}
+.slick-dots li.slick-active  button{width: 12px;height: 12px;}

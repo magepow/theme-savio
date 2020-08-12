@@ -1,0 +1,120 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+
+?>
+<?php
+$storeManager = \Magento\Framework\App\ObjectManager::getInstance()->get('\Magento\Store\Model\StoreManagerInterface');
+$urlMedia = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+?>
+<div class="block newsletter block-subscribe popup" style="display:none;">
+	<div id="popup-newsletter">
+        <form class="form subscribe"
+            novalidate
+            action="<?php /* @escapeNotVerified */ echo $block->getFormActionUrl() ?>"
+            method="post"
+            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+            id="newsletter-popup-validate-detail">
+			<div class="block-content">
+				<img src="<?php echo $block->getViewFileUrl('images/alothemes/logo-newsletter.png')?>" alt=""/>
+			    <div class="block-title">
+                    <strong><span><?php echo __('Newsletter') ?></span></strong>
+                </div>
+			    <h2 class="promo-panel-text"><span class="label-newsletter"><?php echo __('Newsletter') ?></span></h2>
+			    <h2 class="promo-panel-text promo-text"><?php echo __('And get hot news about the theme') ?></span></h2>
+				<div class="subcribe-box newsletter-new clearfix">
+					<div class="field newsletter input-box">
+						<div class="control">
+							<input name="email" type="email" id="newsletter-popup" class="input-text"
+										placeholder="<?php /* @escapeNotVerified */ echo __('Enter your email address') ?>"
+										data-validate="{required:true, 'validate-email':true}"/>
+						</div>
+					</div>
+					<div class="actions">
+						<button class="action subscribe button" title="<?php /* @escapeNotVerified */ echo __('Subscribe') ?>" type="submit">
+							<span><?php /* @escapeNotVerified */ echo __('Subscribe') ?></span>
+						</button>
+					</div>
+				</div>
+				<div class="subscribe-bottom">
+                    <input type="checkbox" /><?php echo __('Don’t show this popup again'); ?>
+                </div>
+			</div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+	require(['jquery', 'jquery/jquery.cookie', 'magiccart/fancybox'], 
+		function($, cookie, fancybox){
+			if(!parseInt(Themecfg.newsletter.enabled)) return;
+	        
+	        (function(selector){
+	            var popupCookie = $.cookie('popupNewsletterOff');
+	            var overlay = Themecfg.newsletter.overlayColor;
+	            if(!popupCookie || popupCookie == 'undefined'){
+	                var $content = $(selector);
+	                var color   = Themecfg.newsletter.background_color;
+	                var timeDelay = parseInt(Themecfg.newsletter.timeDelay);
+	                var autoClose = Themecfg.newsletter.autoClose;
+	                var timeClose = timeDelay + parseInt(Themecfg.newsletter.timeClose);
+	                var imageUrl = "<?php echo $urlMedia; ?>" + 'magiccart/newsletter/' + Themecfg.newsletter.background_image;
+	                var popup   = $('#popup-newsletter', $content);
+	                var pwidth  = Themecfg.newsletter.width;
+	                var pheight = Themecfg.newsletter.height;
+	                pwidth   = typeof pwidth  !== 'undefined' ? pwidth : 800;
+	                pheight  = typeof pheight !== 'undefined' ? pheight : 400;
+	                overlay  = typeof overlay !== 'undefined' ? overlay : '#363636';
+	                popup.width(pwidth).height(pheight)
+	                if(Themecfg.newsletter.background_image) popup.css('background-image', 'url(' + imageUrl + ')');
+	                else if(color) popup.css('background-color', color);
+	                setTimeout( function() {
+	                    $content.fancybox({
+	                        padding: '0px',
+	                        openEffect: 'elastic',
+	                        closeEffect: 'elastic',
+	                        
+	                        centerOnScroll: true,
+	                        type: 'inline',
+	                        overlayColor: overlay,
+	                        href : '#popup-newsletter',
+	                    }).trigger('click');
+	                }, timeDelay);
+	                if(Themecfg.newsletter.autoClose > 0) setTimeout(function(){$.fancybox.close()}, timeClose);
+	                $('.subscribe-bottom input', popup).on('click', function(){
+	                    if($(this).parent().find('input:checked').length){
+	                        $.cookie('popupNewsletterOff', true);
+	                    } else {
+	                        $.cookie('popupNewsletterOff', undefined);
+	                    }
+	                });
+	                if(Themecfg.newsletter.firstOnly > 0) $.cookie('popupNewsletterOff', true);
+	                popup.find('.actions button').on('click', function(){
+	                    $.cookie('popupNewsletterOff', true);
+	                    $.cookie('popupNewsletterMessages', true);
+	                });
+	            } else {
+	                if($.cookie('popupNewsletterMessages')){
+	                    var $messages = $('.messages').css('min-width', '400px').attr('id', 'popupNewsletterMessages').wrap( "<div></div>" );
+	                    $messages.fancybox({
+	                        padding: '0px',
+	                        transitionIn: 'fade',
+	                        transitionOut: 'fade',
+	                        
+	                        centerOnScroll: true,
+	                        type: 'inline',
+	                        overlayColor: overlay,
+	                        href : '#popupNewsletterMessages',
+	                    }).trigger('click');
+	                    $.cookie('popupNewsletterMessages', '');
+	                }
+	            }
+
+	        })(".block-subscribe.popup");
+	});
+</script>
+

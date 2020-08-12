@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="empty"/>
+    <referenceContainer name="page.wrapper">
+        <container name="header.container" as="header_container" label="Page Header Container"  htmlTag="header" htmlClass="page-header page-header-alothemes" before="main.content.fix"/>
+        <container name="page.top" as="page_top" label="After Page Header" after="header.container"/>
+		<container name="slide.showcase" as="slide-showcase" label="Slide Showcase" htmlTag="div" htmlClass="slide-showcase static-home-slide" after="header.container"/>
+		<container name="alo.sectionstop" as="alo_sectionstop" label="Page Section Top Container" htmlTag="div" htmlClass="page-alotheme static_sections_top wrap" after="slide.showcase"/>
+		<container name="alo.pagemenu" as="alo-pagemenu" label="Page Menu" htmlTag="div" htmlClass="page-alotheme page_menu" after="slide.showcase"/>
+		<container name="alo.sectionsbottom" as="alo_sectionsbottom" label="Page Section Container"  htmlTag="div" htmlClass="page-alotheme static_sections_bottom wrap" after="main.content.fix" />
+		<container name="sections.page.bottom" as="sections_page_bottom" label="Page Bottom Container"  htmlTag="div" htmlClass="sections-page-bottom wrap"/>
+        <container name="footer-container" as="footer" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="page-footer"/>
+    </referenceContainer>
+</layout>

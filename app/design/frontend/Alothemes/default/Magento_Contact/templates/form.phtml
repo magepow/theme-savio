@@ -1,0 +1,62 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<form class="form contact"
+      action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>"
+      id="contact-form"
+      method="post"
+      data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>"
+      data-mage-init='{"validation":{}}'>
+    <div class="contact-content row">
+        <div class="contact-form clearfix">
+			<div class="fix-width col-xs-12 col-sm-6 col-md-6">
+			    <h3 class="page-subheading"><?php echo __('Contact From') ?></h3>
+				<p class="short-description"><?php echo __('Maecenas dolor elit, semper a sem sed, pulvinar molestie lacus. Aliquam dignissim, elit non mattis ultrices, neque odio ultricies tellus, eu porttitor nisl ipsum eu massa.') ?></p>
+				<fieldset class="fieldset">
+					<div class="field name required">
+						<label class="label" for="name"><span><?php /* @escapeNotVerified */ echo __('Name') ?></span></label>
+						<div class="control">
+							<input placeholder="<?php /* @escapeNotVerified */ echo __('Name') ?>" name="name" id="name" title="<?php /* @escapeNotVerified */ echo __('Name') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+						</div>
+					</div>
+					<div class="field email required">
+						<label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+						<div class="control">
+							<input placeholder="<?php /* @escapeNotVerified */ echo __('Email') ?>" name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+						</div>
+					</div>
+					<div class="field telephone">
+						<label class="label" for="telephone"><span><?php /* @escapeNotVerified */ echo __('Phone Number') ?></span></label>
+						<div class="control">
+							<input placeholder="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" name="telephone" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" value="" class="input-text" type="text" />
+						</div>
+					</div>
+					<div class="field comment required">
+						<label class="label" for="comment"><span><?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?></span></label>
+						<div class="control">
+							<textarea placeholder="<?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?>" name="comment" id="comment" title="<?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+						</div>
+					</div>
+					<?php echo $block->getChildHtml('form.additional.info'); ?>
+					<div class="actions-toolbar">
+						<div class="primary">
+							<input type="hidden" name="hideit" id="hideit" value="" />
+							<button type="submit" title="<?php /* @escapeNotVerified */ echo __('Submit') ?>" class="action submit primary">
+								<span><?php /* @escapeNotVerified */ echo __('Submit') ?></span>
+							</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="fix-width col-xs-12 col-sm-6 col-md-6">
+				<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('block_map_contact')->toHtml();?>
+			</div> 
+    	</div>
+    </div>
+</form>

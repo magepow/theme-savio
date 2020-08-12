@@ -1,0 +1,30 @@
+<?php
+$helper     = $this->helper('Magepow\Productzoom\Helper\Data');
+$data       = $helper->getConfigModule('general');
+?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magepow/elevatezoom',
+        ], function($){
+            "use strict";
+            if( $(window).width() < 768 ) return;
+
+            var options = <?php echo is_array($data) ? json_encode( $data, JSON_NUMERIC_CHECK ) : '{}' ?>;
+            $('head').append('<style type="text/css">.zoomContainer{z-index:' + options.zIndex + '}</style>');
+            $(document).on('fotorama:load fotorama:showend fotorama:fullscreenenter fotorama:fullscreenexit', function (event, fotorama, extra) {
+                $('.zoomContainer').remove();
+                if(event.type == 'fotorama:fullscreenenter') return;
+                if( fotorama.activeFrame.type != 'image' || $('body').hasClass('fotorama__fullscreen') ) return;
+                var img = $('.product.media .fotorama__stage .fotorama__active .fotorama__img');
+                if(!img.length) return;
+                var defaults = {
+                    zoomWindowWidth : img.width(),
+                    zoomWindowHeight: img.height()
+                };
+                var settings = $.extend(defaults, options);
+                if(fotorama.activeFrame.full) img.data('zoom-image', fotorama.activeFrame.full);
+                img.elevateZoom(settings);
+            });
+    });
+</script>

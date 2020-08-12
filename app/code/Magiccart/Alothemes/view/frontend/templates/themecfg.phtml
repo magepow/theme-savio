@@ -1,0 +1,63 @@
+<?php 
+/**
+ * Magiccart 
+ * @category 	Magiccart 
+ * @copyright 	Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license 	http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2016-04-31 17:55:44
+ * @@Modify Date: 2018-07-06 18:21:28
+ * @@Function:
+ */
+//echo $this->getThemecfg() 
+if( $url = $this->getLivereload() ) echo '<script type="text/javascript" src="' .$url . '/livereload.js"></script>';
+$cfg = $this->_themeCfg;
+$font   = $cfg['font'];
+$html = '';
+/* get Lib Font */
+if($font['google']) $html  .= '<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family='.str_replace(' ', '+', $font['google']).'&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" media="all" />';
+/*
+if($this->_rtl){
+	$asset  = $this->assetRepository->createAsset('css/rtl.css');
+	$rtl    = $asset->getUrl();
+	echo '<link  rel="stylesheet" type="text/css"  media="all" href="' . $rtl . '" />';
+}
+*/
+if(!$this->cssFile) {
+	$html .= '<style type="text/css">' . $this->generalCss() . '</style>';
+} else {
+	echo '<link  rel="stylesheet" type="text/css"  media="all" href="' . $this->getExtraCssUrl() . '" />';
+}
+$html  .= "\n"; // break line;
+$cfg['general']['baseUrl'] = $this->getBaseUrl();
+$optRm = array('font', 'grid', 'related', 'upsell', 'crosssell', 'labels', 'timer', 'categorysearch', 'grid_widget', 'recently_grid_widget', 'recentorder');
+foreach ($optRm as $opt) { unset($cfg[$opt]); }
+$html .= '<script type="text/javascript"> Themecfg = '.json_encode($cfg).'</script>';  // json config theme
+echo $html;
+$timer = $this->_themeCfg['timer'];
+// if(!$timer['enabled']) return;
+$layout = '<span class="day">%%D%%</span><span class class="colon">:</span><span class="hour">%%H%%</span><span class="colon">:</span><span class="min">%%M%%</span><span class="colon">:</span><span class="sec">%%S%%</span>';
+
+$layoutcaption = '<div class="timer-box"><span class="day">%%D%%</span><span class="title">' . __('Days') . '</span></div><div class="timer-box"><span class="hour">%%H%%</span><span class="title">' . __('Hrs')  . '</span></div><div class="timer-box"><span class="min">%%M%%</span><span  class="title">' . __('Mins') . '</span></div><div class="timer-box"><span class="sec">%%S%%</span><span  class="title">' . __('Secs') . '</span></div>';	
+if($timer['caption']){
+	$layout = $layoutcaption;
+}
+?>
+<div class="preloading"><div class="loading"></div></div>
+<script type="text/javascript">
+	var alo_timer_layout 		= '<?php echo $layout ?>';
+	var alo_timer_layoutcaption = '<?php echo $layoutcaption ?>';
+	var alo_timer_timeout 		= '<span class="timeout"><?php echo __('Time out!')?></span>';
+	require(['jquery', 'magiccart/slick', 'alothemes', 'domReady!'], 
+		function($, slick, alothemes){
+		    $('body').on('contentUpdated', function () {
+				$('.alo-count-down').not('.exception').timer({
+					classes			: '.countdown',
+					layout			: alo_timer_layout, 
+					layoutcaption	: alo_timer_layoutcaption, 
+					timeout 		: alo_timer_timeout
+				});
+		    });
+	});
+</script>
+

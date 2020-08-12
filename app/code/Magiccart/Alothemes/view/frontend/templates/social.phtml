@@ -1,0 +1,65 @@
+<?php
+/**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: Magiccart<team.magiccart@gmail.com>
+ * @@Create Date: 2014-07-18 20:49:45
+ * @@Modify Date: 2018-03-15 00:19:23
+ * @@Function:
+ */
+?>
+<?php
+$socialCfg  = $this->_sysCfg->social;
+if(!$socialCfg['enabled']) return;
+$socials    = array( 'facebook', 'twitter', 'googleplus',
+                 'linkedin', 'youtube', 'pinterest',
+                 'instagram', 'flickr', 'tumblr',
+                 'web',
+                );
+$position   = isset($socialCfg['position']) ? $socialCfg['position'] : '';
+$marginTop  = isset($socialCfg['marginTop']) ? 'style="margin-top: '.$socialCfg['marginTop'].'px"' : '';
+?>
+<div class="social-icons <?php /* @escapeNotVerified */ echo $position ?>" <?php /* @escapeNotVerified */ echo $marginTop ?>>
+    <?php foreach ($socials as $social): ?>
+        <?php $url = $social .'_url'; $title =  $social .'_title'; ?>
+        <?php if (isset($socialCfg[$url]) && $socialCfg[$url]): ?>
+            <a class="socialitems" target="_blank" href="<?php /* @escapeNotVerified */ echo $socialCfg[$url] ?>"
+               id="<?php echo /* @escapeNotVerified */ $social ?>-btn">
+                <span class="social-icon">
+                    <span class="social-text"><?php /* @escapeNotVerified */ echo __($socialCfg[$title]) ?></span>
+                </span>
+            </a>
+        <?php endif; ?>
+    <?php endforeach ?>
+
+    <?php if (isset($socialCfg['webmail']) && $socialCfg['webmail']): ?>
+        <a class="socialitems" target="_blank" href="mailto:<?php /* @escapeNotVerified */ echo $socialCfg['webmail'] ?>"
+           id="mail-btn">
+            <span class="social-icon">
+                <span
+                    class="social-text"><?php echo __($socialCfg['webmail_title']) ?></span>
+            </span>
+        </a>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magiccart/easing',
+        ], function($, easing){
+            $(document).ready(function($) {
+                $('.social-icons .social-icon').mouseenter(function () {
+                    $(this).stop();
+                    $(this).animate({width: '160'}, 500, '<?php  echo isset($socialCfg['effect']) ? $socialCfg['effect'] : '' ?>', function () {
+                    });
+                });
+                $('.social-icons .social-icon').mouseleave(function () {
+                    $(this).stop();
+                    $(this).animate({width: '43'}, 500, '<?php  echo isset($socialCfg['effect']) ? $socialCfg['effect'] : '' ?>', function () {
+                    });
+                });        
+            });
+    });
+</script>
