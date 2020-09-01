@@ -6,17 +6,7 @@
  */
 -->
 <page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <css src="mage/gallery/gallery.css"/>
-    </head>
-    <update handle="catalog_product_opengraph" />
-    <update handle="page_calendar"/>
     <body>
-        <attribute name="itemtype" value="http://schema.org/Product" />
-        <attribute name="itemscope" value="itemscope"/>
-        <referenceBlock name="head.components">
-            <block class="Magento\Framework\View\Element\Js\Components" name="checkout_page_head_components" template="Magento_Catalog::js/components.phtml"/>
-        </referenceBlock>
 		<referenceContainer name="sidebar.additional">
 		    <block class="Magento\Cms\Block\Block" name="category_view_custom_block" after="-">
 				<arguments>
@@ -90,9 +80,7 @@
 										</container>
 									</container>
 								</container>
-								<container name="product.info.media" htmlTag="div" htmlClass="product media product-img-box clearfix col-md-5 col-sm-5 col-xs-12" before="-">
-									<block class="Magento\Catalog\Block\Product\View\Gallery" name="product.info.media.image" template="product/view/gallery.phtml"/>
-								</container>
+								<container name="product.info.media" htmlTag="div" htmlClass="product media product-img-box clearfix col-md-5 col-sm-5 col-xs-12" before="-" />
 							</container>
 							<block class="Magento\Catalog\Block\Product\View\Description" name="product.info.details" template="product/view/details.phtml" after="-">
 				                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" template="product/view/attribute.phtml" group="detailed_info">

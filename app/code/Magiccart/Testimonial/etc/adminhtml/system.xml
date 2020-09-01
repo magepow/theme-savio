@@ -88,6 +88,12 @@
                     <source_model>Magiccart\Testimonial\Model\System\Config\Truefalse</source_model>
                     <depends><field id="slide" separator=",">1</field></depends>
                 </field>
+                <field id="center_mode" translate="label comment" type="select" sortOrder="32"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Center mode</label>
+                    <comment>Center mode</comment>
+                    <source_model>Magiccart\Testimonial\Model\System\Config\Truefalse</source_model>
+                    <depends><field id="slide" separator=",">1</field></depends>
+                </field>
                 <field id="dots" translate="label comment" type="select" sortOrder="35"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Dots</label>
                     <comment>Pager</comment>
@@ -164,12 +170,18 @@
                     <validate>required-entry validate-greater-than-zero</validate>
                 </field>
                 <field id="desktop" translate="label comment" type="select" sortOrder="100"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label><![CDATA[max-width 1919: ]]></label>
-                    <comment><![CDATA[Number product show in screen ( 1200 <= Size < 1920 ) ]]></comment>
+                    <label><![CDATA[max-width 1479: ]]></label>
+                    <comment><![CDATA[Number product show in screen ( 1200 <= Size < 1480 ) ]]></comment>
                     <source_model>Magiccart\Testimonial\Model\System\Config\Col</source_model>
                     <validate>required-entry validate-greater-than-zero</validate>
                 </field>
-                <field id="visible" translate="label comment" type="select" sortOrder="105"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="widescreen" translate="label comment" type="select" sortOrder="105"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[max-width 1919: ]]></label>
+                    <comment><![CDATA[Number product show in screen ( 1366 <= Size < 1920 ) ]]></comment>
+                      <source_model>Magiccart\Testimonial\Model\System\Config\Col</source_model>
+                    <validate>required-entry validate-greater-than-zero</validate>
+                </field>
+                <field id="visible" translate="label comment" type="select" sortOrder="110"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label><![CDATA[min-width 1920: ]]></label>
                     <comment><![CDATA[Number product show in screen ( Size >= 1920 ) ]]></comment>
                     <source_model>Magiccart\Testimonial\Model\System\Config\Col</source_model>

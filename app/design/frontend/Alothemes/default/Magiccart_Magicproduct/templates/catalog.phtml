@@ -10,9 +10,9 @@
  * @@Function:
  */
  ?>
-<?php if($this->getStatus() == 2) return; ?>
-<?php $selector = 'alo-content-'.rand(0,999999999); ?>
-<div class= "<?php echo $selector?> magicproduct megashop +autoplay">
+<?php if(!$this->getStatus()) return; ?>
+<?php $selector = 'alo-content-'.uniqid(); ?>
+<div class= "<?php echo $selector?> magicproduct megashop autoplay">
 <?php
 $tabs = $this->getTabs();
 $relatedTabs = $this->getRelatedTabs();
@@ -55,7 +55,7 @@ if($numTabs): ?>
 			</div>
 		</div>
 	<?php endif ?>
-	<div class="ajax_loading" style="display:none" data-url="<?php echo $this->getUrl('magicproduct/index/catalog', array('_type' => 'direct_link', '_secure'=>$this->getRequest()->isSecure()))?>"></div>
+	<div class="ajax_loading" style="display:none" data-url="<?php echo $this->getUrl('magicproduct/index/catalog', array('_secure'=>$this->getRequest()->isSecure()))?>"></div>
     <div class="product-featured clearfix">
 	    <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($this->getIdentifier())->toHtml();?>
 		<div class="product-featured-content">
@@ -73,15 +73,3 @@ if($numTabs): ?>
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	require([
-		'jquery',
-		'magiccart/slick',
-		'magicproduct'
-		], function($, slick, magicproduct){
-			$(".<?php echo $selector?>").magicproduct({
-				selector : ".<?php echo $selector?>", // Selector product grid
-			});
-		});
-</script>
-

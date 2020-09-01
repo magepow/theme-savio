@@ -2,7 +2,8 @@ var config = {
 
 	map: {
 		'*': {
-			'alothemes': 'Magiccart_Alothemes/js/alothemes',
+			'alothemes': 'magiccart/alothemes',
+			'slick': 'magiccart/slick',
 		},
 	},
 
@@ -14,7 +15,7 @@ var config = {
 		'magiccart/slick'			: 'Magiccart_Alothemes/js/plugins/slick.min',
 		'magiccart/sticky'		    : 'Magiccart_Alothemes/js/plugins/sticky-kit.min',
 		'magiccart/wow'				: 'Magiccart_Alothemes/js/plugins/wow.min',
-		// 'alothemes'					: 'Magiccart_Alothemes/js/alothemes',
+		'magiccart/alothemes'		: 'Magiccart_Alothemes/js/alothemes',
 	},
 
 	shim: {
@@ -40,7 +41,7 @@ var config = {
 			deps: ['jquery']
 		},
         'alothemes': {
-            deps: ['jquery', 'magiccart/easing', 'magiccart/slick']
+            deps: ['jquery', 'magiccart/easing', 'slick']
         },
 
 	}

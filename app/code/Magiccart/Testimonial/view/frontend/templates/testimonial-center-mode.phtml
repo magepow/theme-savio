@@ -1,0 +1,78 @@
+<?php
+if(!$this->getEnabled()) return;
+$selector = 'alo-content-'.uniqid();
+$testimonials = $this->getTestimonials();
+if(!count($testimonials)) return;
+?>
+<div class="<?php echo $selector ?>">
+   <div class="block-testimonial">
+        <?php echo $this->getTitle() ? '<h3 class="block-title title item">' . '<span>' . $this->getTitle() . '</span>' . '</h3>' : '' ?>
+	</div>
+   <div class="block-content">
+		<div class="testimonial center-mode"
+		<?php foreach ($this->getFrontendCfg() as $opt) :?>
+			data-<?php echo $opt ?>='<?php echo $this->getData($opt) ?>'
+		<?php endforeach;?>
+		data-center-mode="true"
+		data-center-padding="60px"
+		>
+			<?php $i=0; foreach ($testimonials as $testimonial) :?>
+				<div class="item">
+					<div class="inner-customer clearfix">
+						<div class="customer">
+							<a href="<?php /* echo $this->getUrlTestimonial($testimonial) */ ?>">
+								<img class="avatar img-responsive" src="<?php echo $this->getImage($testimonial)?>" alt="<?php echo __($testimonial->getName()) ?>" title="<?php echo __($testimonial->getName()) ?>" />
+							</a>
+						</div>
+						<!-- <?php echo $this->getImage($testimonial)?> -->
+					</div>
+					<div class="testimonial_text" style="display: none;">
+						<div class="content sub-text zoomIn"><?php echo $testimonial->getText(); ?></div>
+						<div class="product-reviews-summary short">
+					        <div class="rating-summary">
+						        <span class="label"><span>Rating:</span></span>
+						        <div class="rating-result" title="<?php echo ceil($testimonial->getRatingSummary() * 20) ?>%">
+						            <span style="width:<?php echo ceil($testimonial->getRatingSummary() * 20) ?>%"><span><?php echo ceil($testimonial->getRatingSummary() * 20) ?>%</span></span>
+						        </div>
+						    </div>
+						</div>
+					</div>
+				</div>
+			<?php endforeach ?>
+		</div>
+		<div class="testimonial-caption center-mode"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magiccart/slick',
+        'alothemes',
+        ], function($){
+            var el  = $('.<?php echo $selector ?> .testimonial');
+            if(!el.length) return;
+			var options = el.data();
+			var iClass = '.alo-item';
+			el.children().addClass(iClass);
+			iClass = '.alo-item';
+			var selector = el.selector;
+			var classes = selector + ' '+ iClass;
+			var padding = options.padding;
+			var slider;
+			var style = padding ? classes + '{float: left; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' : '';
+			if(options.slidesToShow){
+				if(el.hasClass('slick-initialized')) el.slick("refresh");
+				else $(el).slick(options);
+				var caption = $('.<?php echo $selector ?> .testimonial-caption');
+				var testimonial_text = el.find('.slick-current.slick-center .testimonial_text');
+				if(testimonial_text.length) caption.html(testimonial_text.html());
+				el.on('afterChange', function (event, slick, currentSlide, nextSlide) {
+					testimonial_text = $(slick.$slides.get(currentSlide)).find('.testimonial_text');
+					if(testimonial_text.length) caption.html(testimonial_text.html());
+				});
+			} 
+			$('head').append('<style type="text/css">'+style+'</style>'); // return '<style type="text/css">'+style+'</style>';
+
+    });
+</script>

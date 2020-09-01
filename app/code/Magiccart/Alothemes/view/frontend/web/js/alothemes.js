@@ -285,10 +285,16 @@ define([
 				});
 			}
 		});
+
+		// Close button in toggle
+	    var $closeTab = $('.toggle-content .btn-close');
+	    $closeTab.click(function() {
+	        $(this).closest('.toggle-visible').removeClass('toggle-visible').find('.dropdown-switcher').removeClass('visible');
+	    });
+
 		// add click map
 
 		var $toggleTabMap  = $('.onclick-map');
-
 		$toggleTabMap.click(function(){
 			$(this).parent().toggleClass('toggle-visible').find('.toggle-content').toggleClass('visible');
 		});

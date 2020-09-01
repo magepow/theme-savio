@@ -10,9 +10,9 @@
  * @@Function:
  */
  ?>
-<?php if($this->getStatus() == 2) return; ?>
-<?php $selector = 'alo-content-'.rand(0,999999999); ?>
-<div class= "<?php echo $selector?> magicproduct magiccategory">
+<?php if(!$this->getStatus()) return; ?>
+<?php $selector = 'alo-content-'.uniqid(); ?>
+<div class= "<?php echo $selector?> magicproduct magiccategory autoplay">
 <?php
 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $_category = $_objectManager->create('Magento\Catalog\Model\Category')->load($this->getTabActivated());
@@ -39,7 +39,7 @@ if($numTabs): ?>
 	    </div>
 	</div>
 <?php endif ?>
-	<div class="ajax_loading" style="display:none" data-url="<?php echo $this->getUrl('magicproduct/index/category', array('_type' => 'direct_link', '_secure'=>$this->getRequest()->isSecure()))?>"></div>
+	<div class="ajax_loading" style="display:none" data-url="<?php echo $this->getUrl('magicproduct/index/category', array('_secure'=>$this->getRequest()->isSecure()))?>"></div>
 	<div class="box-product-content clearfix">
 	    <?php if($image = $this->getImage()): ?>
 	    <div class="box-product-adv">

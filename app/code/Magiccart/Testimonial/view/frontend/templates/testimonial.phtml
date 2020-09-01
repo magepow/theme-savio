@@ -3,10 +3,13 @@ if(!$this->getEnabled()) return;
 $selector = 'alo-content-'.uniqid();
 $testimonials = $this->getTestimonials();
 if(!count($testimonials)) return;
+$options = $this->getFrontendCfg();
+$centerMode = false;
+if(isset($options['center-Mode']) && $options['center-Mode']) $centerMode = true;
 ?>
 <div class="<?php /* @escapeNotVerified */ echo $selector ?>">
-    <div class="testimonial"
-    <?php foreach ($this->getFrontendCfg() as $opt) :?>
+    <div class="testimonial<?php echo $centerMode ? 'center-mode' : '' ?>"
+    <?php foreach ($options as $opt) :?>
         data-<?php /* @escapeNotVerified */ echo $opt ?>='<?php /* @escapeNotVerified */ echo $this->getData($opt) ?>'
     <?php endforeach;?>  
     >

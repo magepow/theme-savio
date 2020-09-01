@@ -306,7 +306,7 @@
 					<span class="fa fa-envelope icons"><span class="hidden">hidden</span></span>
 					<p class="flex">
 						<span class="tit-name">Email</span>
-						<span class="tit-contain"><a href="mailto:suport@alothemes.com">suport@alothemes.com</a></span>
+						<span class="tit-contain"><a href="mailto:info@example.com">info@example.com</a></span>
 					</p>
 				</li>
 				<li>
@@ -516,6 +516,36 @@
 			<span class="header-offer-close"><i class="fa fa-times"><span class="hidden">header-offer-close</span></i></span>
 		</div>
 	</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+    </item>
+    <item>
+      <title><![CDATA[newsletter_popup]]></title>
+      <identifier><![CDATA[newsletter_popup]]></identifier>
+      <content><![CDATA[<div class="block-content">
+<img src="{{media url=&quot;wysiwyg/alothemes/static/logo-newsletter.png&quot;}}" alt="" />
+    <div class="block-title">
+        <strong><span>Newsletter</span></strong>
+    </div>
+    <h2 class="promo-panel-text"><span class="label-newsletter">Newsletter</span></h2>
+    <h2 class="promo-panel-text promo-text">And get hot news about the theme</span></h2>
+	<div class="subcribe-box newsletter-new clearfix">
+		<div class="field newsletter input-box">
+			<div class="control">
+				<input name="email" type="email" id="newsletter-popup" class="input-text"
+							placeholder="Enter your email address"
+							data-validate="{required:true, 'validate-email':true}"/>
+			</div>
+		</div>
+		<div class="actions">
+			<button class="action subscribe button" title="Subscribe" type="submit">
+				<span>Subscribe</span>
+			</button>
+		</div>
+	</div>
+	<div class="subscribe-bottom">
+        <input type="checkbox" />Don’t show this popup again
+    </div>
 </div>]]></content>
       <is_active><![CDATA[1]]></is_active>
     </item>

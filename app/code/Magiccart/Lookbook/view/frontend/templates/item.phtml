@@ -1,0 +1,91 @@
+<?php
+/**
+ * Magiccart 
+ * @category 	Magiccart 
+ * @copyright 	Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license 	http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-05-16 22:57:12
+ * @@Modify Date: 2020-07-23 17:45:08
+ * @@Function:
+ */
+ ?>
+<?php
+$lookbook   = $this->getLookbook();
+if(!$lookbook) return;
+$uniqid     = uniqid();
+$selector   = 'alo-lookbook-'.$uniqid;
+$options    = json_decode($lookbook->getOptions(), true);
+if(!isset($options['magic_pin'])) return;
+$magic_pin  = $options['magic_pin'];
+$productIds = array();
+$image_pin  = $this->getPinImageUrl($lookbook->getData('image'));
+$width_image = 0;
+foreach ($magic_pin as $key => $item) {
+    if(isset($item['product_id'])) $productIds[$key] = $item['product_id'];
+    if($key == 'canvas'){
+    	$magic_pin['canvas']['src'] = $this->getPinImageUrl($lookbook->getData('image'));
+    	$width_image = $magic_pin['canvas']['width'];
+    } 
+}
+$image = 'category_page_grid';
+$pos = $block->getPositioned();
+$products = $this->getProductCollection($productIds);
+
+foreach ($productIds as $key => $id) {
+    $_product = $products->getItemByColumnValue('entity_id', $id );
+    if($_product){
+        $icon = '<span class="magic-marker-icon-bg">' . $block->getProductPrice($_product) . '</span>';
+        $productImage = $block->getImage($_product, $image);
+        if ($pos != null) {
+            $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                . 'top:' . $productImage->getHeight() . 'px;"';
+        }
+        $name = $block->escapeJsQuote($_product->getName(), '"');
+        $image_html = preg_replace('/alt=".*?"/', 'alt="'. $name .'"', $productImage->toHtml()); // fixed name have quotes
+        $classes = isset($magic_pin[$key]['classes']) ? $magic_pin[$key]['classes'] . 'info' :  'info';
+        $add_options = array(
+            'classes'       => $classes,
+            'marker_pin'    => $icon,
+            'markerSrc'     => $icon,
+            'product_title' => $_product->getName(),
+            'product_link'  => $_product->getProductUrl(),
+            'product_img'   => $image_html,
+        );
+        $magic_pin[$key] = array_merge($magic_pin[$key], $add_options);
+    }
+}
+
+$show_img = true;
+$show_price = true;
+$pin_rand_id = 'magic_pin_' . $uniqid;
+$data_pin = json_encode(array($pin_rand_id => $magic_pin));
+?>
+<div class="<?php echo $selector ?>" data-mage-init='{"magiccartLookbook": {}}'>
+    <?php echo $this->getTitle() ? '<h2 class="title item">' . '<span>' . $this->getTitle() . '</span>' . '</h2>' : '' ?>
+    <div class="lookbook">
+        <div style="max-width:<?php echo $width_image ?>px" class="magic-inner-wrap magic-pin-banner-wrap" data-pin="<?php /* @escapeNotVerified */ echo $this->escapeHtml($data_pin) ?>">
+            <img class="magic_pin_pb_image" src="<?php /* @escapeNotVerified */ echo $image_pin ?>" data-easypin-id="<?php echo $pin_rand_id ?>" alt="<?php /* @escapeNotVerified */ echo $this->getTitle() ?>" />
+			<div style="display:none;" class="magic-easypin-tpl">
+			    <popover>
+			        <div style="height:auto;" class="{[classes]}">
+                        <div class="main-product-pin">
+                            <div class="product-pin-wrap">
+                                <a title="{[product_title]}" href="{[product_link]}">
+                                    <div class="image-wrap">{[product_img]}</div>
+                                    <div class="title-wrap">
+                                        <h5>{[product_title]}</h5>
+                                    </div>
+                                    <div class="price-wrap">{[marker_pin]}</div>
+        			            </a>
+                            </div>
+                        </div>
+			        </div>
+			    </popover>
+			    <marker class="marker">
+			        <div>&nbsp;</div>
+			    </marker>
+			</div>
+        </div>
+    </div>
+</div>

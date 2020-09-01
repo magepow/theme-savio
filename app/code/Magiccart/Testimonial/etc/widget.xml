@@ -21,6 +21,9 @@
                     <option name="default" value="testimonial.phtml" selected="true">
                         <label translate="true">Default</label>
                     </option>
+                    <option name="centerMode" value="testimonial-center-mode.phtml">
+                        <label translate="true">Center Mode</label>
+                    </option>
                 </options>
             </parameter>
 		</parameters>

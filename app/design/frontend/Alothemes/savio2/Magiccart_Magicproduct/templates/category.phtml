@@ -10,9 +10,9 @@
  * @@Function:
  */
  ?>
-<?php if($this->getStatus() == 2) return; ?>
-<?php $selector = 'alo-content-'.rand(0,999999999); ?>
-<div class= "<?php echo $selector?> magicproduct magiccategory">
+<?php if(!$this->getStatus()) return; ?>
+<?php $selector = 'alo-content-'.uniqid(); ?>
+<div class= "<?php echo $selector?> magicproduct magiccategory autoplay">
 <?php
 $tabs = $this->getTabs();
 $numTabs = count($tabs);
@@ -23,7 +23,7 @@ if($numTabs): ?>
 	    </div>
 	</div>
 <?php endif ?>
-	<div class="ajax_loading" style="display:none" data-url="<?php echo $this->getUrl('magicproduct/index/category', array('_type' => 'direct_link', '_secure'=>$this->getRequest()->isSecure()))?>"></div>
+	<div class="ajax_loading" style="display:none" data-url="<?php echo $this->getUrl('magicproduct/index/category', array('_secure'=>$this->getRequest()->isSecure()))?>"></div>
 	<div class="box-product-content row clearfix">
 		<div class="col-md-3 col-sm-3 sub-category-wapper">
 			<div class="block-title-tabs clearfix">
@@ -66,16 +66,3 @@ if($numTabs): ?>
 		</div>
 	</div>	
 </div>
-
-<script type="text/javascript">
-	require([
-		'jquery',
-		'magiccart/slick',
-		'magicproduct'
-		], function($, slick, magicproduct){
-			$(".<?php echo $selector?>").magicproduct({
-				selector : ".<?php echo $selector?>", // Selector product grid
-			});
-		});
-</script>
-

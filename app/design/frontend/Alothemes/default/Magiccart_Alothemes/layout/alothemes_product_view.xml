@@ -6,105 +6,12 @@
  */
 -->
 <page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
-        <!-- <referenceContainer name="sidebar.additional" remove="true"/> -->
-        <referenceContainer name="div.sidebar.additional" remove="true"/>
-        <referenceContainer name="header.container" remove="true"/>
-        <referenceContainer name="footer-container" remove="true"/>
-        <referenceContainer name="sections.page.bottom" remove="true"/>
-        <referenceBlock name="breadcrumbs" remove="true"/>
-        <referenceBlock name="alothemes_header" remove="true"/>
-        <referenceContainer name="content">
-		    <container name="product.view" htmlTag="div" htmlClass="product-view product-quickview" before="-">
-				<container name="product.essential" htmlTag="div" htmlClass="product-essential" before="-">
-				   <container name="product.detail" htmlTag="div" htmlClass="row-normal" before="-">
-						<container name="product.info.main" htmlTag="div" htmlClass="product-info-main product-shop col-md-7 col-sm-7 col-xs-12" after="product.info.media">
-							<container name="product.shopcontent" htmlTag="div" htmlClass="product-shop-content clearfix">
-								<container name="product.content.left" htmlTag="div" htmlClass="shop-content-left">
-									<container name="product.info.title" label="Product info auxiliary container" htmlTag="div" htmlClass="product-info-title">
-										<block class="Magento\Theme\Block\Html\Title" name="page.main.title" template="html/title.phtml"/>
-										<block class="Magento\Catalog\Block\Product\View" name="product.info.review" template="product/view/review.phtml" after="page.main.title" />
-									    <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.overview" template="product/view/attribute.phtml" group="detailed_info" after="product.info.review">
-											<arguments>
-												<argument name="at_call" xsi:type="string">getShortDescription</argument>
-												<argument name="at_code" xsi:type="string">short_description</argument>
-												<argument name="css_class" xsi:type="string">overview</argument>
-												<argument name="at_label" translate="true" xsi:type="string">none</argument>
-												<argument name="title" translate="true" xsi:type="string">Overview</argument>
-												<argument name="add_attribute" xsi:type="string">itemprop="description"</argument>
-											</arguments>
-										</block>
-									</container>
-									 <container name="product.social.share" label="Product social share" htmlTag="div" htmlClass="product-social-share" after="product.info.title">
-										<!-- <block class="Magento\Catalog\Block\Product\View" name="social.share" template="product/view/socialshare.phtml" /> 
-										<block class="Magento\Catalog\Block\Product\View" name="product.info.mailto" template="product/view/mailto.phtml"/> -->
-									</container>
-								</container>
-								<container name="product.content.right" htmlTag="div" htmlClass="shop-content-right">
-									<container name="product.info.price" label="Product info auxiliary container" htmlTag="div" htmlClass="product-info-price" after="product.info.review">
-										<container name="product.info.stock.sku" label="Product auxiliary info" htmlTag="div" htmlClass="product-info-stock-sku">
-											<container name="product.info.type" before="-"/>
-											<block class="Magento\Catalog\Block\Product\View\Description" name="product.info.sku" template="product/view/attribute.phtml" after="product.info.type">
-												<arguments>
-													<argument name="at_call" xsi:type="string">getSku</argument>
-													<argument name="at_code" xsi:type="string">sku</argument>
-													<argument name="css_class" xsi:type="string">sku</argument>
-													<argument name="at_label" xsi:type="string">default</argument>
-													<argument name="add_attribute" xsi:type="string">itemprop="sku"</argument>
-												</arguments>
-											</block>
-										</container>
-										
-										<block class="Magento\Catalog\Pricing\Render" name="product.price.final" after="product.info.review">
-											<arguments>
-												<argument name="price_render" xsi:type="string">product.price.render.default</argument>
-												<argument name="price_type_code" xsi:type="string">final_price</argument>
-												<argument name="zone" xsi:type="string">item_view</argument>
-											</arguments>
-										</block>
-									</container>
-									<block class="Magento\Catalog\Pricing\Render" name="product.price.tier" after="product.info.price">
-										<arguments>
-											<argument name="price_render" xsi:type="string">product.price.render.default</argument>
-											<argument name="price_type_code" xsi:type="string">tier_price</argument>
-											<argument name="zone" xsi:type="string">item_view</argument>
-										</arguments>
-									</block>
-									<container name="alert.urls" as="alert_urls" label="Alert Urls" after="product.price.tier"/>
-									<block class="Magento\Catalog\Block\Product\View" name="product.info" template="Magento_Catalog::product/view/form.phtml" after="alert.urls">
-										<container name="product.info.form.content" as="product_info_form_content">
-											<block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="Magento_Catalog::product/view/addtocart.phtml"/>
-										</container>
-										<block class="Magento\Framework\View\Element\Template" name="product.info.form.options" as="options_container">
-											<block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper" as="product_options_wrapper" template="Magento_Catalog::product/view/options/wrapper.phtml">
-												<block class="Magento\Catalog\Block\Product\View\Options" name="product.info.options" as="product_options" template="Magento_Catalog::product/view/options.phtml">
-													<block class="Magento\Catalog\Block\Product\View\Options\Type\DefaultType" name="product.info.options.default" as="default" template="Magento_Catalog::product/view/options/type/default.phtml"/>
-													<block class="Magento\Catalog\Block\Product\View\Options\Type\Text" name="product.info.options.text" as="text" template="Magento_Catalog::product/view/options/type/text.phtml"/>
-													<block class="Magento\Catalog\Block\Product\View\Options\Type\File" name="product.info.options.file" as="file" template="Magento_Catalog::product/view/options/type/file.phtml"/>
-													<block class="Magento\Catalog\Block\Product\View\Options\Type\Select" name="product.info.options.select" as="select" template="Magento_Catalog::product/view/options/type/select.phtml"/>
-													<block class="Magento\Catalog\Block\Product\View\Options\Type\Date" name="product.info.options.date" as="date" template="Magento_Catalog::product/view/options/type/date.phtml"/>
-												</block>
-												<block class="Magento\Framework\View\Element\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Theme::js/calendar.phtml"/>
-											</block>
-											<block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="Magento_Catalog::product/view/options/wrapper/bottom.phtml">
-												<block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.additional" as="product.info.addtocart" template="Magento_Catalog::product/view/addtocart.phtml"/>
-											</block>
-										</block>
-									</block>
-								</container>
-							</container>
-						</container>
-						<container name="product.info.media" htmlTag="div" htmlClass="product-media product media product-img-box clearfix col-md-5 col-sm-5 col-xs-12" before="-">
-							<block class="Magento\Catalog\Block\Product\View\Gallery" name="product.info.media.image" template="product/view/gallery.phtml"/>
-						</container>
-					</container>
-				</container>
-			</container>
-			<referenceBlock name="product.info.social" remove="true"/>
-			<referenceBlock name="product.info.overview" remove="true"/>
+    <update handle="catalog_product_view" />
+	<body>
+        <referenceContainer name="product.secondary.column" remove="true"/>
+        <referenceContainer name="product.primary.column" htmlClass="product-primary-column col-xs-12"/>
+        <referenceContainer name="product.info.media">
+            <referenceBlock name="product.info.media.image" template="product/view/quickview_gallery.phtml"/>
         </referenceContainer>
-		<referenceContainer name="product.info.media">
-            <block class="Magento\ProductVideo\Block\Product\View\Gallery" name="product.info.media.video" after="product.info.media.image" template="product/view/gallery.phtml"/>
-        </referenceContainer>
-    </body>
+	</body>
 </page>

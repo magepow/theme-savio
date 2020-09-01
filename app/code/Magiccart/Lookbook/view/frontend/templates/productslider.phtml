@@ -1,0 +1,58 @@
+<?php
+/**
+ * Magiccart 
+ * @category    Magiccart 
+ * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
+ * @license     http://www.magiccart.net/license-agreement.html
+ * @Author: DOng NGuyen<nguyen@dvn.com>
+ * @@Create Date: 2018-05-16 22:57:12
+ * @@Modify Date: 2020-07-23 17:40:38
+ * @@Function:
+ */
+ ?>
+<?php
+$slider = $this->getSlider();
+if(!$slider) return;
+$selector_slider = 'alo-content-slider'. uniqid();
+?>
+<div class="<?php echo $selector_slider ?> alo-lookbook"
+    <?php foreach ($this->getFrontendCfg() as $opt) :?>
+        data-<?php /* @escapeNotVerified */ echo $opt ?>='<?php /* @escapeNotVerified */ echo $this->getData($opt) ?>'
+    <?php endforeach;?>
+>
+<?php
+foreach ($slider as $lookbook) {
+    echo $block->getLayout()->createBlock('Magiccart\Lookbook\Block\Widget\Product')->setLookbook($lookbook)->setTemplate('item.phtml')->toHtml();
+}
+?>
+</div>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magiccart/slick',
+        ], function($, slick){
+            "use strict";
+            $( document ).ready(function($) {
+                var el  = $('.<?php echo $selector_slider ?>');
+                var iClass = '.alo-item';
+                if($('body').hasClass('rtl')){
+                    el.attr('dir', 'rtl');
+                    el.data( 'rtl', true );
+                    // el.data( 'infinite', false );
+                    // el.data( 'slides-to-scroll', -1 );
+                }
+                var options = el.data();
+                if(iClass === undefined){
+                    el.children().addClass('alo-item');
+                    iClass = '.alo-item';
+                }
+                var selector = el.selector;
+                var classes = selector + ' '+ iClass;
+                var padding = options.padding;
+                var style = padding ? classes + '{float: left; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' : '';
+                if(options.slidesToShow){
+                    var slider = el.slick(options);
+                }
+            });
+    });
+</script>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 Magento. All rights reserved.
+ * Copyright © 2019 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
 
@@ -18,40 +18,16 @@ $urlMedia = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterfac
             novalidate
             action="<?php /* @escapeNotVerified */ echo $block->getFormActionUrl() ?>"
             method="post"
-            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
             id="newsletter-popup-validate-detail">
-			<div class="block-content">
-			    <div class="block-title">
-                    <strong><span><?php echo __('Newsletter') ?></span></strong>
-                </div>
-			    <h2 class="promo-panel-text"><?php echo __('Sign Up') ?></h2>
-			    <h2 class="promo-panel-text"><?php echo __('Our') ?><span class="label-newsletter"><?php echo __('Newsletter') ?></span></h2>
-			    <h2 class="promo-panel-text"><?php echo __('And get') ?></h2>
-			    <h2 class="promo-panel-text"><span class="sale-off"><?php echo __('25% off') ?></span></h2>
-			    <h2 class="promo-panel-text promo-text"><?php echo __('first purchase On all online store items.') ?></h2>
-				<div class="subcribe-box newsletter-new clearfix">
-					<div class="field newsletter input-box">
-						<div class="control">
-							<input name="email" type="email" id="newsletter-popup" class="input-text"
-										placeholder="<?php /* @escapeNotVerified */ echo __('Enter your email address') ?>"
-										data-validate="{required:true, 'validate-email':true}"/>
-						</div>
-					</div>
-					<div class="actions">
-						<button class="action subscribe button" title="<?php /* @escapeNotVerified */ echo __('Subscribe') ?>" type="submit">
-							<span><?php /* @escapeNotVerified */ echo __('Subscribe') ?></span>
-						</button>
-					</div>
-				</div>
-			</div>
+            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('newsletter_popup')->toHtml();?>
         </form>
     </div>
 </div>
 <script type="text/javascript">
-	require(['jquery', 'jquery/jquery.cookie', 'magiccart/fancybox'], 
-		function($, cookie, fancybox){
+	require(['jquery', 'jquery/jquery.cookie', 'Magento_Ui/js/modal/modal'], 
+		function($, cookie, modal){
+			"use strict";
 			if(!parseInt(Themecfg.newsletter.enabled)) return;
-	        
 	        (function(selector){
 	            var popupCookie = $.cookie('popupNewsletterOff');
 	            var overlay = Themecfg.newsletter.overlayColor;
@@ -68,47 +44,47 @@ $urlMedia = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterfac
 	                pwidth   = typeof pwidth  !== 'undefined' ? pwidth : 800;
 	                pheight  = typeof pheight !== 'undefined' ? pheight : 400;
 	                overlay  = typeof overlay !== 'undefined' ? overlay : '#363636';
-	                popup.width(pwidth).height(pheight)
 	                if(Themecfg.newsletter.background_image) popup.css('background-image', 'url(' + imageUrl + ')');
 	                else if(color) popup.css('background-color', color);
 	                setTimeout( function() {
-	                    $content.fancybox({
-	                        padding: '0px',
-	                        openEffect: 'elastic',
-	                        closeEffect: 'elastic',
-	                        
-	                        centerOnScroll: true,
-	                        type: 'inline',
-	                        overlayColor: overlay,
-	                        href : '#popup-newsletter',
-	                    }).trigger('click');
+                        modal({
+                            type: 'popup',
+                            modalClass: 'popup-newsletter',
+                            responsive: true, 
+                            buttons: false                       	
+                        }, popup);
+	                    popup.modal('openModal');
+	                    $(".modal-popup .modal-inner-wrap").css({ "width":pwidth, "height":pheight }); 
 	                }, timeDelay);
-	                if(Themecfg.newsletter.autoClose > 0) setTimeout(function(){$.fancybox.close()}, timeClose);
+	                if(Themecfg.newsletter.autoClose > 0) setTimeout(function(){ popup.modal('closeModal') }, timeClose);
 	                $('.subscribe-bottom input', popup).on('click', function(){
 	                    if($(this).parent().find('input:checked').length){
-	                        $.cookie('popupNewsletterOff', true);
+	                        $.cookie('popupNewsletterOff', true, { expires : 10, domain: document.domain});
 	                    } else {
 	                        $.cookie('popupNewsletterOff', undefined);
 	                    }
 	                });
 	                if(Themecfg.newsletter.firstOnly > 0) $.cookie('popupNewsletterOff', true);
 	                popup.find('.actions button').on('click', function(){
-	                    $.cookie('popupNewsletterOff', true);
-	                    $.cookie('popupNewsletterMessages', true, {domain: document.domain});
+						var dataForm = $('#newsletter-popup-validate-detail');
+   						if($(dataForm).validation() && $(dataForm).validation('isValid')){
+							$.cookie('popupNewsletterOff', true);
+							$.cookie('popupNewsletterMessages', true, {domain: document.domain});
+						}
 	                });
+	                $('.not-interested').click(function() {
+	                	popup.modal('closeModal');
+					});
 	            } else {
 	                if($.cookie('popupNewsletterMessages')){
-	                    var $messages = $('.messages').css('min-width', '400px').attr('id', 'popupNewsletterMessages').wrap( "<div></div>" );
-	                    $messages.fancybox({
-	                        padding: '0px',
-	                        transitionIn: 'fade',
-	                        transitionOut: 'fade',
-	                        
-	                        centerOnScroll: true,
-	                        type: 'inline',
-	                        overlayColor: overlay,
-	                        href : '#popupNewsletterMessages',
-	                    }).trigger('click');
+	                    var $messages = $('.messages').attr('id', 'popupNewsletterMessages').wrap( "<div></div>" );
+                       	modal({
+                            type: 'popup',
+                            modalClass: 'popup-messages',
+                            responsive: true, 
+                            buttons: false                       	
+                        }, $messages);
+	                    $messages.modal('openModal');
 	                    $.cookie('popupNewsletterMessages', '', {domain: document.domain});
 	                }
 	            }
@@ -116,4 +92,3 @@ $urlMedia = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterfac
 	        })(".block-subscribe.popup");
 	});
 </script>
-

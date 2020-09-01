@@ -1,47 +1,122 @@
-.field-summary_rating .rating-box .rating:before {
-	content: "\f005" "\f005" "\f005" "\f005" "\f005";
-    font-family: "FontAwesome";
-    color: #f2c800;
-    z-index: 2;
-    position: relative;
-    font-size: 14px;
-    height: 12px;
-    display: block;
-    line-height: 12px;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-.testimonial-index-index .button-o{
+& when (@media-common =true) {
+  @testimonial_rating-icon__font: @rating-icon__font;
+  @testimonial_rating-icon__content: @rating-icon__content;
+  @testimonial_rating-icon__font-size: @rating-icon__font-size;
+  .testimonial {
+    .field-summary_rating .rating-box .rating:before {
+      content: @testimonial_rating-icon__content;
+      font-family: @testimonial_rating-icon__font;
+      color: #f2c800;
+      z-index: 2;
+      position: relative;
+      font-size: @testimonial_rating-icon__font-size;
+      height: 12px;
+      display: block;
+      line-height: 12px;
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+    .rating-result {
+        text-align: center;
+    }
+    .customer {
+      -moz-transition: all .5s ease;
+      -webkit-transition: all .5s ease;
+      transition: all .5s ease;
+      margin: 60px 0;
+      vertical-align: top;
+      text-align: center;
+      display: inline-block;
+      overflow: hidden;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+    }
+    .inner-customer {
+      text-align: center;
+    }
+    &.center-mode {
+      margin-bottom: 50px;
+      .item {
+        img{
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;          
+        }
+        .testimonial_text {
+          display: none;
+        }
+      }
+      .slick-center{
+        .item{
+          img{
+            width: 150px;
+            height: 150px;            
+          }
+        }
+      }
+      .slick-list {
+        margin-bottom: 50px;
+      }
+    }
+  }
+  .testimonial-caption {
+    &.center-mode {
+      display: block;
+      width: 85%;
+      color: #494949;
+      text-align: center;
+      padding: 0;
+      margin: 0 auto;
+      .sub-text{
+        display: block;
+        font-size: 20px;
+        padding-bottom: 20px;
+        text-align: center;     
+      }
+      .product-reviews-summary {
+        display: block;
+        text-align: center;
+      }        
+    }
+    .zoomIn {
+      animation: zoomIn .9s ease-out;
+      -moz-animation: zoomIn .9s ease-out;
+      -webkit-animation: zoomIn .9s ease-out;
+      -o-animation: zoomIn .9s ease-out;
+    }
+  }
+  .testimonial-index-index .button-o {
     margin-bottom: 30px;
+  }
+  .testimonial-form-index .std-input-box .product-review-box #product-review-table {
+    width: auto;
+  }
+
+  @-webkit-keyframes zoomIn {
+    from {
+      opacity: 0;
+      -webkit-transform: scale3d(0.3, 0.3, 0.3);
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      -webkit-transform: scale3d(0.3, 0.3, 0.3);
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
 }
-.testimonial-form-index .std-input-box .product-review-box #product-review-table{
-    width:auto;
-}
-.field-rating .review-field-ratings .review-field-rating .label::after{
-  content: '*';
-  color: #e02b27;
-  font-size: 13px;
-  margin: 0 0 0 5px;  
-}
-/* Style testiminial mode center */
-/*
-.testimonial .item img{
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-.testimonial_text {display: none;}
-.testimonial .item.slick-current .testimonial_text {display: block;}
-.testimonial .item.slick-current img{
-  width: 110px;
-  height: 110px;
-}
-.testimonial_text {
-    width: 85%;
-    color: #494949;
-    text-align: center;
-    padding: 0;
-    margin: 0 auto;
-}
-.rating-result {text-align: center;}
-*/

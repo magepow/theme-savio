@@ -330,7 +330,7 @@ textarea::-moz-placeholder{color: #333;}
 .multishipping-checkout-address-newshipping .fieldset,.contact-index-index .fieldset{margin: 0;padding: 0;}
 .contact-content .fieldset{padding:0px;}
 /* Form Validation */
-.validation-advice{clear:both;min-height:13px;margin:3px 0 0;padding-left:17px;font-size:11px;font-weight:bold;line-height:13px;background:url(../images/validation_advice_bg.gif) 2px 0 no-repeat;color:#eb340a;width: 270px;}
+.validation-advice{clear:both;min-height:13px;margin:3px 0 0;padding-left:17px;font-size:11px;font-weight:bold;line-height:13px;background:url(../../../../../frontend/Alothemes/default/en_US/Magento_Theme/images/validation_advice_bg.gif) 2px 0 no-repeat;color:#eb340a;width: 270px;}
 .validation-failed{border:1px dashed #eb340a!important;background:#faebe7!important}
 .validation-passed{}
 p.required{font-size:11px;text-align:right;color:#EB340A}
@@ -562,7 +562,7 @@ tr.summary-details-excluded{font-style:italic}
 .header-content{padding: 22px 0 26px;}
 .header-content .container{position: relative;}
 .header-main-bottom{background-color: #d7dce0;}
-.header-container-fixed {animation-duration: 450ms; animation-fill-mode: both; animation-name: fadeInDown; box-shadow: 0 0 3px #666666;-moz-box-shadow: 0 0 3px #666666; -webkit-box-shadow: 0 0 3px #666666; -o-box-shadow: 0 0 3px #666666;-ms-box-shadow: 0 0 3px #666666;position: fixed; width: 100%; z-index: 10000;top:0;padding: 0;}
+.header-container-fixed {animation-duration: 450ms; animation-fill-mode: both; animation-name: fadeInDown; box-shadow: 0 0 3px #666666;-moz-box-shadow: 0 0 3px #666666; -webkit-box-shadow: 0 0 3px #666666; -o-box-shadow: 0 0 3px #666666;-ms-box-shadow: 0 0 3px #666666;position: fixed; width: 100%; z-index: 20;top:0;padding: 0;}
 @keyframes fadeInDown {
 	0% {
 	    opacity: 0;
@@ -805,6 +805,11 @@ tr.summary-details-excluded{font-style:italic}
 .modal-custom .action-close::before, .modal-popup .action-close::before, .modal-slide .action-close::before {color: #000;content: "\f00d";display: inline-block;font-family: "FontAwesome";font-size: 15px;font-weight: normal;line-height: 15px;margin: 0;overflow: hidden;text-align: center;vertical-align: top;}
 .modal-custom .action-close > span, .modal-popup .action-close > span, .modal-slide .action-close > span { border: 0 none;clip: rect(0px, 0px, 0px, 0px);height: 1px;margin: -1px;overflow: hidden; padding: 0;position: absolute;width: 1px;}
 .modal-popup .action-close{padding: 0 10px;}
+
+/* recent order */
+.notify-slider-wrapper{
+	z-index: 900;
+}
 
 /* ======================================================================================= */
 .block-related .block-title strong,.block.filter .filter-title strong,.box-up-sell .block-title strong,.crosssell strong,.alo-brands .item span,.block-title-tabs span,.magictabs .item .title,.sidebar .block .block-title strong,.testimonials h3 span{color: #333;display: inline-block;font-size: 14px;margin: 0; position: relative;}
@@ -1667,6 +1672,10 @@ ul.magictabs{padding:0}
 .item .actions-cart .stock.unavailable span{font-weight: bold;font-size: 15px;font-family: 'Roboto', sans-serif;}
 .quickview{height: 39px;line-height: 39px;font-size: 20px;width: 39px;padding: 0px;display: block;text-align: center;font-weight: 600;text-transform: uppercase;overflow: hidden;}
 .quickview .icons,.quickview span{height: 100%;width: 100%;line-height: 39px;padding: 0;display: block;font-size: 20px;}
+.modals-quickview .modal-inner-wrap .modal-content{
+	padding-left: 0;
+	padding-right: 0;
+}
 
 /* View Type:List */
 .category-products-list{position: relative;}
@@ -2723,4 +2732,3 @@ ul.magictabs{padding:0}
 /* list-style: initial */
 .page-header ul,.page-header ol,.page-footer ul,.page-footer ol,.sidebar ul,.sidebar ol,.content-popup-inner ul,.brand-cms-static{list-style: none;}
 .product.info.detailed ul, .product.info.detailed ol,.product.attribute ul,.product.attribute ol,.post-list-wrapper ul,.post-list-wrapper ol,.post-view ul,.post-view ol{padding: 0 0 0 30px;}
-

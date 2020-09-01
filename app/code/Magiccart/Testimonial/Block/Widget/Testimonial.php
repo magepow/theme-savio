@@ -73,6 +73,7 @@ class Testimonial extends \Magento\Framework\View\Element\Template implements \M
                 if($num) $responsive .= ', ';
             }
             $responsive .= ']';
+            $data['center-Mode']    = $data['center_mode'];
             $data['slides-To-Show'] = $data['visible'];
             $data['swipe-To-Slide'] = 'true';
             $data['responsive'] = $responsive;
@@ -155,12 +156,13 @@ class Testimonial extends \Magento\Framework\View\Element\Template implements \M
 
     public function getResponsiveBreakpoints()
     {
+        return array(1921=>'visible', 1920=>'widescreen', 1480=>'desktop', 1200=>'laptop', 992=>'notebook', 768=>'tablet', 576=>'landscape', 481=>'portrait', 361=>'mobile', 1=>'mobile');
         return array(1201=>'visible', 1200=>'desktop', 992=>'notebook', 769=>'tablet', 641=>'landscape', 481=>'portrait', 361=>'mobile', 1=>'mobile');
     }
 
     public function getSlideOptions()
     {
-        return array('autoplay', 'arrows', 'autoplay-Speed', 'dots', 'fade', 'infinite', 'padding', 'vertical', 'vertical-Swiping', 'responsive', 'rows', 'slides-To-Show', 'swipe-To-Slide');
+        return array('autoplay', 'arrows', 'autoplay-Speed', 'center-Mode', 'dots', 'fade', 'infinite', 'padding', 'vertical', 'vertical-Swiping', 'responsive', 'rows', 'slides-To-Show', 'swipe-To-Slide');
     }
 
     public function getFrontendCfg()

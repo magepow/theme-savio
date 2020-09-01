@@ -55,7 +55,7 @@
 	.company-worker .item .hr span.first{padding-top: 45px;}
 }	
 
-@media(max-width:991px) {
+@media(max-width:992px) {
 	/* hidden on mobile */
 	.page-header{border: 0;}
 	.header-bottom, .header-container-fixed{background-color: transparent !important;}

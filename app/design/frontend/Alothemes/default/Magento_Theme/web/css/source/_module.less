@@ -46,9 +46,9 @@
 
 & when (@media-common = true) {
 
-body {
-    .lib-css(background-color, @page__background-color);
-}
+    body {
+        .lib-css(background-color, @page__background-color);
+    }
 
 //
 //    Header
@@ -77,7 +77,7 @@ body {
         max-width: 100%;
         display: block;
     }
-   .page-print & {
+    .page-print & {
         float: none;
     }
 }
@@ -278,7 +278,7 @@ body {
         }
         .switcher {
             display: inline-block;
-			vertical-align: top;
+            vertical-align: top;
         }
     }
 
@@ -330,13 +330,45 @@ body {
 
 & when (@media-common = true) {
 
-.no-display {
-    &:extend(.abs-no-display all);
-}
+    .no-display {
+        &:extend(.abs-no-display all);
+    }
 
-// Calendar
-.ui-datepicker td {
-    padding: 0;
-}
-
+    // Calendar
+    .ui-datepicker td {
+        padding: 0;
+    }
+    .header-container-fixed{
+        z-index:20;
+    }
+    .modals-quickview {
+        .product-view {
+            margin: 0;
+            .product-shop{
+                height:100% !important;
+                overflow-y: hidden;
+            }
+        }
+        .modal-inner-wrap {
+            .modal-content{
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+        main.container{
+            max-width:100%;
+            padding-left:15px;
+            padding-right:15px;
+        }
+    }
+    #popup-newsletter {
+        .block-content {
+            padding-top:25px;
+            .subcribe-box{
+                .actions{
+                    margin-left:0;
+                }
+            }            
+        }
+    }
 }

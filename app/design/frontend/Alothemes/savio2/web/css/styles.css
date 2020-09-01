@@ -330,7 +330,7 @@ textarea::-moz-placeholder{color: #333;}
 .multishipping-checkout-address-newshipping .fieldset,.contact-index-index .fieldset{margin: 0;padding: 0;}
 .contact-content .fieldset{padding:0px;}
 /* Form Validation */
-.validation-advice{clear:both;min-height:13px;margin:3px 0 0;padding-left:17px;font-size:11px;font-weight:bold;line-height:13px;background:url(../images/validation_advice_bg.gif) 2px 0 no-repeat;color:#eb340a;width: 270px;}
+.validation-advice{clear:both;min-height:13px;margin:3px 0 0;padding-left:17px;font-size:11px;font-weight:bold;line-height:13px;background:url(../../../../../frontend/Alothemes/default/en_US/Magento_Theme/images/validation_advice_bg.gif) 2px 0 no-repeat;color:#eb340a;width: 270px;}
 .validation-failed{border:1px dashed #eb340a!important;background:#faebe7!important}
 .validation-passed{}
 p.required{font-size:11px;text-align:right;color:#EB340A}

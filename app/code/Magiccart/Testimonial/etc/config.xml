@@ -25,6 +25,8 @@
                 <vertical>false</vertical>
                 <infinite>true</infinite>
                 <autoplay>true</autoplay>
+                <arrows>false</arrows>
+                <center_mode>true</center_mode>
                 <dots>false</dots>
                 <fade>true</fade>
                 <rows>1</rows>
@@ -38,6 +40,7 @@
                 <notebook>1</notebook>
                 <laptop>1</laptop>
                 <desktop>1</desktop>
+                <widescreen>1</widescreen>
                 <visible>1</visible>
             </general>
 	    </testimonial>

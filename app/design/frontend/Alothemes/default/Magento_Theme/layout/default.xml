@@ -52,14 +52,9 @@
 		<move element="vmenu" destination="alothemes_header"/>
         <move element="store_switcher" destination="alothemes_header"/>
 		<move element="skip_to_content" destination="alothemes_header"/>
-		<container name="page.wrapper" as="page_wrapper" htmlTag="div" htmlClass="page-wrapper">
-            <container name="main.content.fix" htmlTag="main" htmlId="maincontent" htmlClass="page-main-pal container">
-			    <container name="columns.top" label="Before Main Columns"/>
-                <container name="columns" htmlTag="div" htmlClass="alocolumns clearfix">
-                    <container name="main" label="Main Content Container" htmlTag="div" htmlClass="column main"/>
-                </container>
-            </container>
-        </container>
+        <referenceContainer name="main.content" htmlTag="main" htmlClass="page-main-pal container" />
+        <referenceContainer name="main" htmlClass="column main" />
+        <referenceContainer name="columns" htmlClass="alocolumns clearfix" />
 		<referenceContainer name="footer-container">
 			<container name="footer-top" label="Footer Top" htmlTag="div" htmlClass="block-footer-top" before="-">
                 <block class="Magento\Cms\Block\Block" name="block_footer_top">

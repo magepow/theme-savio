@@ -37,6 +37,12 @@ $drawExtraMenu 	= $menu['extraCat'] ? $this->drawExtraMenu() : '';
 $vdrawExtraMenu = $vmenu['extraCat'] ? $this->drawExtraMenu() : '';
 
 ?>
+<nav class="navigation mean-nav navigation-mobile" role="navigation" data-action="navigation">
+	<ul class="nav-mobile" data-alo-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+		<?php echo $mobileMenu ?>
+		<?php echo $drawExtraMenu ?>
+	</ul>
+</nav>
 <?php if($menu['enabled']): ?>
 <div class="vmagicmenu vertical-menu clearfix">
 	<div class="block-title block-title-vmagicmenu v-title">
@@ -63,18 +69,7 @@ $vdrawExtraMenu = $vmenu['extraCat'] ? $this->drawExtraMenu() : '';
 		<?php echo $drawExtraMenu ?>
 	</ul>
 	<?php endif ?>
-	<div class="navigation-mobile">
-		<ul class="nav-mobile">
-			<?php echo $drawHomeMenu ?>
-			<?php echo $mobileMenu ?>
-			<?php echo $drawExtraMenu ?>
-		</ul>		
-	</div>
 </div>
-<nav class="navigation" role="navigation" data-action="navigation">
-	<ul class="nav-mobile" data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
-	</ul>
-</nav>
 <script type="text/javascript">
 	require(['jquery','magiccart/easing','magicmenu']);
 </script>
