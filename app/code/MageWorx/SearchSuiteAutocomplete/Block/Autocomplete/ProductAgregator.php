@@ -94,7 +94,7 @@ class ProductAgregator extends \Magento\Framework\DataObject
      */
     public function getName()
     {
-        return strip_tags(html_entity_decode($this->getProduct()->getName()));
+        return strip_tags(html_entity_decode((string)$this->getProduct()->getName()));
     }
 
     /**
@@ -142,7 +142,7 @@ class ProductAgregator extends \Magento\Framework\DataObject
      */
     public function getShortDescription()
     {
-        $shortDescription = html_entity_decode($this->getProduct()->getShortDescription());
+        $shortDescription = html_entity_decode((string)$this->getProduct()->getShortDescription());
 
         return $this->cropDescription($shortDescription);
     }
@@ -154,7 +154,7 @@ class ProductAgregator extends \Magento\Framework\DataObject
      */
     public function getDescription()
     {
-        $description = html_entity_decode($this->getProduct()->getDescription());
+        $description = html_entity_decode((string)$this->getProduct()->getDescription());
 
         return $this->cropDescription($description);
     }
@@ -168,7 +168,7 @@ class ProductAgregator extends \Magento\Framework\DataObject
     protected function cropDescription($html)
     {
         $string = strip_tags($html);
-        $string = (strlen($string) > 50) ? $this->string->substr($string, 0, 50) . '...' : $html;
+        $string = (strlen($string) > 50) ? $this->string->substr($string, 0, 50) . '...' : $string;
 
         return $string;
     }

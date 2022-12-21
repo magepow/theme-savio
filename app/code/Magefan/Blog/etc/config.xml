@@ -22,10 +22,15 @@
             <index_page>
                 <title>Blog</title>
                 <display_mode>0></display_mode>
+                <template></template>
             </index_page>
             <post_view>
+                <design>
+                    <template></template>
+                </design>
                 <related_posts>
                     <enabled>1</enabled>
+                    <template></template>
                     <number_of_posts>5</number_of_posts>
                 </related_posts>
                 <related_products>
@@ -43,9 +48,11 @@
                 </comments>
                 <nextprev>
                     <enabled>1</enabled>
+                    <template></template>
                 </nextprev>
             </post_view>
             <post_list>
+                <template></template>
                 <shortcotent_length>1000</shortcotent_length>
                 <posts_per_page>10</posts_per_page>
                 <lazyload_padding>200</lazyload_padding>
@@ -74,16 +81,19 @@
                 </categories>
                 <recent_posts>
                     <enabled>1</enabled>
+                    <display_image>1</display_image>
                     <posts_per_page>5</posts_per_page>
                     <sort_order>30</sort_order>
                 </recent_posts>
                 <featured_posts>
                     <enabled>0</enabled>
+                    <display_image>1</display_image>
                     <posts_ids></posts_ids>
                     <sort_order>35</sort_order>
                 </featured_posts>
                 <popular_posts>
                     <enabled>0</enabled>
+                    <display_image>1</display_image>
                     <posts_per_page>5</posts_per_page>
                     <sort_order>36</sort_order>
                 </popular_posts>
@@ -127,7 +137,7 @@
             </seo>
             <social>
                 <add_this_enabled>1</add_this_enabled>
-                <add_this_pubid>ra-4def63cd3cf37569</add_this_pubid>
+                <add_this_pubid>ra-608baa0f7d533322</add_this_pubid>
                 <add_this_language>en</add_this_language>
             </social>
             <top_menu>
@@ -136,6 +146,22 @@
                 <include_categories>1</include_categories>
                 <max_depth>0</max_depth>
             </top_menu>
+            <developer>
+                <css_settings>
+                    <include_all_pages>1</include_all_pages>
+                    <include_home_page>0</include_home_page>
+                    <include_product_page>0</include_product_page>
+                </css_settings>
+            </developer>
         </mfblog>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <media_gallery_image_folders>
+                        <magefan_blog>magefan_blog</magefan_blog>
+                    </media_gallery_image_folders>
+                </allowed_resources>
+            </media_storage_configuration>
+        </system>
     </default>
 </config>

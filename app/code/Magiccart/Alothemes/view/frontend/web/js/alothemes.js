@@ -15,7 +15,7 @@ define([
     'notifySlider',
 	'magiccart/parallax',
 	'magiccart/bootstrap',
-	'jquery/jquery.cookie',
+	'mage/cookies',
 	'Magento_Ui/js/modal/modal'
     ], function ($, gridSlider, notifySlider, parallax, bootstrap, cookie, modal) {
 	"use strict";
@@ -38,13 +38,13 @@ define([
 				timeout	 	 : '<span class="timeout">Time out!</span>',
 			};
 
-			var settings = $.extend(defaults, options);
-			var layout			 = settings.layout;
-			var layoutcaption	 = settings.layoutcaption;
-			var leadingZero 	 = settings.leadingZero;
-			var countStepper 	 = settings.countStepper;
-			var setTimeOutPeriod = (Math.abs(countStepper)-1)*1000 + 990;
-			var timeout 		 = settings.timeout;
+			var settings = $.extend(defaults, options),
+				layout			 = settings.layout,
+				layoutcaption	 = settings.layoutcaption,
+				leadingZero 	 = settings.leadingZero,
+				countStepper 	 = settings.countStepper,
+				setTimeOutPeriod = (Math.abs(countStepper)-1)*1000 + 990,
+				timeout 		 = settings.timeout;
 
 			var methods = {
 				init : function() {
@@ -81,15 +81,19 @@ define([
 				},
 
 				CountBack: function (el, secs) {
-					if (secs < 0) {
-						el.html(timeout);
-						return;
-					}
-					el.find('.day').html(methods.calcage(secs,86400,100000));
-					el.find('.hour').html(methods.calcage(secs,3600,24));
-					el.find('.min').html(methods.calcage(secs,60,60));
-					el.find('.sec').html(methods.calcage(secs,1,60));
-					setTimeout(function(){ methods.CountBack(el, (secs+countStepper))}, setTimeOutPeriod);
+	                var countInterval = setInterval(function count() {
+	                    if (secs < 0) {
+	                        clearInterval(countInterval);
+	                        el.html(timeout);
+	                        return;
+	                    }
+						el.find('.day').html(methods.calcage(secs,86400,100000));
+						el.find('.hour').html(methods.calcage(secs,3600,24));
+						el.find('.min').html(methods.calcage(secs,60,60));
+						el.find('.sec').html(methods.calcage(secs,1,60));
+	                    secs += countStepper;
+	                    return count;
+	                }(), setTimeOutPeriod);
 				},
 
 			};
@@ -107,6 +111,9 @@ define([
 			var countdown = $('.alo-count-down').not('.exception');
 			if (typeof alo_timer_layoutcaption != 'undefined'){
 				countdown.timer({layout : alo_timer_layout, layoutcaption : alo_timer_layoutcaption, timeout : alo_timer_timeout });
+			    $('body').on('contentUpdated', function () {
+					$('.alo-count-down').not('.exception').timer({layout : alo_timer_layout, layoutcaption : alo_timer_layoutcaption, timeout : alo_timer_timeout });
+			    });
 			} else {
 				countdown.timer();			
 			}
@@ -117,7 +124,7 @@ define([
 	$(function($) {
 		$('body').removeClass('preload');
 		var specialOffer = $('#header-offer');
-		specialOffer.find('.header-offer-close').click(function() {
+		specialOffer.find('.header-offer-close').on('click', function() {
 			specialOffer.slideUp('slow');
 		});
 
@@ -144,7 +151,7 @@ define([
 			var input = $(this).parent().find('input');
 			if(input.length) input.first().focus();
 		});
-		$(window).click(function(event) {
+		$(window).on('click', function(event) {
 			if (!$toggleContent.is(event.target) && $toggleContent.has(event.target).length === 0) 
 			{
 				$toggleTab.each(function() {
@@ -158,18 +165,18 @@ define([
 
 		// Close button in toggle
 	    var $closeTab = $('.toggle-content .btn-close');
-	    $closeTab.click(function() {
+	    $closeTab.on('click', function() {
 	        $(this).closest('.toggle-visible').removeClass('toggle-visible').find('.dropdown-switcher').removeClass('visible');
 	    });
 
 		// add click map
 
 		var $toggleTabMap  = $('.onclick-map');
-		$toggleTabMap.click(function(){
+		$toggleTabMap.on('click', function(){
 			$(this).parent().toggleClass('toggle-visible').find('.toggle-content').toggleClass('visible');
 		});
 		var $closeMap = $('.onmap .btn-close');
-		$closeMap.click(function() {
+		$closeMap.on('click', function() {
 			$(this).closest('.tool-map').removeClass('toggle-visible').find('.toggle-content-close').removeClass('visible');
 		});
 
@@ -235,7 +242,7 @@ define([
 			$backtotop.hide();
 			var height =  $(document).height();
 			var lastScrollTop = 0;
-			$(window).scroll(function () {
+			$(window).on('scroll', function () {
 				var st = $(this).scrollTop();
 				if (st > lastScrollTop){
 					$body.removeClass('scroll_up scroll_init').addClass('scroll_down');
@@ -249,7 +256,7 @@ define([
 				if (st > height/10) $backtotop.fadeIn();
 				else $backtotop.fadeOut();
 			});
-			$backtotop.click(function () {
+			$backtotop.on('click', function () {
 				$('body,html').animate({scrollTop: 0}, 800);
 				return false;
 			});
@@ -262,7 +269,7 @@ define([
             var headerHeight = $('header').height();
             var minicart 	 = $('.minicart-wrapper');
             var minicartParent = minicart.parent();
-            $(window).scroll(function () {
+            $(window).on('scroll', function () {
                 var postion = $(this).scrollTop();
                 if (postion > postionTop ){
                     $('.magicmenu .nav-desktop').append(minicart);
@@ -285,7 +292,7 @@ define([
 				bntDown.attr('href', '#elevator-' +(index+1));
 				if(!index) bntUp.addClass('disabled');
 				if(index == length-1) bntDown.addClass('disabled');
-				elevator.find('.btn-elevator').click(function(e) {
+				elevator.find('.btn-elevator').on('click', function(e) {
 					e.preventDefault();
 					var target = this.hash;
 					if(!$(document).find(target).length) return false;
@@ -317,7 +324,7 @@ define([
 				if ($elements.length < 2) return this;
 				
 				if ( settings.onResize ) {
-					$( window ).resize(function() {
+					$(window).on('resize' , function(){
 						if ( resizeTimer ) window.clearTimeout(resizeTimer);
 						resizeTimer = window.setTimeout(function() {
 							$elements.equalHeights( { onResize: false, onLoad: false } );
@@ -326,7 +333,7 @@ define([
 				};
 
 				if ( settings.onLoad ) {
-					$( window ).load(function() {
+					$(window).on('load', function () {
 						$elements.equalHeights( { onResize: false, onLoad: false } );
 					});
 				}
@@ -387,6 +394,10 @@ define([
                     showLoader: true,
                     cache:false,   
                     success:function(data){
+			data = data.replace("[data-role=priceBox][data-price-box=product-id-", ".product-view [data-role=priceBox][data-price-box=product-id-");
+                    	var pricebox = $('.price-box');
+                    	pricebox.addClass('price-box-conflict-quickview');
+                    	pricebox.removeClass('price-box');
                         _qsModal.html('<div class="content-quickview">' + data + '</div>');
                         if(!body.hasClass('open-quickview')){
                             body.addClass('open-quickview');
@@ -399,7 +410,10 @@ define([
                                     innerScroll: true,
                                     buttons: false,
                                     closed: function(){
-                                        body.removeClass('open-quickview');                                       
+                                        body.removeClass('open-quickview');
+					var pricebox = $('.price-box-conflict-quickview');    
+				        pricebox.addClass('price-box');
+				        pricebox.removeClass('price-box-conflict-quickview'); 
                                     } 
                                 }, _qsModal);
                             }
@@ -442,7 +456,7 @@ define([
 
 		$('.bg-parallax').each(function(){$(this).parallax("50%",0.1);})
 
-		$('.delivery-return .delivery-return-text').click(function () {
+		$('.delivery-return .delivery-return-text').on('click', function () {
 			$('#delivery-return-popup').modal({
 				type: 'popup',
 				modalClass: 'modals-deliveryguide',

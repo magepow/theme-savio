@@ -11,6 +11,7 @@ namespace Magefan\Blog\Block;
 use Magento\Framework\Api\SortOrder;
 use Magento\Store\Model\ScopeInterface;
 use Magefan\Blog\Model\Config\Source\PostsSortBy;
+use Magefan\Blog\Block\Post\PostList\Toolbar;
 
 /**
  * Blog index block
@@ -32,8 +33,16 @@ class Index extends \Magefan\Blog\Block\Post\PostList
         $this->pageConfig->setDescription($this->_getConfigValue('meta_description'));
 
         if ($this->config->getDisplayCanonicalTag(\Magefan\Blog\Model\Config::CANONICAL_PAGE_TYPE_INDEX)) {
+
+            $canonicalUrl = $this->_url->getBaseUrl();
+            $page = (int)$this->_request->getParam(Toolbar::PAGE_PARM_NAME);
+            if ($page > 1) {
+                $canonicalUrl .= ((false === strpos($canonicalUrl, '?')) ? '?' : '&')
+                    . Toolbar::PAGE_PARM_NAME . '=' . $page;
+            }
+
             $this->pageConfig->addRemotePageAsset(
-                $this->_url->getBaseUrl(),
+                $canonicalUrl,
                 'canonical',
                 ['attributes' => ['rel' => 'canonical']]
             );
@@ -47,6 +56,25 @@ class Index extends \Magefan\Blog\Block\Post\PostList
         }
 
         return parent::_prepareLayout();
+    }
+
+    /**
+     * Retrieve Toolbar Block
+     * @return \Magefan\Blog\Block\Post\PostList\Toolbar
+     */
+    public function getToolbarBlock()
+    {
+        $toolBarBlock = parent::getToolbarBlock();
+        $limit = (int)$this->_scopeConfig->getValue(
+            'mfblog/index_page/posts_per_page',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+
+        if ($limit) {
+            $toolBarBlock->setData('limit', $limit);
+        }
+
+        return $toolBarBlock;
     }
 
     /**
@@ -159,5 +187,57 @@ class Index extends \Magefan\Blog\Block\Post\PostList
                 ]
             );
         }
+    }
+
+    /**
+     * Get template type
+     *
+     * @return string
+     */
+    public function getPostTemplateType()
+    {
+        $template = (string)$this->_scopeConfig->getValue(
+            'mfblog/index_page/template',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        if ($template) {
+            return $template;
+        }
+
+        return parent::getPostTemplateType();
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $displayMode = $this->_scopeConfig->getValue(
+            \Magefan\Blog\Model\Config::XML_PATH_HOMEPAGE_DISPLAY_MODE,
+            ScopeInterface::SCOPE_STORE
+        );
+        if (2 == $displayMode) {
+            return '';
+        }
+        return parent::_toHtml();
+    }
+
+    /**
+     * Retrieve identities
+     * git add
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $displayMode = $this->_scopeConfig->getValue(
+            \Magefan\Blog\Model\Config::XML_PATH_HOMEPAGE_DISPLAY_MODE,
+            ScopeInterface::SCOPE_STORE
+        );
+        if (2 == $displayMode) {
+            return [];
+        }
+        return parent::getIdentities();
     }
 }

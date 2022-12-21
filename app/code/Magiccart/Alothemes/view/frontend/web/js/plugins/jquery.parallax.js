@@ -15,7 +15,7 @@ http://www.gnu.org/licenses/gpl.html
 	var $window = $(window);
 	var windowHeight = $window.height();
 
-	$window.resize(function () {
+	$window.on('resize', function () {
 		windowHeight = $window.height();
 	});
 
@@ -63,7 +63,7 @@ http://www.gnu.org/licenses/gpl.html
 			});
 		}		
 
-		$window.bind('scroll', update).resize(update);
+		$window.bind('scroll', update).on('resize', update);
 		update();
 	};
 })(jQuery);

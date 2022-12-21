@@ -86,8 +86,9 @@ final class Section
 
         if (\Magefan\Community\Model\UrlChecker::showUrl($url)) {
             if ($module
-                && !$this->getConfig(self::TYPE)
-                || $this->metadata->getEdition() != 'C' . strrev('ytinummo')
+                && (!$this->getConfig(self::TYPE)
+                    || $this->getConfig(self::TYPE) && $this->metadata->getEdition() != 'C' . 'omm' . 'un' . 'ity'
+                )
             ) {
                 return $module;
             }
@@ -129,6 +130,25 @@ final class Section
         $id = $this->getModule();
         $k = $this->getKey();
 
+        $result = $this->validateIDK($id, $k);
+        if (!$result) {
+            $bId = 'B' . 'l' . 'o' . 'g';
+            if ($id == $bId) {
+                $id = $bId . 'Plus';
+                $result = $this->validateIDK($id, $k);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param string $id
+     * @param string $k
+     * @return bool
+     */
+    private function validateIDK($id, $k)
+    {
         $l = substr($id, 1, 1);
         $d = (string) strlen($id);
 
@@ -141,7 +161,7 @@ final class Section
      * @param string $field
      * @return mixed
      */
-    final private function getConfig($field)
+    private function getConfig($field)
     {
         $g = 'general';
         return $this->scopeConfig->getValue(

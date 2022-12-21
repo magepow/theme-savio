@@ -3,7 +3,7 @@
  * @Author: nguyen
  * @Date:   2020-02-12 14:01:01
  * @Last Modified by:   Alex Dong
- * @Last Modified time: 2021-06-16 15:12:06
+ * @Last Modified time: 2022-06-21 11:25:14
  */
 
 namespace Magepow\SpeedOptimizer\Plugin;
@@ -12,12 +12,15 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Design\Theme\ThemeProviderInterface;
+use Magento\Framework\HTTP\Header;
 use Magento\Framework\App\Response\Http;
 use Magepow\SpeedOptimizer\Helper\Data;
 
 class SpeedOptimizer extends \Magento\Framework\View\Element\Template
 {
     protected $request;
+
+    protected $httpHeader;
 
     protected $helper;
 
@@ -40,6 +43,7 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         RequestInterface $request,
+        Header $httpHeader,
         Data $helper,
         StoreManagerInterface $storeManager,
         ThemeProviderInterface $themeProvider,
@@ -49,6 +53,7 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
         parent::__construct($context, $data);
         $this->request  = $request;
         $this->helper   = $helper;
+        $this->httpHeader    = $httpHeader;
         $this->storeManager  = $storeManager;
         $this->themeProvider =  $themeProvider;
 
@@ -77,16 +82,16 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
         $body = $this->addLoading($body);
         $body_includes = $this->helper->getConfigModule('general/body_includes');
         if($body_includes) $body = $this->addToBottomBody($body, $body_includes);
-
+        $noJs          = $this->isNoJs();
         $minifyHtml    = $this->helper->getConfigModule('general/minify_html');
-        $minifyJs    = $this->helper->getConfigModule('general/minify_js');
+        $minifyJs      = $this->helper->getConfigModule('general/minify_js');
         $deferJs       = $this->helper->getConfigModule('general/defer_js');
 
         $body = $this->processExcludeJs($body, $minifyJs, $deferJs);
         // $body = $this->getHtmlClean($body);
         if($minifyHtml) $body = $this->minifyHtml($body);
 
-        $bodyClass   = '';
+        $bodyClass   = $noJs ? '' : ' no-js';
         $loadingBody = $this->helper->getConfigModule('general/loading_body');
         if($loadingBody){
             $bodyClass .= ' loading_body';
@@ -99,8 +104,8 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
             $exclude = $this->helper->getConfigModule('general/exclude_img');
             // $exclude = 'product-image-photo';
             if($exclude){
-                $exclude = str_replace(' ', '', $exclude);
-                $this->exclude = explode(',', $exclude);
+                $exclude = str_replace(' ', '', (string) $exclude);
+                $this->exclude = explode(',', (string) $exclude);
             }
             $placeholder = $this->helper->getConfigModule('general/placeholder');
             // $placeholder = false;
@@ -111,22 +116,24 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
 
         $body = $this->addBodyClass($body, $bodyClass);     
 
-        if ($deferJs){
-            $scripts = implode('', $this->scripts);
-            $body    = $this->addToBottomBody($body, $scripts);
-        } else {
-            $body = preg_replace_callback(
-                '~<\s*\bscript\b[^>]*>(.*?)<\s*\/\s*script\s*>~is',
-                function($match){
-                    $scriptId = trim($match[1], ' ');
-                    if($scriptId && isset($this->scripts[$scriptId])){
-                        return $this->scripts[$scriptId];
-                    }else {
-                        return $match[0];
-                    }
-                },
-                $body
-            );
+        if(!$noJs) {
+            if ($deferJs){
+                $scripts = implode('', $this->scripts);
+                $body    = $this->addToBottomBody($body, $scripts);
+            } else {
+                $body = preg_replace_callback(
+                    '~<\s*\bscript\b[^>]*>(.*?)<\s*\/\s*script\s*>~is',
+                    function($match){
+                        $scriptId = trim($match[1], ' ');
+                        if($scriptId && isset($this->scripts[$scriptId])){
+                            return $this->scripts[$scriptId];
+                        }else {
+                            return $match[0];
+                        }
+                    },
+                    $body
+                );
+            }            
         }
 
         $response->setBody($body);
@@ -139,9 +146,9 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
             '/<body([\s\S]*?)(?:class="(.*?)")([\s\S]*?)?([^>]*)>/',
             function($match) use ($class) {
                 if($match[2]){
-                    return $lazy = str_replace('class="', 'class="' . $class . ' ', $match[0]); 
+                    return $lazy = str_replace('class="', 'class="' . $class . ' ', (string) $match[0]); 
                 }else {
-                    return str_replace('<body ', '<body class="' . $class . '" ', $match[0]);
+                    return str_replace('<body ', '<body class="' . $class . '" ', (string) $match[0]);
                 }
             },
             $content
@@ -181,11 +188,11 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
         $content = preg_replace_callback_array(
             [
                 '/<img([^>]+?)width=[\'"]?([^\'"\s>]+)[\'"]([^>]+?)height=[\'"]?([^\'"\s>]+)[\'"]?([^>]*)>/' => function ($match) use ($placeholder) {
-                    $holder = str_replace(['$width', '$height'], [$match[2], $match[4]], $placeholder);
+                    $holder = str_replace(['$width', '$height'], [$match[2], $match[4]], (string) $placeholder);
                     return $this->addLazyloadImage($match[0], $holder);
                 },
                 '/<img([^>]+?)height=[\'"]?([^\'"\s>]+)[\'"]([^>]+?)width=[\'"]?([^\'"\s>]+)[\'"]?([^>]*)>/' => function ($match) use ($placeholder) {
-                    $holder = str_replace(['$width', '$height'], [$match[4], $match[2]], $placeholder);
+                    $holder = str_replace(['$width', '$height'], [$match[4], $match[2]], (string) $placeholder);
                     return $this->addLazyloadImage($match[0], $holder);
                 }
             ],
@@ -199,7 +206,7 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
 
     public function isExclude($class)
     {
-        if(is_string($class)) $class = explode(' ', $class);
+        if(is_string($class)) $class = explode(' ', (string) $class);
         $excludeExist = array_intersect($this->exclude, $class);
         return !empty($excludeExist);
     }
@@ -214,12 +221,12 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
                 if(stripos($match[0], ' data-src="') !== false) return $match[0];
                 if(stripos($match[0], ' class="') !== false){
                     if( $this->isExclude($match[1]) ) return $match[0];
-                    $lazy = str_replace(' class="', ' class="lazyload ', $match[0]); 
+                    $lazy = str_replace(' class="', ' class="lazyload ', (string) $match[0]); 
                     if(stripos($match[1], 'background-image') !== false){
                         $lazy = str_replace('<img ', '<source ', $lazy); 
                     }
                 }else {
-                    $lazy = str_replace('<img ', '<img class="lazyload" ', $match[0]);
+                    $lazy = str_replace('<img ', '<img class="lazyload" ', (string) $match[0]);
                     if(stripos($match[1], 'background-image') !== false){
                         $lazy = str_replace('<img ', '<source ', $lazy); 
                     }
@@ -228,7 +235,7 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
                 /* break if exist data-src */
                 // if(strpos($lazy, ' data-src="')) return $lazy;
 
-                return str_replace(' src="', ' src="' .$placeholder. '" data-src="', $lazy);
+                return str_replace(' src="', ' src="' .$placeholder. '" data-src="', (string) $lazy);
             },
             $content
         );        
@@ -244,15 +251,15 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
                 if(stripos($match[0], ' data-src=\"') !== false) return $match[0];
                 if(stripos($match[0], ' class="') !== false){
                     if( $this->isExclude($match[1]) ) return $match[0];
-                    $lazy = str_replace(' class=\"', ' class=\"lazyload ', $match[0]); 
+                    $lazy = str_replace(' class=\"', ' class=\"lazyload ', (string) $match[0]); 
                 }else {
-                    $lazy = str_replace('<img ', '<img class=\"lazyload\" ', $match[0]);
+                    $lazy = str_replace('<img ', '<img class=\"lazyload\" ', (string) $match[0]);
                 }
 
                 /* break if exist data-src */
                 // if(strpos($lazy, ' data-src=\"')) return $lazy;
 
-                return str_replace(' src=\"', ' src=\"' . $placeholder . '\" data-src=\"', $lazy);
+                return str_replace(' src=\"', ' src=\"' . $placeholder . '\" data-src=\"', (string) $lazy);
             },
             $content
         );        
@@ -261,7 +268,7 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
     /* Not Placeholder so can't keep layout original while loading */
     public function addLazyloadAll( $content, $addJs=false ) 
     {
-        $placeholder = str_replace(['$width', '$height'], [1, 1], $this->placeholder);
+        $placeholder = str_replace(['$width', '$height'], [1, 1], (string) $this->placeholder);
 
         $content = $this->addLazyloadImage($content, $placeholder);
 
@@ -340,8 +347,8 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
         $minHtml = $content;
 
         // Searching textarea and pre
-        preg_match_all('#\<textarea.*\>.*\<\/textarea\>#Uis', $minHtml, $foundTxt);
-        preg_match_all('#\<pre.*\>.*\<\/pre\>#Uis', $minHtml, $foundPre);
+        preg_match_all('#\<textarea.*\>.*\<\/textarea\>#Uis', (string) $minHtml, $foundTxt);
+        preg_match_all('#\<pre.*\>.*\<\/pre\>#Uis', (string) $minHtml, $foundPre);
 
         // replacing both with <textarea>$index</textarea> / <pre>$index</pre>
         $minHtml = str_replace($foundTxt[0], array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($foundTxt[0])), $minHtml);
@@ -427,7 +434,7 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
     public function getHtmlClean($html)
     {
         /* break process if html have many tag body */
-        if( preg_match_all("/<body.*\/body>/s", $html, $matches) > 1) return $html;
+        if( preg_match_all("/<body.*\/body>/s", (string) $html, $matches) > 1) return $html;
 
         /* break process if html have many tag body */
 
@@ -440,8 +447,8 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
         }
         if(!$excludeHtml) return $html;
 
-        $excludeHtml = str_replace(' ', '', $excludeHtml);
-        $this->excludeHtml = explode(',', $excludeHtml);      
+        $excludeHtml = str_replace(' ', '', (string) $excludeHtml);
+        $this->excludeHtml = explode(',', (string) $excludeHtml);      
         $html = $this->cleanHtml($html, "~<\s*\bheader\b[^>]*>(.*?)<\s*\/\s*header\s*>~is");
         $html = $this->cleanHtml($html, "~<\s*\bmain\b[^>]*>(.*?)<\s*\/\s*main\s*>~is");
 
@@ -480,16 +487,20 @@ class SpeedOptimizer extends \Magento\Framework\View\Element\Template
 
     public function isTablet()
     {
-        $useragent=$_SERVER['HTTP_USER_AGENT'];
-        return preg_match('/iPad|iPad.*Mobile/i', $useragent);        
+        $userAgent = $this->httpHeader->getHttpUserAgent();
+        return preg_match('/iPad|iPad.*Mobile/i', (string) $userAgent);        
+    }
+
+    public function isNoJs()
+    {
+        $userAgent = $this->httpHeader->getHttpUserAgent();
+        return preg_match('/Chrome-Lighthouse|PingdomPageSpeed|PingdomPageSpeed/i', (string) $userAgent);     
     }
 
     public function isMobile()
     {
-        $useragent=$_SERVER['HTTP_USER_AGENT'];
-        return preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)
-        ||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4));
-
+        $userAgent = $this->httpHeader->getHttpUserAgent();
+        $isMobile = \Zend_Http_UserAgent_Mobile::match($userAgent, $_SERVER);
     }
 
 }

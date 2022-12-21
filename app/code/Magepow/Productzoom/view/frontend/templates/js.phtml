@@ -12,6 +12,13 @@ foreach ($data as $key => $value) {
         $data[$key] = $value; 
     }
 }
+if(isset($data['zoomType'])){
+    if( $data['zoomType'] == 'lens' ){
+        $data['tint'] = false;        
+    } else if( $data['zoomType'] == 'inner' ){
+        $data['zoomLevel'] = 1;
+    }
+}
 ?>
 <script type="text/javascript">
     require([
@@ -22,7 +29,10 @@ foreach ($data as $key => $value) {
 
             if( $(window).width() < <?php echo $helper->getConfigModule('general/screensize') ?> ) return;
             var options = <?php echo is_array($data) ? $jsonHelper->jsonEncode($data) : '{}' ?>;
-            $('head').append('<style type="text/css">.zoomContainer{z-index:' + options.zIndex + '}</style>');
+            var style   = '.zoomContainer{z-index:' + options.zIndex + '}';
+            if(options.tint) style  += ' .zoomContainer .zoomLens{z-index:' + options.zIndex + '} .zoomContainer .zoomLens img{display:none}';
+            $('head').append('<style type="text/css">' + style + '</style>');
+            $('body').addClass('productzoom-' + options.zoomType);
             $(document).on('fotorama:load fotorama:showend fotorama:fullscreenenter fotorama:fullscreenexit', function (event, fotorama, extra) {
                 $('.zoomContainer').remove();
                 if(event.type == 'fotorama:fullscreenenter') return;

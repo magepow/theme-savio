@@ -14,7 +14,7 @@ class UrlChecker
     /**
      * @return bool
      */
-    static public function showUrl($url)
+    public static function showUrl($url)
     {
         $url = (string)$url;
         $info = parse_url($url);
@@ -28,7 +28,7 @@ class UrlChecker
             $part = 0;
         }
 
-        return (false === strpos($url, strrev('otnegam')))
+        return (false === strpos($url, 'mag' . 'ento'))
             && !is_numeric($part);
     }
 }

@@ -39,14 +39,15 @@ class Blog extends \Magefan\Blog\Block\Post\PostList\AbstractList implements \Ma
             $num = count($breakpoints);
             foreach ($breakpoints as $size => $opt) {
                 $item = (int)  $this->getData($opt);
-                $responsive .= '{"breakpoint": "'.$size.'", "settings": {"slidesToShow": "'.$item.'"}}';
                 $num--;
+                if(!$item) continue;
+                $responsive .= '{"breakpoint": '.$size.', "settings": {"slidesToShow": '.$item.'}}';
                 if($num) $responsive .= ', ';
             }
             $responsive .= ']';
             $data['slides-To-Show'] = $this->getData('visible');
             $data['autoplay-Speed'] = $this->getData('autoplay_speed');
-            $data['adaptive-Height']= $this->getData('adaptive_height');
+            if(!empty($this->getData('adaptive_height'))) $data['adaptive-Height']= $this->getData('adaptive_height');
             $data['swipe-To-Slide'] = 'true';
             $data['responsive'] = $responsive;
             

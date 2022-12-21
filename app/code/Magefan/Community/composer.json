@@ -1,7 +1,10 @@
 {
     "name": "magefan/module-community",
     "description": "",
-    "version": "2.0.12",
+    "require": {
+        "magefan/module-admin-user-guide" : ">=2.0.1"
+    },
+    "version": "2.1.10",
     "type": "magento2-module",
     "autoload": {
         "files": [

@@ -87,7 +87,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         $collection = $this->_getCategoriesCollection();
         $values = $this->getValue();
         if (!is_array($values)) {
-            $values = explode(',', $values);
+            $values = explode(',', (string) $values);
         }
         $collection->addAttributeToSelect('name');
         $collection->addIdFilter($values);

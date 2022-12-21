@@ -87,21 +87,18 @@ class Menu extends \Magento\Catalog\Block\Navigation
 
         $this->_helper = $helper;
         $this->_magicmenuCollectionFactory = $magicmenuCollectionFactory;
-        $this->_sysCfg= (object) $this->_helper->getConfigModule();
-
-        $this->serializer = $serializer ?: \Magento\Framework\App\ObjectManager::getInstance()
-        ->get(\Magento\Framework\Serialize\Serializer\Json::class);
-
         $this->nodeFactory = $nodeFactory;
         $this->treeFactory = $treeFactory;
+        $this->serializer = $serializer ?: \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Serialize\Serializer\Json::class);
+        $configModule  = $this->_helper->getConfigModule();
+        if( is_null($configModule['topmenu']['notIncludeNav']) ) $configModule['topmenu']['notIncludeNav'] = '';
+        if( is_null($configModule['vmenu']['notIncludeNav']) )   $configModule['vmenu']['notIncludeNav'] = '';
+        $this->_sysCfg = (object) $configModule;
 
         parent::__construct($context, $categoryFactory, $productCollectionFactory, $layerResolver, $httpContext, $catalogCategory, $registry, $flatState, $data);
 
-        $this->_urlMedia = $this->_storeManager->getStore()->getBaseUrl(
-                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
-            );
-
         $this->_dirMedia = $this->getMediaDirectory()->getAbsolutePath();
+        $this->_urlMedia = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
 
     }
 
@@ -236,7 +233,7 @@ class Menu extends \Magento\Catalog\Block\Navigation
             $this->extData[$ext->getCatId()] = $ext->getData();
         }
         $last = count($categories);
-        $dropdownIds = explode(',', $this->_sysCfg->general['dropdown']);
+        $dropdownIds = explode(',', (string) $this->_sysCfg->general['dropdown']);
         $counter = 1;
         $this->removeChildrenWithoutActiveParent($categories, 0);        
         foreach ($categories as $catTop){
@@ -454,7 +451,7 @@ class Menu extends \Magento\Catalog\Block\Navigation
             'name' => $category->getName(),
             'id' => 'category-node-' . $categoryId,
             'url' => $this->_catalogCategory->getCategoryUrl($category),
-            'has_active' => in_array((string)$categoryId, explode('/', (string)$currentCategory->getPath()), true),
+            'has_active' => in_array((string)$categoryId, explode('/', (string) $currentCategory->getPath()), true),
             'is_active' => $categoryId == $currentCategory->getId(),
             'is_category' => true,
             'is_parent_active' => $isParentActive,
@@ -552,7 +549,7 @@ class Menu extends \Magento\Catalog\Block\Navigation
     public function getCatLabel($cat)
     {
         $html = '';
-        $label = explode(',', $cat->getMagicLabel());
+        $label = explode(',', $cat->getMagicLabel() ?? '');
         foreach ($label as $lab) {
             if($lab) $html .= '<span class="cat_label '.$lab.'" rel='.__(trim($lab)).'></span>';
         }

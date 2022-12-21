@@ -37,13 +37,13 @@ class PageIdentifierGenerator
         $this->_categoryFactory = $categoryFactory;
     }
 
-    public function generate(\Magento\Framework\Model\AbstractModel $object)
+    public function generate(\Magento\Framework\DataObject $object)
     {
         if ($object->getData('identifier')) {
             return;
         }
 
-        $identifier = trim($object->getData('title'));
+        $identifier = $object->getData('title') ? trim($object->getData('title')) : '';
         if (!$identifier) {
             return;
         }

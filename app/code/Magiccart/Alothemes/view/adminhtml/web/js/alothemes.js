@@ -196,7 +196,7 @@ define([
 		  	jQuery(document).on({ 
 		  		mouseover: function() {jQuery.fn.mColorPicker.events(); $('#mColorPickerWrapper').hide()} 
 		  	});
-		  	$('body').click(function(event) {$('#mColorPicker').hide();});
+		  	$('body').on('click', function(event) {$('#mColorPicker').hide();});
 
 			$fonts = $('select.mc-fonts');
 			$size  = $('select.font-size', $fonts.parent().parent().parent());
@@ -204,7 +204,7 @@ define([
 			$fonts.each(function(index, val) {
 				$(this).after('<div class="font_preview" style="padding: 10px">Preview this Font</div>');
 			});
-			$fonts.click(function() {
+			$fonts.on('click', function() {
 				var $item 	= $(this);
 				var $parent = $item.parent();
 				var $font 	= $item.val();

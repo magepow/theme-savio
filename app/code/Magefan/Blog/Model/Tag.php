@@ -9,6 +9,7 @@
 namespace Magefan\Blog\Model;
 
 use Magefan\Blog\Model\Url;
+use Magefan\Blog\Api\ShortContentExtractorInterface;
 
 /**
  * Tag model
@@ -58,6 +59,11 @@ class Tag extends \Magento\Framework\Model\AbstractModel implements \Magento\Fra
     protected $controllerName;
 
     /**
+     * @var ShortContentExtractorInterface
+     */
+    protected $shortContentExtractor;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\Model\Context $context
@@ -97,6 +103,16 @@ class Tag extends \Magento\Framework\Model\AbstractModel implements \Magento\Fra
     public function isActive()
     {
         return ($this->getIsActive() == self::STATUS_ENABLED);
+    }
+
+    /**
+     * Retrieve if is visible on store
+     * @return bool
+     */
+    public function isVisibleOnStore($storeId)
+    {
+        return $this->getIsActive()
+            && (null === $storeId || array_intersect([0, $storeId], $this->getStoreIds()));
     }
 
     /**
@@ -167,12 +183,13 @@ class Tag extends \Magento\Framework\Model\AbstractModel implements \Magento\Fra
     {
         $desc = $this->getData('meta_description');
         if (!$desc) {
-            $desc = $this->getData('content');
+            $desc = $this->getShortContentExtractor()->execute($this->getData('content'));
+            $desc = str_replace(['<p>', '</p>'], [' ', ''], $desc);
         }
 
         $desc = strip_tags($desc);
-        if (mb_strlen($desc) > 300) {
-            $desc = mb_substr($desc, 0, 300);
+        if (mb_strlen($desc) > 200) {
+            $desc = mb_substr($desc, 0, 200);
         }
 
         return trim($desc);
@@ -208,6 +225,7 @@ class Tag extends \Magento\Framework\Model\AbstractModel implements \Magento\Fra
     }
 
     /**
+     * @deprecated use getDynamicData method in graphQL data provider
      * Return all additional data
      * @return array
      */
@@ -231,5 +249,18 @@ class Tag extends \Magento\Framework\Model\AbstractModel implements \Magento\Fra
         }
 
         return $data;
+    }
+
+    /**
+     * @return ShortContentExtractorInterface
+     */
+    public function getShortContentExtractor()
+    {
+        if (null === $this->shortContentExtractor) {
+            $this->shortContentExtractor = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(ShortContentExtractorInterface::class);
+        }
+
+        return $this->shortContentExtractor;
     }
 }

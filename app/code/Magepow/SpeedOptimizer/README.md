@@ -2,6 +2,14 @@
 
 The speed of your website is slow, which has a negative effect on Google rating and ranking and especially on the customer experience. Magento 2 Speed Optimizer or Magento 2 Speed Optimize (also known as [Google page speed optimizer Magento 2](https://magepow.com/magento2-speed-optimizer.html)) of Magepow will help speed up your website.
 
+Overall, there are many ways to speed up your website. However, in some cases if your hosting is too weak and can hardly meet the data source on your website. We recommend upgrading your hosting plan. It is one of the easiest and fastest ways to improve website speed in such cases. Currently we offer several hosting packages with configuration settings to get high performance for your store.
+
+#### Magento Cloud | Magepow
+
+ [![magento cloud](https://github.com/magepow/magento2-SpeedOptimizer/blob/master/media/magento-hosting.jpg)](https://magepow.com/magento-cloud?ref=optimizespeed)
+
+You can find out more [here](https://magepow.com/magento-cloud?ref=optimizespeed)
+
 ### Description
 In fact, many research resources show that users often leave a website if it takes more than 3 seconds to load. Thus, it can be seen that a slow web speed will make you lose potential customers before they visit your store. (Read more [Why is website speed important](https://magepow.com/blog/post/why-is-site-speed-important/))
 
@@ -174,3 +182,19 @@ If this project help you reduce time to develop, you can give me a cup of coffee
 * [Bencher - Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/bencher-responsive-magento-1-2-theme/15787772)
 
 * [Supermarket Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/supermarket-responsive-magento-1-2-theme/18447995)
+
+**[Our Shopify Themes](https://themeforest.net/user/alotheme)**
+
+* [Dukamarket - Multipurpose Shopify Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/dukamarket-multipurpose-shopify-theme/36158349)
+
+* [Ohey - Multipurpose Shopify Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/ohey-multipurpose-shopify-theme/34624195)
+
+* [Flexon - Multipurpose Shopify Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/flexon-multipurpose-shopify-theme/33461048)
+
+**[Our Shopify App](https://apps.shopify.com/partners/maggicart)**
+
+* [Magepow Size Chart](https://apps.shopify.com/magepow-size-chart)
+
+**[Our WordPress Theme](https://themeforest.net/user/alotheme/portfolio)**
+
+* [SadesMarket - Multipurpose WordPress Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/sadesmarket-multipurpose-wordpress-theme/35369933)

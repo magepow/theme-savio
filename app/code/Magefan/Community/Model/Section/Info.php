@@ -60,7 +60,7 @@ final class Info
                 implode('/', [
                     'htt' . 'ps' . ':',
                     '',
-                    'm' . strrev('nafega') . '.' . strrev('moc'),
+                    'm' . 'ag' . 'ef' . 'an.c' . 'om',
                     'mpk',
                     'info'
                 ]), $d = [
@@ -80,7 +80,7 @@ final class Info
      * @param array $sections
      * @return array
      */
-    final private function getSectionsParam(array $sections)
+    private function getSectionsParam(array $sections)
     {
         $result = [];
         foreach ($sections as $section) {

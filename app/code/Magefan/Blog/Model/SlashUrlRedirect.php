@@ -66,7 +66,6 @@ class SlashUrlRedirect
             );
 
             if (!$advancedPermalinkEnabled) {
-
                 foreach ([
                     Url::CONTROLLER_POST,
                     Url::CONTROLLER_CATEGORY,
@@ -79,9 +78,16 @@ class SlashUrlRedirect
                         ScopeInterface::SCOPE_STORE
                     );
                     if ($controllerSufix) {
-                        if (strpos($result[0], $controllerSufix) == strlen($result[0]) - strlen($controllerSufix) ) {
+                        if (strpos($result[0], $controllerSufix) == strlen($result[0]) - strlen($controllerSufix)) {
                             return;
                         }
+                    }
+                }
+            } else {
+                $controllerSufix = '.html';
+                if ($controllerSufix) {
+                    if (strpos($result[0], $controllerSufix) == strlen($result[0]) - strlen($controllerSufix)) {
+                        return;
                     }
                 }
             }

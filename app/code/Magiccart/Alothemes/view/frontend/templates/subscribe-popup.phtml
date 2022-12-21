@@ -25,7 +25,7 @@ $urlMedia = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterfac
     </div>
 </div>
 <script type="text/javascript">
-	require(['jquery', 'jquery/jquery.cookie', 'Magento_Ui/js/modal/modal', 'Magento_Customer/js/customer-data'], 
+	require(['jquery', 'mage/cookies', 'Magento_Ui/js/modal/modal', 'Magento_Customer/js/customer-data'], 
 		function($, cookie, modal, customerData){
 			if(!parseInt(Themecfg.newsletter.enabled)) return;
 	        
@@ -76,6 +76,11 @@ $urlMedia = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterfac
 	                    $.cookie('popupNewsletterOff', true);
 	                    $.cookie('popupNewsletterMessages', true, {domain: document.domain});
 	                });
+					
+					$(document).on('click', '.popup-newsletter .action-close', function() {
+	                	$('.popup-newsletter').removeClass('_show').siblings('.modals-overlay').hide();
+	                	$('body').removeClass('_has-modal');
+					});
 	            } else {
 					if($.cookie('popupNewsletterMessages')){
 						var messages = $.cookieStorage.get('mage-messages');

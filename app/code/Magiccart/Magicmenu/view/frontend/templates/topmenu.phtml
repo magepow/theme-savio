@@ -20,7 +20,7 @@ if( !$menu['enabled']){
 $menuHtml = $this->drawMainMenu();
 $mobileMenu = $menuHtml['mobile'];
 $desktop 	= $menuHtml['desktop'];
-$ids  = explode(',', $menu['notIncludeNav']);
+$ids  = explode(',', (string) $menu['notIncludeNav']);
 foreach ($ids as $id) { unset($desktop[$id]); }
 // drawHomeMenu
 $drawHomeMenu = $menu['home'] ? $this->drawHomeMenu() : '';
@@ -38,11 +38,13 @@ $drawExtraMenu = $menu['extraCat'] ? $this->drawExtraMenu() : '';
 <?php 
 	$classes  = $menu['sticker'] ? 'sticker' : '';
 	$classes .= ($menu['fullWidth'] == 2) ? ' menufullwidth' : '';
+	$classes .= ' '. $menu['event'];
 ?>
 <div class="magicmenu clearfix" <?php echo $menu['exclude_html_mobile'] ? 'data-exclude_html_mobile="1"' : '' ?> >
 	<ul class="nav-desktop <?php /* @escapeNotVerified */ echo $classes; ?>"			
 			data-fullwidth="<?php /* @escapeNotVerified */ echo $menu['fullWidth'] ?>"
 			data-breakpoint="<?php /* @escapeNotVerified */ echo $menu['switcher'] ?>"
+			data-event="<?php /* @escapeNotVerified */ echo $menu['event'] ?>"
 			>
 		<?php echo $drawHomeMenu ?>
 		<?php echo $drawMainMenu ?>

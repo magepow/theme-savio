@@ -146,8 +146,11 @@ class Url
             '_direct' => $this->getBasePath(),
             '_nosid' => $this->storeId ?: null
         ]);
-        if ($url[strlen($url) - 1] != '/') {
-            $url .= '/';
+        $urlParts = explode('?', $url);
+        if ($urlParts[0][strlen($urlParts[0]) - 1] != '/') {
+            $urlParts[0] .= '/';
+            $url = implode('?', $urlParts);
+
         }
         $url = $this->trimSlash($url);
         return $url;
@@ -175,6 +178,11 @@ class Url
      */
     public function getCanonicalUrl(\Magento\Framework\Model\AbstractModel $object)
     {
+        if ($object->getData('parent_category')) {
+            $object = clone $object;
+            $object->setData('parent_category', null);
+        }
+
         $storeIds = $object->getStoreIds();
         $useOtherStore = false;
         $currentStore = $this->_storeManager->getStore($object->getStoreId());
@@ -199,7 +207,8 @@ class Url
 
         $storeChanged = false;
         if ($useOtherStore) {
-            if ($newStore->getId() != $this->_url->getScope()->getId()) {
+            $scope = $this->_url->getScope();
+            if ($scope && $newStore->getId() != $scope->getId()) {
                 $this->startStoreEmulation($newStore);
                 $storeChanged = true;
             }
@@ -310,7 +319,7 @@ class Url
                 if ($char) {
                     $data = explode($char, $url);
                     $data[0] = trim($data[0], '/')  . $sufix;
-                    $url = implode($char, $url);
+                    $url = implode($char, $data);
                 } else {
                     $url = trim($url, '/') . $sufix;
                 }
@@ -328,7 +337,9 @@ class Url
     protected function trimSlash($url)
     {
         if ($this->_getConfig('redirect_to_no_slash')) {
-            $url = trim($url, '/');
+            $urlParts = explode('?', $url);
+            $urlParts[0] = trim($urlParts[0], '/');
+            $url = implode('?', $urlParts);
         }
         return $url;
     }
@@ -361,7 +372,7 @@ class Url
      */
     public function getUrlSufix($controllerName)
     {
-        return trim($this->_getConfig($controllerName . '_sufix'));
+        return trim((string)$this->_getConfig($controllerName . '_sufix'));
     }
 
     /**

@@ -146,7 +146,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $date = 0;
                 foreach ($products as $child) {
                     if ($child->isSaleable()) {
-                        $fromDate   = $child->getSpecialFromDate();
+                        $fromDate   = $child->getSpecialFromDate() ?? '';
                         if( ($now - strtotime($fromDate)) < 0 ) continue;
                         $toDate     = $child->getSpecialToDate();
                         if(!$toDate) continue;
@@ -163,7 +163,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 }        
         }
 
-        $fromDate   = $_product->getSpecialFromDate();
+        $fromDate   = $_product->getSpecialFromDate() ?? '';
         if( ($now - strtotime($fromDate)) < 0 ) return;
         $toDate     = $_product->getSpecialToDate();
         if(!$toDate) return;
@@ -241,8 +241,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     protected function isOnSale($_product)
     {
-        $specialPrice = number_format($_product->getFinalPrice(), 2);
-        $regularPrice = number_format($_product->getPrice(), 2);
+        $specialPrice = number_format($_product->getFinalPrice() ?? 0, 2);
+        $regularPrice = number_format($_product->getPrice() ?? 0, 2);
 
         if ($specialPrice != $regularPrice){
 
@@ -258,7 +258,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if ($fromDate){
             $fromDate = strtotime($fromDate);
-            $toDate = strtotime($toDate);
+            $toDate = strtotime($toDate ?? '');
             $now = strtotime(date("Y-m-d H:i:s"));
             
             if ($toDate){
@@ -274,11 +274,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return false;
     }
 
-    public function getPrcents()
-    {
-        return array(1 => '100%', 2 => '50%', 3 => '33.333333333%', 4 => '25%', 5 => '20%', 6 => '16.666666666%', 7 => '14.285714285%', 8 => '12.5%');
-    }
-
     public function getResponsiveBreakpoints()
     {
         return Responsive::getBreakpoints();
@@ -291,7 +286,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $styles  = $selector .'{ float: ' . $float .';}';
         $listCfg = $this->getConfigModule($path);
         $padding = $listCfg['padding'];
-        $prcents = $this->getPrcents();
         $breakpoints = $this->getResponsiveBreakpoints(); ksort($breakpoints);
         $total = count($breakpoints);
         $i = $tmp = 1;
@@ -301,10 +295,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($breakpoints as $key => $value) {
             $tmpKey = ( $i == 1 || $i == $total) ? $value : current($breakpoints);
             if($i >1){
-                $styles .= ' @media (min-width: '. $tmp .'px) and (max-width: ' . ($key-1) . 'px) {' .$selector. '{padding: 0 '.$padding.'px; width: '.$prcents[$listCfg[$value]] .'} ' .$selector. ':nth-child(' .$listCfg[$value]. 'n+1){clear: ' . $float . ';}}';
+                $styles .= ' @media (min-width: '. $tmp .'px) and (max-width: ' . ($key-1) . 'px) {' .$selector. '{padding: 0 '.$padding.'px; width: calc(100% / ' . $listCfg[$value] . ')} ' .$selector. ':nth-child(' .$listCfg[$value]. 'n+1){clear: ' . $float . ';}}';
                 next($breakpoints);
             }
-            if( $i == $total ) $styles .= ' @media (min-width: ' . $key . 'px) {' .$selector. '{padding: 0 '.$padding.'px; width: '.$prcents[$listCfg[$value]] .'} ' .$selector. ':nth-child(' .$listCfg[$value]. 'n+1){clear: ' . $float . ';}}';
+            if( $i == $total ) $styles .= ' @media (min-width: ' . $key . 'px) {' .$selector. '{padding: 0 '.$padding.'px; width: calc(100% / ' . $listCfg[$value] . ')} ' .$selector. ':nth-child(' .$listCfg[$value]. 'n+1){clear: ' . $float . ';}}';
             $tmp = $key;
             $i++;
         }
@@ -421,6 +415,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             foreach ($design as $group => $options) 
             {
                 foreach ($options as $property => $values) {
+                    if(!$values) continue;
                     $tmp = json_decode($values, true);
                     if(json_last_error() == JSON_ERROR_NONE){
                         $values = $tmp;

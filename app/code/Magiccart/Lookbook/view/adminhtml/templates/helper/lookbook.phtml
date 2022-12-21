@@ -1,12 +1,12 @@
 <?php
 /**
- * Magiccart 
- * @category 	Magiccart 
- * @copyright 	Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
- * @license 	http://www.magiccart.net/license-agreement.html
+ * Magepow 
+ * @category 	Magepow 
+ * @copyright 	Copyright (c) 2014 Magiccart (https://www.magepow.com) 
+ * @license 	https://www.magepow.com/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2018-05-16 22:57:12
- * @@Modify Date: 2018-06-19 17:32:56
+ * @@Modify Date: 2022-10-31 17:32:56
  * @@Function:
  */
  ?>
@@ -18,21 +18,26 @@
     .select2-container.inited {margin-top: 10px; }
     .select2-container.inited .select2-choice .select2-arrow {background: none; border: none; }
     .easy-delete {z-index: 9999; }
-    .easy-submit {display: block; width: 100%; margin: 20px auto 0px; cursor: pointer; padding: 0; }
+    .easy-submit {display: block; width: 100%;  height: 30px; margin: 20px auto 0px; cursor: pointer; padding: 0; background-color: #eb5202; border-color: #eb5202; color: #ffffff; text-shadow: 1px 1px 0 rgb(0 0 0 / 25%)}
+    .easy-submit:hover{ background-color: #ba4000; border-color: #b84002; box-shadow: 0 0 0 1px #007bdb; color: #ffffff; text-decoration: none;}
+    .easy-tools {width: 45px !important; height: 14px !important; left: -5px !important; opacity: 1 !important;}
+    .easy-tools .easy-edit, .easy-tools .easy-delete {height: 14px !important; background-size: 12px !important; opacity: 1 !important;}
     .container-wrap-pin{text-align: left; margin-left: -300px;} 
     .magic_pin_image_wrap{margin: 35px auto; width: calc(100% + 300px); } 
     .select_classes{margin-top: 15px;width: 100%;text-align: center;border-radius: 3px;background: #f2f2f2;border: solid 1px #aeaeae;padding: 3px 0;}
+    .selection .product-image {width: 25px; height: 25px; vertical-align: middle; margin-right:5px}
+    .result .product-image {width: 35px; height: 35px; vertical-align: middle; margin-right: 10px;}
 </style>
 <?php
 	$lookbook 	= $this->getData('lookbook');
 	$params = [
 	    'area' => 'adminhtml'
 	];
-	$plusMarker = $this->assetRepository->createAsset('Magiccart_Lookbook::js/plugins/images/plus-marker.png', $params);
+	$plusMarker = $this->assetRepository->createAsset('Magiccart_Lookbook::js/plugin/images/plus-marker.png', $params);
 	$plusMarker = $plusMarker->getUrl();
-	$editIco  	= $this->assetRepository->createAsset('Magiccart_Lookbook::js/plugins/images/edit.png');
+	$editIco  	= $this->assetRepository->createAsset('Magiccart_Lookbook::js/plugin/images/edit.png');
 	$editIco    = $editIco->getUrl();
-	$removeIco  = $this->assetRepository->createAsset('Magiccart_Lookbook::js/plugins/images/remove.png');
+	$removeIco  = $this->assetRepository->createAsset('Magiccart_Lookbook::js/plugin/images/remove.png');
 	$removeIco  = $removeIco->getUrl();
 	$image_src  = $lookbook->getImage();
 	$_width = 0;
@@ -78,9 +83,9 @@
         <div class="easy-modal" style="display:none;" modal-position="free">
             <?php echo __('Find product'); ?>
             <textarea name="content" class="hidden"></textarea>
-            <input class="select_product" name="product_id" type="text" value="" placeholder="Search product" />
-            <input class="select_classes" name="classes" type="text" value="" placeholder="Class CSS" />
-            <input type="button" value="<?php echo __('Save pin') ?>" class="easy-submit" />
+            <select class="select_product form-control" name="product_id" title="<?php echo __('Select Product'); ?>" ></select>
+            <input class="select_classes" name="classes" type="text" value="" placeholder="<?php echo __('Class CSS') ?>" />
+            <button type="button" class="easy-submit"><?php echo __('Add pin') ?></button>
         </div>
         
         <!-- popover -->
@@ -91,78 +96,21 @@
 </div>
 </script>
 <script type="text/javascript">
-	require(['jquery','easing', 'easypin','select2',], 
+	require(['jquery','easing', 'easypin','select2'], 
 		function($, easing, easypin){
 		    var magic_pin = {
 		        // 'url_search': '<?php echo $this->getUrl('search/ajax/suggest', $params); ?>',
 		        'url_search': '<?php echo $this->getUrl('mui/index/render/'); ?>',
+		        'url_media' : '<?php echo $this->getImageUrl(''); ?>',
 		        '_nonce': "_nonce"
 		    };
-		    
-		    function initSelect2($, _obj) {
-		        if(!$(_obj).hasClass('inited')) {
-		            
-		            $(_obj).select2({
-		                minimumInputLength: 3,
-		                ajax: {
-		                    url: magic_pin.url_search,
-		                    dataType: 'json',
-		                    delay: 250,
-		                    data: function(terms) {
-		                        return {
-		                            // q: terms,
-		                            filter: {'name' :terms, 'placeholder': true},
-		                            paging: {'pageSize' :50, 'current': 1},
-		                            sorting: {'field' : 'entity_id', 'direction': 'asc'},
-		                            security: magic_pin._nonce,
-		                            namespace:'product_listing',
-		                            isAjax:true,
-		                        };
-		                    },
-		                    results: function(data) {
-		                        var results = [];
-		                        var items = data.items;
-								$.each( items, function( key, item ) {
-		                            results.push({
-		                                id: item.entity_id,
-		                                text: item.name + '(#' + item.entity_id + ')'
-		                            });
-								});
-
-		                        return {
-		                            results: results
-		                        };
-		                    }
-		                },
-		                initSelection: function(element, callback) {
-		                    var id = $(element).val();
-
-		                    if (id !== '') {
-		                        $.ajax(magic_pin.url_search + '&term=' + id + '&security=' + magic_pin._nonce, {
-		                            dataType: 'json'
-		                        }).done(function(data) {
-		                            callback(data);
-		                        });
-		                    }
-		                }
-		            });
-
-		            $(_obj).addClass('inited');
-		            
-		            $(_obj).change(function() {
-		                var theText = $(_obj).select2('data').text;
-		                var _textarea = theText;
-		                $(_obj).parents('.modalContext').find('textarea').val(_textarea);
-		            });
-		        }
-		    }
 		    
 		    $(document).ready(function ($) {
 		        $('#magic_image').parent().append($('#wrap-magic-pin').html());
 		        var _instance = null;
 		        if(!$('.magic_pin_image').hasClass('no-image')) {
 		            _instance = $('.pin').easypin({
-		                init: '<?php echo $_options ?>',
+		                init: <?php echo $_options ?>,
 		                markerSrc: 	'<?php echo $plusMarker; ?>',
 		                editSrc: 	'<?php echo $editIco; ?>',
 		                deleteSrc: 	'<?php echo $removeIco; ?>',
@@ -186,7 +134,67 @@
 		        
 		        $(document).on('click', '.easy-edit', function () {
 		            $('.magic-wrap-relative-image .select_product').each(function() {
-		                initSelect2($, this);
+		            	var element = $(this);
+				        if($(element).hasClass('inited')) return;
+			            $(element).select2({
+		                    width 		: '100%',
+		                    cache 		: true,
+		                    allowClear  : true,
+		                    placeholder : '<?php echo __('Select Product'); ?>',
+		                    minimumInputLength : 3,
+		                    escapeMarkup: function (markup) {
+		                        return markup;
+		                    },
+		                    templateResult: function (item) {
+		                        var img  = item.src ? '<img class="product-image" src="' + item.src + '"/>' : '';
+		                        return $('<span class="result" >' + img + '<span class="title" >' + item.text + '</span></span>');
+		                    },
+		                    templateSelection: function (item) {
+		                        var img = item.src ? '<img class="product-image" src="' + item.src + '"/>' : '';
+		                        return $('<span class="selection" >' + img + '<span class="title" >' + item.text + '</span></span>');
+		                    },
+			                ajax: {
+			                    url: magic_pin.url_search,
+			                    dataType: 'json',
+			                    delay: 250,
+			                    cache: true,
+			                    data: function(params) {
+			                        return {
+			                            // q: terms,
+			                            search: params.term,
+			                            filters: {'name' :params.term, 'placeholder': true, 'visibility': 4},
+			                            paging: {'pageSize' :50, 'current': 1},
+			                            sorting: {'field' : 'entity_id', 'direction': 'asc'},
+			                            security: magic_pin._nonce,
+			                            namespace:'product_listing',
+			                            isAjax:true,
+			                        };
+			                    },
+			                    processResults: function(data, params) {
+			                        var results = [];
+			                        var items = data.items;
+									$.each( items, function( key, item ) {
+			                            results.push({
+			                                id: item.entity_id,
+			                                src: magic_pin.url_media + 'catalog/product/cache/6bb1afe4a0d4072e3d1675d6f058c914' + item.thumbnail,
+			                                text: item.name
+			                            });
+									});
+
+			                        return {
+			                            results: results
+			                        };
+			                    }
+			                }
+			            });
+
+			            $(element).addClass('inited');
+						$(element).on('select2:select', function (e) {
+						    var item = e.params.data;
+						    if(item){
+						    	$(element).parents('.modalContext').find('textarea').val(item.text + '(#' + item.id + ')');
+						    }
+						});
 		            });
 		        });
 		        

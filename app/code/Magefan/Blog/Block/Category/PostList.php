@@ -11,6 +11,7 @@ namespace Magefan\Blog\Block\Category;
 use Magento\Framework\Api\SortOrder;
 use Magefan\Blog\Model\Config\Source\CategoryDisplayMode;
 use Magefan\Blog\Model\Config\Source\PostsSortBy;
+use Magefan\Blog\Block\Post\PostList\Toolbar;
 
 /**
  * Blog category posts list
@@ -115,8 +116,16 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
             $this->pageConfig->setDescription($category->getMetaDescription());
 
             if ($this->config->getDisplayCanonicalTag(\Magefan\Blog\Model\Config::CANONICAL_PAGE_TYPE_CATEGORY)) {
+
+                $canonicalUrl = $category->getCanonicalUrl();
+                $page = (int)$this->_request->getParam(Toolbar::PAGE_PARM_NAME);
+                if ($page > 1) {
+                    $canonicalUrl .= ((false === strpos($canonicalUrl, '?')) ? '?' : '&')
+                        . Toolbar::PAGE_PARM_NAME . '=' . $page;
+                }
+
                 $this->pageConfig->addRemotePageAsset(
-                    $category->getCanonicalUrl(),
+                    $canonicalUrl,
                     'canonical',
                     ['attributes' => ['rel' => 'canonical']]
                 );
@@ -148,8 +157,12 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
             $category = $this->getCategory();
             $parentCategories = [];
             while ($parentCategory = $category->getParentCategory()) {
-                $parentCategories[] = $category = $parentCategory;
+                if (isset($parentCategories[$parentCategory->getId()])) {
+                    break;
+                }
+                $parentCategories[$parentCategory->getId()] = $category = $parentCategory;
             }
+            $parentCategories = array_values($parentCategories);
 
             for ($i = count($parentCategories) - 1; $i >= 0; $i--) {
                 $category = $parentCategories[$i];
@@ -180,5 +193,36 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
         }
 
         return [];
+    }
+
+    /**
+     * Get template type
+     *
+     * @return string
+     */
+    public function getPostTemplateType()
+    {
+        $template = (string)$this->getCategory()->getData('posts_list_template');
+        if ($template) {
+            return $template;
+        }
+
+        return parent::getPostTemplateType();
+    }
+
+    /**
+     * Retrieve Toolbar Block
+     * @return \Magefan\Blog\Block\Post\PostList\Toolbar
+     */
+    public function getToolbarBlock()
+    {
+        $toolBarBlock = parent::getToolbarBlock();
+        $limit = (int)$this->getCategory()->getData('posts_per_page');
+
+        if ($limit) {
+            $toolBarBlock->setData('limit', $limit);
+        }
+
+        return $toolBarBlock;
     }
 }

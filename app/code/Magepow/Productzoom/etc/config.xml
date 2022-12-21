@@ -15,9 +15,11 @@
                 <scrollZoom>true</scrollZoom>
                 <zoomLevel>1</zoomLevel>
                 <zoomType>window</zoomType>
+                <zoomWindowEffect>flyOutImageToWindow</zoomWindowEffect>
+                <zoomWindowEffectDuration>500</zoomWindowEffectDuration>
+                <zoomWindowFadeIn>false</zoomWindowFadeIn>
+                <zoomWindowFadeOut>false</zoomWindowFadeOut>
                 <zoomWindowPosition>1</zoomWindowPosition>
-                <zoomWindowFadeIn>true</zoomWindowFadeIn>
-                <zoomWindowFadeOut>true</zoomWindowFadeOut>
                 <zIndex>99</zIndex>
                 <imageCrossfade>false</imageCrossfade>
                 <loadingIcon>false</loadingIcon>
@@ -33,6 +35,7 @@
                 <lensBorder>1</lensBorder>
                 <lensColour>#fff</lensColour>
                 <lensOpacity>0.4</lensOpacity>
+                <tint>false</tint>
                 <tintColour>#333</tintColour>
                 <tintOpacity>0.4</tintOpacity>
             </general>

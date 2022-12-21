@@ -55,6 +55,11 @@ abstract class AbstractPost extends \Magento\Framework\View\Element\Template
     protected $config;
 
     /**
+     * @var \Magefan\Blog\Model\TemplatePool
+     */
+    protected $templatePool;
+
+    /**
      * AbstractPost constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magefan\Blog\Model\Post $post
@@ -64,6 +69,8 @@ abstract class AbstractPost extends \Magento\Framework\View\Element\Template
      * @param \Magefan\Blog\Model\Url $url
      * @param \Magefan\Blog\Model\Config $config
      * @param array $data
+     * @param null $config
+     * @param null $templatePool
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -73,7 +80,8 @@ abstract class AbstractPost extends \Magento\Framework\View\Element\Template
         \Magefan\Blog\Model\PostFactory $postFactory,
         \Magefan\Blog\Model\Url $url,
         array $data = [],
-        $config = null
+        $config = null,
+        $templatePool = null
     ) {
         parent::__construct($context, $data);
         $this->_post = $post;
@@ -85,6 +93,9 @@ abstract class AbstractPost extends \Magento\Framework\View\Element\Template
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->config = $config ?: $objectManager->get(
             \Magefan\Blog\Model\Config::class
+        );
+        $this->templatePool = $templatePool ?: $objectManager->get(
+            \Magefan\Blog\Model\TemplatePool::class
         );
     }
 
@@ -107,11 +118,13 @@ abstract class AbstractPost extends \Magento\Framework\View\Element\Template
     /**
      * Retrieve post short content
      *
+     * @param  mixed $len
+     * @param  mixed $endСharacters
      * @return string
      */
-    public function getShorContent()
+    public function getShorContent($len = null, $endСharacters = null)
     {
-        return $this->getPost()->getShortFilteredContent();
+        return $this->getPost()->getShortFilteredContent($len, $endСharacters);
     }
 
     /**
@@ -156,5 +169,82 @@ abstract class AbstractPost extends \Magento\Framework\View\Element\Template
         }
 
         return $this->getData($k)->setPost($this->getPost());
+    }
+
+    /**
+     * Retrieve 1 if display author information is enabled
+     * @return int
+     */
+    public function authorEnabled()
+    {
+        return (int) $this->_scopeConfig->getValue(
+            'mfblog/author/enabled',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve 1 if author page is enabled
+     * @return int
+     */
+    public function authorPageEnabled()
+    {
+        return (int) $this->_scopeConfig->getValue(
+            'mfblog/author/page_enabled',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve true if magefan comments are enabled
+     * @return bool
+     */
+    public function magefanCommentsEnabled()
+    {
+        return $this->_scopeConfig->getValue(
+            'mfblog/post_view/comments/type',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) == \Magefan\Blog\Model\Config\Source\CommetType::MAGEFAN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function viewsCountEnabled()
+    {
+        return (bool)$this->_scopeConfig->getValue(
+            'mfblog/post_view/views_count/enabled',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return \Magefan\Blog\ViewModel\Style
+     */
+    public function getStyleViewModel()
+    {
+        $viewModel = $this->getData('style_view_model');
+        if (!$viewModel) {
+            $viewModel = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(\Magefan\Blog\ViewModel\Style::class);
+            $this->setData('style_view_model', $viewModel);
+        }
+
+        return $viewModel;
+    }
+
+    /**
+     * Check if AddThis Enabled and key exist
+     *
+     * @return bool
+     */
+    public function displayAddThisToolbox()
+    {
+        $isSocialEnabled = $this->_scopeConfig->getValue(
+            'mfblog/social/add_this_enabled', ScopeInterface::SCOPE_STORE);
+        $isSocialIdExist = $this->_scopeConfig->getValue(
+            'mfblog/social/add_this_pubid', ScopeInterface::SCOPE_STORE);
+
+        return $isSocialEnabled && $isSocialIdExist;
     }
 }

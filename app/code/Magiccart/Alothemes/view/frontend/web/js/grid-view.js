@@ -1,8 +1,8 @@
 /*
 * @Author: Alex Dong
 * @Date:   2021-06-20 13:21:07
-* @Last Modified by:   nguyen
-* @Last Modified time: 2021-07-14 16:16:33
+* @Last Modified by:   Alex Dong
+* @Last Modified time: 2022-07-18 18:27:03
 */
 
 define([
@@ -51,11 +51,11 @@ define([
 				if(responsive == undefined) return;
 				var length = Object.keys(responsive).length;
 				var grid = 0;
-				var starWith = 1;
+				var startWith = 1;
 				var screenWidth = window.innerWidth;
 				$.each( responsive, function( key, value ) {
 					$.each( responsive[key], function( maxWith, num) { 
-						if( starWith < screenWidth && screenWidth <= maxWith ){ starWith = maxWith; grid = num; }
+						if( startWith < screenWidth && screenWidth <= maxWith || length == key + 1 ){ startWith = maxWith; grid = num; }
 					});
 				});
 				element.find('.grid-' + grid).addClass('active').siblings().removeClass('active');
@@ -78,36 +78,36 @@ define([
 					var screenWidth = window.innerWidth;
 					var $this = $(this);
 		        	var style = padding ? classes + '{float: ' + float + '; padding: 0 '+padding+'px; box-sizing: border-box} ' + selector + '{margin: 0 -'+padding+'px}' : '';
-					var starWith = 1;
+					var startWith = 1;
 					var gridViewStyle = $('.grid-view-style');
 					gridViewStyle.not(':first').remove();
 					$.each( responsive, function( key, value ) { // data-responsive="[{"1":"1"},{"361":"1"},{"480":"2"},{"640":"3"},{"768":"3"},{"992":"4"},{"1200":"4"}]"
-						var grid = 0;
+						var col = 0;
 						var maxWith = 0;
 						var minWith = 0;
-						$.each( value , function(size, num) { minWith = parseInt(size) + 1; grid = num;});
+						$.each( value , function(size, num) { minWith = parseInt(size) + 1; col = num;});
 						if(key+2<length){
-							$.each( responsive[key+1], function( size, num) { maxWith = size; grid = num;});
+							$.each( responsive[key+1], function( size, num) { maxWith = size; col = num;});
 							// padding = options.padding*(maxWith/1200); // padding responsive
 							style += ' @media (min-width: '+minWith+'px) and (max-width: '+maxWith+'px)';
 						} else { 
 							if(key+2 == length) return; // don't use key = length - 1;
-							$.each( responsive[key], function( size, num) { maxWith = size; grid = num;});
+							$.each( responsive[key], function( size, num) { maxWith = size; col = num;});
 							style += ' @media (min-width: '+maxWith+'px)';
 						}
-                        if(starWith < screenWidth && screenWidth <= maxWith){
-                            starWith = maxWith;
-                            grid = $this.data('grid');
-                            responsive[key] = {[maxWith]: grid}; 
+                        if(startWith < screenWidth && screenWidth <= maxWith || length == key + 1){
+                            startWith = maxWith;
+                            col = $this.data('grid');
+                            responsive[key] = {[maxWith]: col}; 
                             $this.addClass('active');
                             $this.siblings().each(function() {
                                 $(this).removeClass('active');
                                 $body.removeClass('grid-mode-' + $(this).data('grid'));
                             });
-                            $body.addClass('grid-mode-' + grid);
+                            $body.addClass('grid-mode-' + col);
 
                         }
-						style += ' {'+selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}'+classes+'{padding-left: '+padding+'px; padding-right:'+padding+'px; width: '+(Math.floor((10/grid) * 100000000000) / 10000000000)+'%} '+classes+':nth-child('+grid+'n+1){clear: ' + float + ';}}';
+						style += ' {'+selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}'+classes+'{padding-left: '+padding+'px; padding-right:'+padding+'px; width: calc(100% / ' + col + ')} '+classes+':nth-child('+col+'n+1){clear: ' + float + ';}}';
 					});
 	
 			       	gridViewStyle.html(style);

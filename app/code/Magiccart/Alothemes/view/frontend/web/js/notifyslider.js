@@ -29,7 +29,7 @@ define([
 		        suggestLoad: function(suggest){
 		        	if (closeOff && sessionStorage.getItem("recently_order_click_close")) return;
 		            var el  = suggest.find('.notify-slider-wrapper');
-		            suggest.find('.x-close').click(function() {
+		            suggest.find('.x-close').on('click', function() {
 		                suggest.addClass('close');
 		                sessionStorage.setItem("recently_order_click_close", closeOff);
 		            });

@@ -43,7 +43,7 @@ define([
         var options 	= $product.data();
         var padding 	= ((options || {}).padding === void 0) ? settings.padding : options.padding;
 		var $tabs 		= $(settings.tabs, $content);
-		var infotabs 	= $tabs.data('ajax')
+		var infotabs 	= $tabs.data('ajax');
 		var $itemtabs 	= $('.item',$tabs);
 		var $loading 	= $(settings.loading, $content);
 		var $head 		= $('head');
@@ -63,50 +63,25 @@ define([
             	// over tab
 				var products = $content.find('.content-products');
 				var zIndex = 0; 
-				products.find('.per-product').hover(function() {
-					zIndex = products.css('zIndex');
-					products.css('zIndex', zIndex + 35);
-				}, function() {
-					products.css('zIndex', zIndex);
-				});
-				// end over tab
-				$itemtabs.each(function() {
-					var $this = $(this);
-					var type = $this.data('type');
-					var typeClass = '.mc-'+type;
-					if($this.hasClass('activated')){
-						var productsActivated = $product.find(typeClass).addClass('activated');
-						if ("IntersectionObserver" in window) {
-							var style 	= methods.getStyleCLS(options);
-							var styleId = selector.replace(/[.]/g, '_');
-							$head.append('<style type="text/css" id="' + styleId +  '" >'+style+'</style>');
-							let productsObserver = new IntersectionObserver(function(entries, observer) {
-								entries.forEach(function(entry) {
-									if (entry.isIntersecting) {
-										// let el = entry.target;
-						                $head.find('#' + styleId).remove();
-										methods.gridSlider(productsActivated);
-										productsObserver.unobserve(entry.target);
-									}
-								});
-							});
-						    productsActivated.each(function(){
-						    	productsObserver.observe(this);
-						    });
-						} else {
-							methods.gridSlider(productsActivated);
-						}
+				products.find('.per-product').on({
+					mouseenter : function() {
+						zIndex = products.css('zIndex');
+						products.css('zIndex', zIndex + 35);
+					},
+					mouseleave : function() {
+						products.css('zIndex', zIndex);
 					}
 				});
+				// end over tab
 
 				$tabs.on("click", '.item', function(){
-						var $this = $(this);
-						var type = $this.data('type');
+						var tab = $(this);
+						var type = tab.data('type');
 						var typeClass = '.mc-'+type;
-						if($this.hasClass('activated')) return;
+						if(tab.hasClass('activated')) return;
 						$itemtabs.removeClass('activated');
-						$this.addClass('activated');
-						if(! $this.hasClass('loaded')){
+						tab.addClass('activated');
+						if(!tab.hasClass('loaded')){
 							if(type == undefined) return;
 							methods.sendAjax(type, infotabs);
 						} else {
@@ -125,7 +100,52 @@ define([
 							} else  methods.productSlider(options, productsActivated);
 						}
 				});
+
+				$itemtabs.each(function() {
+					var tab = $(this);
+					var typeClass = '.mc-'+ tab.data('type');
+					if(tab.hasClass('activated')){
+						var productsActivated = $product.find(typeClass).addClass('activated');
+						if ("IntersectionObserver" in window) {
+							var style 	= methods.getStyleCLS(options);
+							var styleId = selector.replace(/[.]/g, '_');
+							$head.append('<style type="text/css" id="' + styleId +  '" >'+style+'</style>');
+							let productsObserver = new IntersectionObserver(function(entries, observer) {
+								entries.forEach(function(entry) {
+									if (entry.isIntersecting) {
+										let el = entry.target;
+										var $el = $(el);
+										$el.on('init', function(){
+											$head.find('#' + styleId).remove();
+										});
+										methods.actionLoad(tab, productsActivated);
+										productsObserver.unobserve(entry.target);
+									}
+								});
+							});
+						    productsActivated.each(function(){
+						    	productsObserver.observe(this);									
+						    });
+						} else {
+							methods.actionLoad(tab, productsActivated);
+						}
+					}
+				});
+
 				methods.loadMore();
+            },
+
+            actionLoad: function(tab, productsActivated) {
+            	var isRandom = (tab.data('type') == 'random');
+            	if(!isRandom){
+	            	var ajax =  tab.closest('.magictabs').data('ajax');
+	            	isRandom = (ajax.hasOwnProperty('types') && ajax.types == 'random');            		
+            	}
+            	methods.gridSlider(productsActivated);
+            	if(isRandom){
+					tab.removeClass('loaded activated').trigger('click');
+					productsActivated.find('.products.items').html('');            		
+            	}
             },
 
             getStyleCLS : function (options) {
@@ -154,7 +174,7 @@ define([
 				methods.loadMoreButton(nextPage);
 				if(options.slidesToShow){
 					var float  = $('body').hasClass('rtl') ? 'right' : 'left';
-					$head.append('<style type="text/css">' + classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}</style>');
+					$head.append('<style type="text/css">' + classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px ; min-height: 1px; min-width: 1px;} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' + selector + ' .grid-init{visibility: visible; opacity: 1; display: block}</style>');
 					methods.productSlider(options, products);
 				} else{
 					isGrid = true;
@@ -238,7 +258,7 @@ define([
 				var responsive 	= options.responsive;
 				var length = Object.keys(responsive).length;
 				var float  = $('body').hasClass('rtl') ? 'right' : 'left';
-				style += (typeof padding !== 'undefined') ? classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' : '';
+				style += (typeof padding !== 'undefined') ? classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' + selector + ' .grid-init{visibility: visible; opacity: 1; display: block}' : '';
 				
 				$.each( responsive, function( key, value ) { // data-responsive="[{"1":"1"},{"361":"1"},{"480":"2"},{"640":"3"},{"768":"3"},{"992":"4"},{"1200":"4"}]"
 					var col = 0;
@@ -254,7 +274,7 @@ define([
 						$.each( responsive[key], function( size, num) { maxWith = size; col = num;});
 						style += ' @media (min-width: '+maxWith+'px)';
 					}
-					style += ' {'+selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}'+classes+'{padding-left: '+padding+'px; padding-right:'+padding+'px; width: '+(Math.floor((10/col) * 100000000000) / 10000000000)+'%} '+classes+':nth-child('+col+'n+1){clear: ' + float + ';}}';
+					style += ' {'+selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}'+classes+'{padding-left: '+padding+'px; padding-right:'+padding+'px; width: calc(100% / ' + col + ')} '+classes+':nth-child('+col+'n+1){clear: ' + float + ';}}';
 				});
 
 				if(returnStyle) return style;
@@ -284,7 +304,12 @@ define([
 						if(productsActivated.length){
 							var productsActivated = $content.find(product).find(typeClass).addClass('activated');
 							productsActivated.data('next-page', nextPage);
-							productsActivated.find('.products.items').append(productMore.find('.products.items').html());
+							var items = productsActivated.find('.products.items');
+							if(items.length){
+								items.append(productMore.find('.products.items').html());
+							} else {
+								productsActivated.html(productMore.html());
+							}
 							nextPage++; // nextPage + 1 is ajax.
 							methods.enableLoadmoreButton(actionmore);
 						} else {
@@ -299,8 +324,7 @@ define([
 							if($(this).data('type') == type) $(this).addClass('loaded');
 						});
 
-						if(isGrid) methods.playAnimate(productsActivated); //require for Animate
-						else  methods.productSlider(options, productsActivated);
+						if(!isGrid) methods.productSlider(options, productsActivated);
 						if($.fn.timer !== undefined){
 							var countdown = productsActivated.find('.alo-count-down');
 							if(countdown.lenght){
@@ -311,38 +335,9 @@ define([
 								});
 							}
 						}
-						if($.fn.mage !== undefined){
-							// $.mage.catalogAddToCart;
-							// $.mage.apply;
-				        	// $('.action.tocart' ).unbind( "click" ).click(function() { // Callback Ajax Add to Cart
-					        // 	var form = $(this).closest('form');
-		            		// 	var widget = form.catalogAddToCart({ bindSubmit: false });
-					        //     widget.catalogAddToCart('submitForm', form);
-					        //     return false;
-				        	// });
-						}
 					}
 				});
-            }, 
-
-			// Effect
-			playAnimate : function(cnt) {
-				// var parent = cnt.parent();
-				// $('.products-grid', parent).removeClass("play");
-				// $('.products-grid .item', parent).removeAttr('style');
-				// var animate = cnt;
-				// var  time = time || 300; // if(typeof time == 'undefined') {time =300}
-				// var $_items = $('.item-animate', animate);
-				// $_items.each(function(i){
-				// 	$(this).attr("style", "-webkit-animation-delay:" + i * time + "ms;"
-				// 		                + "-moz-animation-delay:" + i * time + "ms;"
-				// 		                + "-o-animation-delay:" + i * time + "ms;"
-				// 		                + "animation-delay:" + i * time + "ms;");
-				// 	if (i == $_items.size() -1){
-				// 		$('.products-grid', animate).addClass("play");  // require for Animate
-				// 	}
-				// });
-			},
+            },
 
             disableLoadmoreButton: function () {
                 var loadmoreButton = actionmore.find(settings.loadmoreSelector);
@@ -364,9 +359,9 @@ define([
 
         };
 
-        if (methods[options]) { // $("#element").pluginName('methodName', 'arg1', 'arg2');
+        if (methods[options]) {
             return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
-        } else if (typeof options === 'object' || !options) { // $("#element").pluginName({ option: 1, option:2 });
+        } else if (typeof options === 'object' || !options) {
             return methods.init.apply(this);
         } else {
             $.error('Method "' + method + '" does not exist in magiccart plugin!');
@@ -380,7 +375,7 @@ define([
 				var selector  = $(this).attr('class').split(" ");
 				selector.forEach(item => {
 					if(item.indexOf('alo-content-') === 0) {
-					    selector = item.replace(/[.]/g, ' ').trim();
+					    selector = '.' + item.replace(/[.]/g, ' ').trim();
 					}
 				});	    		
 	    		$(this).magicproduct({selector: selector}); // don't use $(this)

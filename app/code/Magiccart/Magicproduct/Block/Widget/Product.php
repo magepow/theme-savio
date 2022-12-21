@@ -192,7 +192,7 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
 
     public function getAjaxCfg()
     {
-        if(!$this->getAjax()) return 0;
+        // if(!$this->getAjax()) return 0;
         $ajax = array();
         foreach ($this->_options as $option) {
             $ajax[$option] = $this->getData($option);
@@ -299,7 +299,7 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
     }
 
     public function getVideo($data){
-        $url = str_replace('vimeo.com', 'player.vimeo.com/video', $data['video_url']) .'?byline=0&amp;portrait=0&amp;api=1';
+        $url = str_replace('vimeo.com', 'player.vimeo.com/video', (string) $data['video_url']) .'?byline=0&amp;portrait=0&amp;api=1';
         $video = array(
             'url' => $url,
             'width' => '100%',

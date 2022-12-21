@@ -75,24 +75,42 @@ class SitemapPlugin
     public function afterGenerateXml(\Magento\Framework\Model\AbstractModel $sitemap, $result)
     {
         if ($this->isEnabled($sitemap)) {
-            /* if ($this->isMageWorxXmlSitemap($sitemap) || !method_exists($sitemap, 'collectSitemapItems')) { */
-                $sitemapId = $sitemap->getId() ?: 0;
+            $sitemapId = $sitemap->getId() ?: 0;
             if (in_array($sitemapId, $this->generated)) {
                 return $result;
             }
-                $this->generated[] = $sitemapId;
+            $this->generated[] = $sitemapId;
 
-                $blogSitemap = $this->sitemapFactory->create();
-                $blogSitemap->setData(
-                    $sitemap->getData()
-                );
+            $blogSitemap = $this->sitemapFactory->create();
+            $blogSitemap->setData(
+                $sitemap->getData()
+            );
 
+            if (!$blogSitemap->getSitemapId() && $sitemap->getId()) {
+                $blogSitemap->setSitemapId($sitemap->getId());
+            }
+
+            /* Fix for Amasty\XmlSitemap\Model\Sitemap */
+            if ($sitemap->getFolderName()) {
+                $filename = pathinfo($sitemap->getFolderName());
+                if (!$blogSitemap->getSitemapFilename()) {
+                    if (isset($filename['basename'])) {
+                        $blogSitemap->setSitemapFilename($filename['basename']);
+                    }
+                }
+                if (!$blogSitemap->getSitemapPath()) {
+                    if (isset($filename['dirname'])) {
+                        $blogSitemap->setSitemapPath($filename['dirname']);
+                    }
+                }
+            }
+
+            if (strpos($blogSitemap->getSitemapFilename(), 'blog_') !== 0) {
                 $blogSitemap->setSitemapFilename(
-                    'blog_' . $sitemap->getSitemapFilename()
+                    'blog_' . $blogSitemap->getSitemapFilename()
                 );
-
                 $blogSitemap->generateXml();
-            /* } */
+            }
         }
         return $result;
     }

@@ -99,9 +99,13 @@ class View extends AbstractPost implements \Magento\Framework\DataObject\Identit
             $parentCategories = [];
             $parentCategory = $this->getPost()->getParentCategory();
             while ($parentCategory) {
-                $parentCategories[] = $parentCategory;
+                if (isset($parentCategories[$parentCategory->getId()])) {
+                    break;
+                }
+                $parentCategories[$parentCategory->getId()] = $parentCategory;
                 $parentCategory = $parentCategory->getParentCategory();
             }
+            $parentCategories = array_values($parentCategories);
 
             for ($i = count($parentCategories) - 1; $i >= 0; $i--) {
                 $parentCategory = $parentCategories[$i];
@@ -117,5 +121,22 @@ class View extends AbstractPost implements \Magento\Framework\DataObject\Identit
                 'title' => $title
             ]);
         }
+    }
+
+    /**
+     * Get relevant path to template
+     *
+     * @return string
+     */
+    public function getTemplate()
+    {
+        $templateName = (string)$this->_scopeConfig->getValue(
+            'mfblog/post_view/design/template',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        if ($template = $this->templatePool->getTemplate('blog_post_view', $templateName)) {
+            $this->_template = $template;
+        }
+        return parent::getTemplate();
     }
 }

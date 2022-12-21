@@ -838,7 +838,7 @@
                 <label>Advanced Setting</label>
                 <field id="developer" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Mode Developer Edit Selector: </label>
-                    <comment>Only use for developer</comment>
+                    <comment model="Magiccart\Alothemes\Block\System\Config\Form\Field\ColorComment" />
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>

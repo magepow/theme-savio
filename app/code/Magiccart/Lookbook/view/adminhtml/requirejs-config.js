@@ -6,7 +6,7 @@ var config = {
     },
 
 	paths: {
-		'magiccart/select2'		: 'Magiccart_Lookbook/js/plugins/select2.min',
+		'magiccart/select2'		: 'Magiccart_Lookbook/js/plugin/select2.full.min',
 	},
 
 	shim: {

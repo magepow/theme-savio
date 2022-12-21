@@ -15,7 +15,7 @@
 ?>
 
 <?php
-if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
+if ($exist = $block->getItems()->getSize()) {
     $type = 'related';
     $class = $type;
 
@@ -38,7 +38,7 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
 
     <?php if ($type == 'related' || $type == 'upsell'): ?>
         <?php if ($type == 'related'): ?>
-            <div class="block <?= $block->escapeHtml($class); ?>"
+            <div class="mfblog-related-products-block block <?= $block->escapeHtml($class); ?>"
                  data-mage-init='{"relatedProducts":{"relatedCheckbox":".related.checkbox"}}'
                  data-limit="<?= $block->escapeHtml($limit); ?>"
                  data-shuffle="<?= $block->escapeHtml($shuffle); ?>">

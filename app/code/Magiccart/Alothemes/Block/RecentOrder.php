@@ -150,6 +150,16 @@ class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct impleme
         return $collection;
     }
 
+    public function getPositioned()
+	{
+        $positioned = parent::getPositioned();
+        if($positioned == NULL){
+            return '';
+        }else{
+            return $positioned;
+        }
+
+	}
 
     public function getRecentOrder(){
 

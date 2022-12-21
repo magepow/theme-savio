@@ -25,6 +25,14 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
 
     protected $_limit; // Limit Product
     protected $_types; // types is types filter bestseller, featured ...
+
+    /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
     /**
      * Product collection factory
      *
@@ -41,12 +49,14 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
         \Magento\Framework\Data\Helper\PostHelper $postDataHelper,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         CategoryRepositoryInterface $categoryRepository,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Framework\Url\Helper\Data $urlHelper,
         \Magento\CatalogWidget\Model\RuleFactory $ruleFactory,
         \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder,
         \Magiccart\Magicproduct\Model\Magicproduct $magicproduct,
         array $data = []
     ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->sqlBuilder   = $sqlBuilder;
         $this->_magicproduct = $magicproduct;
@@ -89,17 +99,46 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
         }
     }
 
+    public function getPositioned()
+	{
+        $positioned = parent::getPositioned();
+        if(parent::getPositioned() == NULL){
+            return '';
+        }else{
+            return $positioned;
+        }
+
+	}
+
     protected function _getProductCollection()
     {
 
         if (is_null($this->_productCollection)) {
-            $this->setCategoryId($this->getTypeFilter());
-            $this->_productCollection = parent::_getProductCollection();   
+            if($this->getTypeFilter()){
+                $ids = [$this->getTypeFilter()];
+            
+                $collection = $this->_productCollectionFactory->create();
+                $collection->addAttributeToSelect('*');
+                $this->_productCollection = $collection->addCategoriesFilter(['in' => $ids]);
+            }else{
+                $collection = $this->_productCollectionFactory->create();
+                $this->_productCollection = $collection->addAttributeToSelect('*');
+            }
         }
 
         $this->_limit = (int) $this->getWidgetCfg('limit');
         $this->_types = $this->escapeHtml($this->getWidgetCfg('types'));
-        if(!$this->_types || is_array($this->_types)) return $this->_productCollection->setPageSize($this->_limit);
+        if(!$this->_types || is_array($this->_types)){
+            $ids = [$this->getTypeFilter()];
+        
+            $collection = $this->_productCollectionFactory->create();
+            $collection->addAttributeToSelect('*');
+            if($this->getTypeFilter() != 0){
+                $collection->addCategoriesFilter(['in' => $ids]);
+            }
+            return $collection->setPageSize($this->_limit);
+        }
+	
         $fn = 'get' . ucfirst( $this->_types );
         $collection = $this->{$fn}($this->_productCollection);
 
@@ -124,21 +163,26 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
 
     public function getBestseller($collection){
 
-        $producIds = $collection->getAllIds();
+        $producIds = [];
+        foreach ($collection as $product) {
+            $producIds[] = $product->getId();
+        }
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $collection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory')->create();
+        $collection = $this->_productCollectionFactory->create();
         $collection->joinField(
                 'qty_ordered', 'sales_bestsellers_aggregated_yearly', 'qty_ordered', 'product_id=entity_id', null, 'inner'
             );
 
         $categoryId = $this->getTypeFilter();
-        $collection->addCategoriesFilter(['in' => [$categoryId]])
-                ->addAttributeToFilter('entity_id', array('in' => $producIds))
+        if($categoryId){ /* All categoryId = 0 not filter */
+            $collection->addCategoriesFilter(['in' => [$categoryId]]);
+        }
+
+        $collection->addAttributeToFilter('entity_id', ['in' => $producIds])
                 ->groupByAttribute('entity_id')
                 ->addAttributeToSort('qty_ordered', 'desc')
                 ->addStoreFilter()
-                ->setPageSize($this->_limit)->setCurPage(1);
+                ->setPageSize($this->_limit)->setCurPage(1);            
 
         $collection = $this->_addProductAttributesAndPrices(
             $collection
@@ -164,22 +208,6 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
 
         return $collection;
 
-    }
-
-    public function getMostviewed($collection){
-
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $report = $objectManager->get('\Magento\Reports\Model\ResourceModel\Report\Product\Viewed\CollectionFactory')->create();
-        $ids = $collection->getAllIds();
-        $report->addFieldToFilter('product_id', array('in' => $ids))->setPageSize($this->_limit)->setCurPage(1);
-        $producIds = array();
-        foreach ($report as $product) {
-            $producIds[] = $product->getProductId();
-        }
-
-        $collection->addAttributeToFilter('entity_id', array('in' => $producIds));
-    
-        return $collection;
     }
 
     public function getNew($collection) {
@@ -217,9 +245,16 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
 
     public function getRandom($collection) {
 
+        $producIds = [];
+        foreach ($collection as $product) {
+            $producIds[] = $product->getId();
+        }
+        $collection = $this->_productCollectionFactory->create();
+        $collection = $collection->addAttributeToSelect('*')
+                    ->addAttributeToFilter('entity_id', ['in' => $producIds]);
         $collection->getSelect()->order('rand()');
-        return $collection;
 
+        return $collection;
     }
 
     public function getRecently($collection) {

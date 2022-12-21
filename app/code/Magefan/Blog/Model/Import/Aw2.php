@@ -49,11 +49,11 @@ class Aw2 extends AbstractImport
 
             /* Find store ids */
             $data['store_ids'] = [];
-            $s_sql = 'SELECT 
-                          `store_id` 
-                      FROM 
-                          '.$_pref.'`aw_blog_category_store` 
-                      WHERE 
+            $s_sql = 'SELECT
+                          `store_id`
+                      FROM
+                          '.$_pref.'`aw_blog_category_store`
+                      WHERE
                           `category_id` = '. ((int)$data['old_id']) . ";";
             $s_result =  $adapter->query($s_sql)->execute();
             foreach ($s_result as $s_data) {
@@ -87,7 +87,7 @@ class Aw2 extends AbstractImport
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 unset($category);
                 $this->_skippedCategories[] = $data['title'];
-                $this->_logger->addDebug('Blog Category Import [' . $data['title'] . ']: '. $e->getMessage());
+                $this->_logger->debug('Blog Category Import [' . $data['title'] . ']: '. $e->getMessage());
             }
         }
 
@@ -131,7 +131,7 @@ class Aw2 extends AbstractImport
                 }
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->_skippedTags[] = $data['title'];
-                $this->_logger->addDebug('Blog Tag Import [' . $data['title'] . ']: '. $e->getMessage());
+                $this->_logger->debug('Blog Tag Import [' . $data['title'] . ']: '. $e->getMessage());
             }
         }
 
@@ -169,6 +169,10 @@ class Aw2 extends AbstractImport
             if (empty($data['store_ids']) || in_array(0, $data['store_ids'])) {
                 $data['store_ids'] = 0;
             }
+            if (!empty($data['featured_image_file'])) {
+                $imgPath = explode('/', $data['featured_image_file']);
+                $img = end($imgPath);
+            }
 
             /* Prepare post data */
             $data = [
@@ -185,7 +189,7 @@ class Aw2 extends AbstractImport
                 'publish_time' => strtotime($data['publish_date']),
                 'is_active' => (int)($data['status'] == 'publication'),
                 'categories' => $postCategories,
-                'featured_img' => !empty($data['featured_image']) ? 'magefan_blog/' . $data['featured_image'] : '',
+                'featured_img' => !empty($img) ? 'magefan_blog/' . $img : '',
             ];
             $data['identifier'] = trim(strtolower($data['identifier']));
 
@@ -197,7 +201,7 @@ class Aw2 extends AbstractImport
                 $this->_importedPostsCount++;
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->_skippedPosts[] = $data['title'];
-                $this->_logger->addDebug('Blog Post Import [' . $data['title'] . ']: '. $e->getMessage());
+                $this->_logger->debug('Blog Post Import [' . $data['title'] . ']: '. $e->getMessage());
             }
 
             unset($post);

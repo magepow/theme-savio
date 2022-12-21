@@ -10,6 +10,7 @@ namespace Magefan\Blog\Model;
 
 use Magefan\Blog\Model\Url;
 use Magento\Store\Model\ScopeInterface;
+use Magefan\Blog\Api\ShortContentExtractorInterface;
 
 /**
  * Post model
@@ -143,6 +144,11 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
      * @var string
      */
     protected $controllerName;
+
+    /**
+     * @var ShortContentExtractorInterface
+     */
+    protected $shortContentExtractor;
 
     /**
      * Initialize dependencies.
@@ -481,75 +487,23 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
      */
     public function getShortFilteredContent($len = null, $endСharacters = null)
     {
+        /* Fix for custom themes that send wrong parameters to this function, and that brings the error */
+        if (is_object($len)) {
+             $len = null;
+        }
+        /* End fix */
+
         $key = 'short_filtered_content' . $len;
         if (!$this->hasData($key)) {
+
             if ($this->getShortContent()) {
-                $content = $this->filterProvider->getPageFilter()->filter(
-                    (string) $this->getShortContent() ?: ''
-                );
+                $content = (string)$this->getShortContent() ?: '';
             } else {
-                $content = $this->getFilteredContent();
-
-                if (!$len) {
-                    $pageBraker = '<!-- pagebreak -->';
-                    $len = mb_strpos($content, $pageBraker);
-                    if (!$len) {
-                        $len = (int)$this->scopeConfig->getValue(
-                            'mfblog/post_list/shortcotent_length',
-                            ScopeInterface::SCOPE_STORE
-                        );
-                    }
-                }
+                //$content = $this->getFilteredContent();
+                $content = (string)$this->getContent() ?: '';
             }
 
-            if ($len) {
-                /* Do not cut words */
-                while ($len < strlen($content)
-                    && !in_array($content[$len], [' ', '<', "\t", "\r", "\n"]) ) {
-                    $len++;
-                }
-
-                $content = mb_substr($content, 0, $len);
-                try {
-                    $previousLoaderState = libxml_disable_entity_loader(true);
-                    $previousErrorState = libxml_use_internal_errors(true);
-                    $dom = new \DOMDocument();
-                    $dom->loadHTML('<?xml encoding="UTF-8">' . $content);
-                    libxml_disable_entity_loader($previousLoaderState);
-                    libxml_use_internal_errors($previousErrorState);
-
-                    $body = $dom->getElementsByTagName('body');
-                    if ($body && $body->length > 0) {
-                        $body = $body->item(0);
-                        $_content = new \DOMDocument;
-                        foreach ($body->childNodes as $child) {
-                            $_content->appendChild($_content->importNode($child, true));
-                        }
-                        $content = $_content->saveHTML();
-                    }
-                } catch (\Exception $e) {
-                    /* Do nothing, it's OK */
-                }
-            }
-
-            if ($endСharacters === null) {
-                $endСharacters = $this->scopeConfig->getValue(
-                    'mfblog/post_list/end_characters',
-                    ScopeInterface::SCOPE_STORE
-                );
-            }
-
-            if ($len && $endСharacters) {
-                $trimMask = " \t\n\r\0\x0B,.!?";
-                if ($p = strrpos($content, '</')) {
-                    $content = trim(substr($content, 0, $p), $trimMask)
-                        . $endСharacters
-                        . substr($content, $p);
-                } else {
-                    $content = trim($content, $trimMask)
-                        . $endСharacters;
-                }
-            }
+            $content = $this->getShortContentExtractor()->execute($content, $len, $endСharacters);
 
             $this->setData($key, $content);
         }
@@ -577,17 +531,26 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
      */
     public function getMetaDescription()
     {
-        $desc = $this->getData('meta_description');
-        if (!$desc) {
-            $desc = $this->getData('content');
+
+        $key = 'filtered_meta_description';
+        if (!$this->hasData($key)) {
+            $desc = $this->getData('meta_description');
+            if (!$desc) {
+                $desc = $this->getShortFilteredContent();
+                $desc = str_replace(['<p>', '</p>'], [' ', ''], $desc);
+            }
+
+            $desc = strip_tags($desc);
+            if (mb_strlen($desc) > 200) {
+                $desc = mb_substr($desc, 0, 200);
+            }
+
+            $desc = trim($desc);
+
+            $this->setData($key, $desc);
         }
 
-        $desc = strip_tags($desc);
-        if (mb_strlen($desc) > 300) {
-            $desc = mb_substr($desc, 0, 300);
-        }
-
-        return trim($desc);
+        return $this->getData($key);
     }
 
     /**
@@ -615,8 +578,8 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
             $desc = $this->getMetaDescription();
         } else {
             $desc = strip_tags($desc);
-            if (mb_strlen($desc) > 160) {
-                $desc = mb_substr($desc, 0, 160);
+            if (mb_strlen($desc) > 300) {
+                $desc = mb_substr($desc, 0, 300);
             }
         }
 
@@ -710,6 +673,7 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
         if (null === $this->_relatedTags) {
             $this->_relatedTags = $this->_tagCollectionFactory->create()
                 ->addFieldToFilter('tag_id', ['in' => $this->getTags()])
+                ->addStoreFilter($this->getStoreId())
                 ->addActiveFilter()
                 ->setOrder('title');
         }
@@ -826,7 +790,8 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
             if ($authorId = $this->getData('author_id')) {
                 $_author = $this->_authorFactory->create();
                 $_author->load($authorId);
-                if ($_author->getId()) {
+
+                if ($_author->getId() && $_author->isVisibleOnStore($this->getStoreId())) {
                     $author = $_author;
                 }
             }
@@ -889,7 +854,6 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
             'mfblog/design/publication_date',
             ScopeInterface::SCOPE_STORE
         );
-        return true;
     }
 
     /**
@@ -954,6 +918,7 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
     }
 
     /**
+     * @deprecated use getDynamicData method in graphQL data provider
      * Prepare all additional data
      * @param null|array $fields
      * @return array
@@ -1052,6 +1017,7 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
             ->unsetData('update_time')
             ->unsetData('publish_time')
             ->unsetData('identifier')
+            ->unsetData('comments_count')
             ->setTitle($object->getTitle() . ' (' . __('Duplicated') . ')')
             ->setData('is_active', 0);
 
@@ -1093,5 +1059,18 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
     public function getUpdatedAt()
     {
         return $this->getData('update_time');
+    }
+
+    /**
+     * @return ShortContentExtractorInterface
+     */
+    public function getShortContentExtractor()
+    {
+        if (null === $this->shortContentExtractor) {
+            $this->shortContentExtractor = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(ShortContentExtractorInterface::class);
+        }
+
+        return $this->shortContentExtractor;
     }
 }

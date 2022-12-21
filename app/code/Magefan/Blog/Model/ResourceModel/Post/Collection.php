@@ -8,8 +8,6 @@
 
 namespace Magefan\Blog\Model\ResourceModel\Post;
 
-use Magento\Framework\Exception\NoSuchEntityException;
-
 /**
  * Blog post collection
  */
@@ -36,9 +34,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     protected $category;
 
     /**
-     * @var \Magefan\Blog\Api\CategoryRepositoryInterface
+     * @var \Magefan\Blog\Api\CategoryRepositoryInterface|null
      */
-    private $categoryRepository;
+    protected $categoryRepository;
 
     /**
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
@@ -65,8 +63,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_date = $date;
         $this->_storeManager = $storeManager;
-
-        $this->categoryRepository = $categoryRepository ?: \Magento\Framework\App\ObjectManager::getInstance()->get(
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $this->categoryRepository = $categoryRepository ?: $objectManager->create(
             \Magefan\Blog\Api\CategoryRepositoryInterface::class
         );
     }
@@ -85,6 +83,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->_map['fields']['store'] = 'store_table.store_id';
         $this->_map['fields']['category'] = 'category_table.category_id';
         $this->_map['fields']['tag'] = 'tag_table.tag_id';
+        $this->_map['fields']['relatedproduct'] = 'relatedproduct_table.related_id';
     }
 
     /**
@@ -101,7 +100,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 return parent::addFieldToFilter($field, $condition);
             } elseif (count($field) === 1) {
                 $field = $field[0];
-                $condition = $condition[0] ?? $condition;
+                $condition = isset($condition[0]) ? $condition[0] : $condition;
             }
         }
 
@@ -119,6 +118,10 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
         if ($field === 'author' || $field === 'author_id') {
             return $this->addAuthorFilter($condition);
+        }
+
+        if ($field === 'relatedproduct' || $field === 'relatedproduct_id') {
+            return $this->addRelatedProductFilter($condition);
         }
 
         if ($field === 'search') {
@@ -144,6 +147,21 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         }
 
         if (!$this->getFlag('store_filter_added')) {
+            $this->setFlag('store_filter_added', 1);
+
+            if (is_array($store)) {
+                foreach ($store as $k => $v) {
+                    if ($k == 'like') {
+                        if (is_object($v) && $v instanceof \Zend_Db_Expr && (string)$v == "'%0%'") {
+                            return $this;
+                        } else {
+                            $this->addFilter('store', $store, 'public');
+                            return $this;
+                        }
+                    }
+                }
+            }
+
             if ($store instanceof \Magento\Store\Model\Store) {
                 $this->_storeId = $store->getId();
                 $store = [$store->getId()];
@@ -162,8 +180,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 $store[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
             }
 
+
             $this->addFilter('store', ['in' => $store], 'public');
-            $this->setFlag('store_filter_added', 1);
+
         }
         return $this;
     }
@@ -185,7 +204,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     public function addPostsFilter($postIds)
     {
         if (!is_array($postIds)) {
-            $postIds = explode(',', $postIds);
+            $postIds = explode(',', (string)$postIds);
             foreach ($postIds as $key => $id) {
                 $id = trim($id);
                 if (!$id) {
@@ -258,13 +277,11 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 if (1 === count($categories)) {
                     /* Fix for graphQL to get posts from child categories when filtering by category */
                     try {
-                        $categoryById = $this->categoryRepository->getById($categories[0]);
-                    } catch (NoSuchEntityException $e) {
-                        $categoryById = false;
-                    }
-
-                    if ($categoryById) {
-                        return $this->addCategoryFilter($categoryById);
+                        $category = $this->categoryRepository->getById($categories[0]);
+                        if ($category->getId()) {
+                            return $this->addCategoryFilter($category);
+                        }
+                    } catch (\NoSuchEntityException $e) {
                     }
                 }
             }
@@ -318,12 +335,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
         $tagPostIds = array_unique($tagPostIds);
 
-        $advancedSortingEnabled = true;
-        if (false !== stripos($term, ' as ')) {
-            $advancedSortingEnabled = false;
-        }
-
-        if (count($tagPostIds)) {
+        if ($tagPostIdsCount = count($tagPostIds)) {
             $this->addFieldToFilter(
                 ['title', 'short_content', 'content', 'post_id'],
                 [
@@ -334,19 +346,19 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 ]
             );
 
-            if ($advancedSortingEnabled) {
-                $this->addExpressionFieldToSelect(
-                    'search_rate',
-                    '(0
-                      + FORMAT(MATCH (title, meta_keywords, meta_description, identifier, content) AGAINST ("{{term}}"), 4)
-                      + IF(main_table.post_id IN (' . implode(',', $tagPostIds) . '), "1", "0"))',
-                    [
-                        'term' => $this->getConnection()->quote($term)
-                    ]
-                );
-            } else {
-                $this->addExpressionFieldToSelect('search_rate', ' publish_time', []);
+            if ($tagPostIdsCount > 200) {
+                $tagPostIds = array_slice($tagPostIds, 0, 200);
             }
+
+            $fullExpression = '(0 ' .
+                '+ FORMAT(MATCH (title, meta_keywords, meta_description, identifier, content) AGAINST ('
+                . $this->getConnection()->quote($term)
+                . '), 4) ' .
+                '+ IF(main_table.post_id IN (' . implode(',', $tagPostIds) . '), "1", "0"))';
+
+            $fullExpression = new \Zend_Db_Expr($fullExpression);
+            $this->getSelect()->columns(['search_rate' => $fullExpression]);
+            //$this->expressionFieldsToSelect['search_rate'] = $fullExpression;
         } else {
             $this->addFieldToFilter(
                 ['title', 'short_content', 'content'],
@@ -357,18 +369,14 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 ]
             );
 
-            if ($advancedSortingEnabled) {
-                $this->addExpressionFieldToSelect(
-                    'search_rate',
-                    '(0
-                      + FORMAT(MATCH (title, meta_keywords, meta_description, identifier, content) AGAINST ("{{term}}"), 4))',
-                    [
-                        'term' => $this->getConnection()->quote($term)
-                    ]
-                );
-            } else {
-                $this->addExpressionFieldToSelect('search_rate', ' publish_time', []);
-            }
+            $fullExpression = '(0 ' .
+                '+ FORMAT(MATCH (title, meta_keywords, meta_description, identifier, content) AGAINST ('
+                . $this->getConnection()->quote($term)
+                . '), 4))';
+
+            $fullExpression = new \Zend_Db_Expr($fullExpression);
+            $this->getSelect()->columns(['search_rate' => $fullExpression]);
+            //$this->expressionFieldsToSelect['search_rate'] = $fullExpression;
         }
 
         return $this;
@@ -429,7 +437,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         return $this;
     }
 
-
     /**
      * Add author filter to collection
      * @param array|int|\Magefan\Blog\Model\Author  $author
@@ -470,6 +477,28 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
             $this->addFilter('author_id', ['in' => $author], 'public');
             $this->setFlag('author_filter_added', 1);
+        }
+        return $this;
+    }
+
+    /**
+     * Add related product filter to collection
+     * @param $product
+     * @return $this
+     */
+    public function addRelatedProductFilter($product)
+    {
+        if (!$this->getFlag('author_filter_added')) {
+            if ($product instanceof \Magento\Catalog\Api\Data\ProductInterface) {
+                $product = [$product->getId()];
+            }
+
+            if (!is_array($product)) {
+                $product = [$product];
+            }
+
+            $this->addFilter('relatedproduct', ['in' => $product], 'public');
+            $this->setFlag('relatedproduct_filter_added', 1);
         }
         return $this;
     }
@@ -589,11 +618,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      */
     protected function _renderFiltersBefore()
     {
-        foreach (['store', 'category', 'tag', 'author'] as $key) {
-
+        foreach (['store', 'category', 'tag', 'author', 'relatedproduct'] as $key) {
             if ($this->getFilter($key)) {
-
-                $joinOptions = new \Magento\Framework\DataObject;
+                $joinOptions = new \Magento\Framework\DataObject();
                 $joinOptions->setData([
                     'key' => $key,
                     'fields' => [],
@@ -604,8 +631,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                     ['join_options' => $joinOptions]
                 );
                 $this->getSelect()->join(
-                    [$key.'_table' => $this->getTable('magefan_blog_post_'.$key)],
-                    'main_table.post_id = '.$key.'_table.post_id',
+                    [$key . '_table' => $this->getTable('magefan_blog_post_' . $key)],
+                    'main_table.post_id = ' . $key . '_table.post_id',
                     $joinOptions->getData('fields')
                 )->group(
                     'main_table.post_id'

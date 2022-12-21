@@ -35,7 +35,7 @@
                 </field>
                 <field id="zoomLevel" translate="label comment" type="text" sortOrder="15"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Level Zoom</label>
-                    <comment>Level Zoom is number greater than zero to one (0, 1]</comment>
+                    <comment>Level Zoom is number greater than zero to one (0, 1]. This not support zoom Inner</comment>
                     <validate>validate-number validate-number-range number-range-0-1 validate-greater-than-zero</validate>
                 </field>
                 <field id="zoomType" translate="label comment" type="select" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -78,14 +78,16 @@
                     <comment>y-axis offset of the zoom window</comment>
                     <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
-                <field id="zoomWindowFadeIn" translate="label comment" type="text" sortOrder="70"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Zoom Window FadeIn</label>
-                    <comment>Set as a number e.g 200 for speed of Window fadeIn</comment>
+                <field id="zoomWindowEffect" translate="label comment" type="select" sortOrder="70"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Zoom Window Effect</label>
+                    <comment>Set Effect of Window Zoom</comment>
+                    <source_model>Magepow\Productzoom\Model\Config\Source\Effect</source_model>
                     <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
-                <field id="zoomWindowFadeOut" translate="label comment" type="text" sortOrder="80"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Zoom Window FadeOut</label>
-                    <comment>Set as a number e.g 200 for speed of Window fadeOut</comment>
+                <field id="zoomWindowEffectDuration" translate="label comment" type="text" sortOrder="80"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Effect Duration</label>
+                    <comment>Effect Timing</comment>
+                    <validate>validate-digits validate-greater-than-zero</validate>
                     <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
 
@@ -133,13 +135,13 @@
                     <label>Lens Colour and window Colour</label>
                     <comment>Colour of the lens or window background</comment>
                     <frontend_model>Magepow\Productzoom\Block\System\Config\Form\Field\Color</frontend_model>
-                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
+                    <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
                 <field id="lensOpacity" translate="label comment" type="select" sortOrder="180"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Lens Opacity</label>
                     <comment>used in combination with lensColour to make the lens see through. When using tint, this is overrided to 0</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Opacity</source_model>
-                    <depends><field id="zoomType" separator=",">lens</field></depends>
+                    <depends><field id="zoomType" separator=",">lens,window</field></depends>
                 </field>
 <!--                 <field id="lenszoom" translate="label comment" type="select" sortOrder="190"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Lens Zoom</label>
@@ -152,19 +154,25 @@
                     <label>Tint</label>
                     <comment>enable a tint overlay, other options: true</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
-                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
+                    <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
                 <field id="tintColour" translate="label comment" type="text" sortOrder="210"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Tint Colour</label>
                     <comment>colour of the tint, can be #hex, word (red, blue), or rgb(x, x, x)</comment>
                     <frontend_model>Magepow\Productzoom\Block\System\Config\Form\Field\Color</frontend_model>
-                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
+                    <depends>
+                        <field id="zoomType" separator=",">window</field>
+                        <field id="tint" separator=",">true</field>
+                    </depends>
                 </field>
                 <field id="tintOpacity" translate="label comment" type="select" sortOrder="220"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Tint Opacity</label>
                     <comment>opacity of the tint</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Opacity</source_model>
-                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
+                    <depends>
+                        <field id="zoomType" separator=",">window</field>
+                        <field id="tint" separator=",">true</field>
+                    </depends>
                 </field>
 
                 <!-- Type General -->

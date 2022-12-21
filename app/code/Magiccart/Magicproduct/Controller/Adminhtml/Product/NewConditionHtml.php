@@ -12,7 +12,7 @@ class NewConditionHtml extends \Magiccart\Magicproduct\Controller\Adminhtml\Acti
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
-        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
+        $typeArr = explode('|', str_replace('-', '/', (string) $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
         $model = $this->_objectManager->create(

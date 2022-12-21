@@ -36,26 +36,40 @@ class Featured extends \Magefan\Blog\Block\Sidebar\Featured implements \Magento\
      */
     public function getTitle()
     {
-        return $this->getData('title') ?: __('Featured Blog Posts');
+        return $this->getData('title') ?: '';
     }
 
     /**
      * Retrieve post ids string
+     *
      * @return string
      */
     protected function getPostIdsConfigValue()
     {
-        return $this->getData('posts_ids');
+        return (string)$this->getData('posts_ids');
     }
 
     /**
      * Retrieve post short content
+     *
      * @param  \Magefan\Blog\Model\Post $post
+     * @param  mixed $len
+     * @param  mixed $endСharacters
+     * @return string
+     */
+    public function getShorContent($post, $len = null, $endСharacters = null)
+    {
+        return $post->getShortFilteredContent($len, $endСharacters);
+    }
+
+    /**
+     * Get relevant path to template
+     * Skip parent one as it use template for sidebar block
      *
      * @return string
      */
-    public function getShorContent($post)
+    public function getTemplate()
     {
-        return $post->getShortFilteredContent();
+        return \Magefan\Blog\Block\Post\PostList\AbstractList::getTemplate();
     }
 }

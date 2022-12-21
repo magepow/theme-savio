@@ -61,7 +61,7 @@ class Wordpress extends AbstractImport
                     $data['title'] = 'Undefined';
                 }
                 $this->_skippedCategories[] = $data['title'];
-                $this->_logger->addDebug('Blog Category Import [' . $data['title'] . ']: '. $e->getMessage());
+                $this->_logger->debug('Blog Category Import [' . $data['title'] . ']: '. $e->getMessage());
             }
         }
 
@@ -122,7 +122,7 @@ class Wordpress extends AbstractImport
             }
             */
 
-            if (isset($data['title']) && $data['title'][0] == '?') {
+            if (isset($data['title']) && isset($data['title'][0]) && $data['title'][0] == '?') {
                 /* fix for ???? titles */
                 $data['title'] = $data['identifier'];
             }
@@ -142,7 +142,7 @@ class Wordpress extends AbstractImport
                     $data['title'] = 'Undefined';
                 }
                 $this->_skippedTags[] = $data['title'];
-                $this->_logger->addDebug('Blog Tag Import [' . $data['title'] . ']: '. $e->getMessage());
+                $this->_logger->debug('Blog Tag Import [' . $data['title'] . ']: '. $e->getMessage());
             }
         }
 
@@ -325,13 +325,13 @@ class Wordpress extends AbstractImport
                 $post->setData($data)->save();
 
                 /* find post comment s*/
-                $sql = 'SELECT 
-                            * 
-                        FROM 
-                            '.$_pref.'comments 
-                        WHERE 
-                            `comment_approved`=1 
-                        AND 
+                $sql = 'SELECT
+                            *
+                        FROM
+                            '.$_pref.'comments
+                        WHERE
+                            `comment_approved`=1
+                        AND
                             `comment_post_ID` = ' . $wordpressPostId;
                 $resultComments = $adapter->query($sql)->execute();
                 $commentParents = [];
@@ -377,7 +377,7 @@ class Wordpress extends AbstractImport
                     $data['title'] = 'Undefined';
                 }
                 $this->_skippedPosts[] = $data['title'];
-                $this->_logger->addDebug('Blog Post Import [' . $data['title'] . ']: '. $e->getMessage());
+                $this->_logger->debug('Blog Post Import [' . $data['title'] . ']: '. $e->getMessage());
             }
 
             unset($post);
@@ -578,7 +578,6 @@ class Wordpress extends AbstractImport
                     }
                 }
             }
-
 
             $divElement = str_replace('[video', '<video controls ', $divElement);
             $divElement = str_replace('align="', 'class="wp-caption ', $divElement);
