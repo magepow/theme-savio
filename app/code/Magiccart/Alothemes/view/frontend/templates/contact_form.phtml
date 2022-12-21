@@ -43,28 +43,32 @@
 					</div>
 					<input type="hidden" name="link" id="link" value="<?php echo $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]) ?>" />
 					<?php //echo $block->getChildHtml('form.additional.info'); ?>
-					<?php 
-					echo $block->getLayout()
-					    ->createBlock('MSP\ReCaptcha\Block\Frontend\ReCaptcha',
-					        'msp-recaptcha',
-					        ['data' => 
-					            [
-					                'jsLayout' => 
-					                [
-					                    'components' => 
-					                    [
-					                        'msp-recaptcha' => 
-					                        [
-					                            'component' => 'MSP_ReCaptcha/js/reCaptcha',
-					                            'zone' => 'contact'
-					                        ]
-					                    ]
-					                ]
-					            ]
-					        ]
-					    )
-					    ->setTemplate('MSP_ReCaptcha::msp_recaptcha.phtml')
-					    ->toHtml();
+					<?php
+						$block_recaptcha = 'recaptcha-contact-' . uniqid();
+						$captcha = $block->getLayout()->getBlock($block_recaptcha);
+						if(!$captcha){
+							$captcha = $block->getLayout()
+							    ->createBlock('Magento\ReCaptchaUi\Block\ReCaptcha',
+							        $block_recaptcha,
+							        ['data' => 
+							            [
+							                'jsLayout' => 
+							                [
+							                    'components' => 
+							                    [
+							                        'msp-recaptcha' => 
+							                        [
+							                            'component' => 'Magento_ReCaptchaFrontendUi/js/reCaptcha',
+							                            'zone' => 'contact'
+							                        ]
+							                    ]
+							                ]
+							            ]
+							        ]
+							    )
+							    ->setTemplate('Magento_ReCaptchaFrontendUi::recaptcha.phtml');					
+						}
+						echo $captcha->toHtml();
 					?>
 					<div class="actions-toolbar">
 						<div class="primary">

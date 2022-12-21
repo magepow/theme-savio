@@ -15,7 +15,7 @@ $cfg = $this->_themeCfg;
 $font   = $cfg['font'];
 $html = '';
 /* get Lib Font */
-if($font['google']) $html  .= '<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family='.str_replace(' ', '+', $font['google']).'&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" media="all" />';
+if($font['google']) $html  .= '<link rel="preload" as="style" onload="this.rel = \'stylesheet\'" href="//fonts.googleapis.com/css?family='.str_replace(' ', '+', $font['google']).'&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" media="all" />';
 /*
 if($this->_rtl){
 	$asset  = $this->assetRepository->createAsset('css/rtl.css');
@@ -26,19 +26,19 @@ if($this->_rtl){
 if(!$this->cssFile) {
 	$html .= '<style type="text/css">' . $this->generalCss() . '</style>';
 } else {
-	echo '<link  rel="stylesheet" type="text/css"  media="all" href="' . $this->getExtraCssUrl() . '" />';
+	echo '<link rel="preload" as="style" onload="this.rel = \'stylesheet\'"  media="all" href="' . $this->getExtraCssUrl() . '" />';
 }
 $html  .= "\n"; // break line;
 $cfg['general']['baseUrl'] = $this->getBaseUrl();
-$optRm = array('font', 'grid', 'related', 'upsell', 'crosssell', 'labels', 'timer', 'categorysearch', 'grid_widget', 'recently_grid_widget', 'recentorder');
+$optRm = array('font', 'grid', 'related', 'upsell', 'crosssell', 'labels', 'timer', 'categorysearch', 'grid_widget', 'recently_grid_widget', 'recentorder', 'category_page', 'product_page', 'flags');
 foreach ($optRm as $opt) { unset($cfg[$opt]); }
 $html .= '<script type="text/javascript"> Themecfg = '.json_encode($cfg).'</script>';  // json config theme
 echo $html;
 $timer = $this->_themeCfg['timer'];
 // if(!$timer['enabled']) return;
-$layout = '<span class="day">%%D%%</span><span class class="colon">:</span><span class="hour">%%H%%</span><span class="colon">:</span><span class="min">%%M%%</span><span class="colon">:</span><span class="sec">%%S%%</span>';
+$layout = '<span class="number day">%%D%%</span><span class class="colon">:</span><span class="number hour">%%H%%</span><span class="colon">:</span><span class="number min">%%M%%</span><span class="colon">:</span><span class="number sec">%%S%%</span>';
 
-$layoutcaption = '<div class="timer-box"><span class="day">%%D%%</span><span class="title">' . __('Days') . '</span></div><div class="timer-box"><span class="hour">%%H%%</span><span class="title">' . __('Hrs')  . '</span></div><div class="timer-box"><span class="min">%%M%%</span><span  class="title">' . __('Mins') . '</span></div><div class="timer-box"><span class="sec">%%S%%</span><span  class="title">' . __('Secs') . '</span></div>';	
+$layoutcaption = '<div class="timer-box"><span class="number day">%%D%%</span><span class="title">' . __('Days') . '</span></div><div class="timer-box"><span class="number hour">%%H%%</span><span class="title">' . __('Hrs')  . '</span></div><div class="timer-box"><span class="number min">%%M%%</span><span  class="title">' . __('Mins') . '</span></div><div class="timer-box"><span class="number sec">%%S%%</span><span  class="title">' . __('Secs') . '</span></div>';	
 if($timer['caption']){
 	$layout = $layoutcaption;
 }
@@ -60,4 +60,3 @@ if($timer['caption']){
 		    });
 	});
 </script>
-

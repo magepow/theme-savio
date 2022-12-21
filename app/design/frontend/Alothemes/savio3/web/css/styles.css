@@ -2742,3 +2742,8 @@ ul.magictabs{padding:0}
 .page-header ul,.page-header ol,.page-footer ul,.page-footer ol,.sidebar ul,.sidebar ol,.content-popup-inner ul,.brand-cms-static{list-style: none;}
 .product.info.detailed ul, .product.info.detailed ol,.product.attribute ul,.product.attribute ol,.post-list-wrapper ul,.post-list-wrapper ol,.post-view ul,.post-view ol{padding: 0 0 0 30px;}
 
+.vmagicmenu .level0 .level-top-mega, 
+.vmagicmenu .vmagicmenu-narrow .level0.dropdown>.level0 {
+	    max-height: 100%;
+    overflow-y: auto;
+} 

@@ -16,12 +16,15 @@
 
         <referenceBlock name="breadcrumbs" remove="true"/>
         <referenceBlock name="authentication-popup" remove="true" />
+        <referenceBlock name="cookie-status-check" remove="true"/>
         <referenceBlock name="alothemes_header" remove="true"/>
         <referenceBlock name="product.info.upsell" remove="true"/>
         <referenceBlock name="catalog.product.related" remove="true"/>
         <referenceBlock name="product.info.details" remove="true"/>
         <referenceBlock name="cookie_notices" remove="true"/>
         <referenceBlock name="cookie-status-check" remove="true"/>
+
+        <referenceBlock name="product.info.previousnext" remove="true"/>
         <referenceBlock name="product.info.blog.relatedposts" remove="true"/>
     </body>
 </page>

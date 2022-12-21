@@ -1,5 +1,32 @@
 & when (@media-common = true) {
     /* recent order */
+    @keyframes notifySliderUp {
+        0% {
+            -webkit-transform: translate3d(0,100%,0);
+            transform: translate3d(0,100%,0);
+            visibility: visible;
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }    
+    }
+    @keyframes notifySliderDown {
+        0% {
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+        100% {
+            visibility: hidden;
+            -webkit-transform: translate3d(0,100%,0);
+            transform: translate3d(0,100%,0);
+            opacity: 0;
+        }
+    }
+   
     .suggest-slider.close {
         display: none;
     }
@@ -15,6 +42,11 @@
         left: 25px;
         background: transparent;
         display: none;
+        transition: all .25s ease;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
     }
 
     .notify-slider {
@@ -253,9 +285,9 @@
         z-index: 999;
 
         &:before {
-            content: "\e680";
-            font-size: 30px;
-            font-family: Pe-icon-7-stroke;
+            content: @icon-remove;
+            font-size: 14px;
+            font-family: @icons__font-name;
         }
 
         &:hover {
@@ -282,4 +314,17 @@
         width: 320px;
         margin-left: 0;
     }
+
+    .notify-slider-wrapper.notifySliderUp {
+        -webkit-animation-name: notifySliderUp;
+        animation-name: notifySliderUp;
+        display: block;
+    }
+    .notify-slider-wrapper.notifySliderDown {
+        -webkit-animation-name: notifySliderDown;
+        animation-name: notifySliderDown;
+        display: block;
+    }
+    .recentorder .content-products .product-items {opacity:1}
+
 }

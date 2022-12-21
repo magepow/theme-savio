@@ -15,7 +15,7 @@
             <class>separator-top</class>
             <label>Product Zoom</label>
             <tab>magepow</tab>
-            <resource>Magepow_Productzoom::config_productzoom</resource>
+            <resource>Magepow_Productzoom::config</resource>
             <group id="general" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
                 <field id="enabled" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -23,13 +23,21 @@
                     <comment>Enabled Module</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-
+                <field id="screensize" translate="label comment" type="text" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Disable Zoom in lower screen size</label>
+                    <comment>Disable Zoom in lower screen size</comment>
+                    <validate>validate-digits validate-zero-or-greater</validate>
+                </field>
                 <field id="scrollZoom" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Scroll Zoom</label>
                     <comment>Set to true to activate zoom on mouse scroll. Possible Values: "True", "False"</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
                 </field>
-
+                <field id="zoomLevel" translate="label comment" type="text" sortOrder="15"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Level Zoom</label>
+                    <comment>Level Zoom is number greater than zero to one (0, 1]</comment>
+                    <validate>validate-number validate-number-range number-range-0-1 validate-greater-than-zero</validate>
+                </field>
                 <field id="zoomType" translate="label comment" type="select" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Zoom Type</label>
                     <comment>Outside, Inside, Lens</comment>
@@ -48,6 +56,7 @@
                 <field id="zIndex" translate="label comment" type="text" sortOrder="32"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>z-index window zoom</label>
                     <depends><field id="zoomType" separator=",">window</field></depends>
+                    <validate>validate-digits</validate>
                 </field>
                 <field id="zoomWindowWidth" translate="label comment" type="text" sortOrder="35"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Zoom window width</label>
@@ -69,16 +78,14 @@
                     <comment>y-axis offset of the zoom window</comment>
                     <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
-                <field id="zoomWindowFadeIn" translate="label comment" type="select" sortOrder="70"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="zoomWindowFadeIn" translate="label comment" type="text" sortOrder="70"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Zoom Window FadeIn</label>
                     <comment>Set as a number e.g 200 for speed of Window fadeIn</comment>
-                    <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
                     <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
-                <field id="zoomWindowFadeOut" translate="label comment" type="select" sortOrder="80"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="zoomWindowFadeOut" translate="label comment" type="text" sortOrder="80"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Zoom Window FadeOut</label>
                     <comment>Set as a number e.g 200 for speed of Window fadeOut</comment>
-                    <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
                     <depends><field id="zoomType" separator=",">window</field></depends>
                 </field>
 
@@ -89,19 +96,17 @@
                     <validate>validate-digits validate-greater-than-zero</validate>
                     <depends><field id="zoomType" separator=",">lens</field></depends>
                 </field>
-                <field id="lensFadeIn" translate="label comment" type="select" sortOrder="110"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="lensFadeIn" translate="label comment" type="text" sortOrder="110"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Lens FadeIn</label>
                     <comment>Set as a number e.g 200 for speed of Lens fadeIn</comment>
-                    <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
                     <depends><field id="zoomType" separator=",">lens</field></depends>
                 </field>
-                <field id="lensFadeOut" translate="label comment" type="select" sortOrder="120"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="lensFadeOut" translate="label comment" type="text" sortOrder="120"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Lens FadeOut</label>
                     <comment>Set as a number e.g 200 for speed of Lens fadeOut</comment>
-                    <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
                     <depends><field id="zoomType" separator=",">lens</field></depends>
                 </field>
-                <field id="zoomLens" translate="label comment" type="text" sortOrder="130"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="zoomLens" translate="label comment" type="select" sortOrder="130"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Zoom Lens</label>
                     <comment>set to false to hide the Lens</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
@@ -112,21 +117,23 @@
                     <comment>Width in pixels of the lens border</comment>
                     <depends><field id="zoomType" separator=",">lens</field></depends>
                 </field>
-                <field id="lensShape" translate="label comment" type="text" sortOrder="150"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Lens Shape</label>
+                <field id="lensShape" translate="label comment" type="select" sortOrder="150"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Lens Shape and Window Shape</label>
                     <comment>can also be round (note that only modern browsers support round, will default to square in older browsers)</comment>
-                    <depends><field id="zoomType" separator=",">lens</field></depends>
+                    <source_model>Magepow\Productzoom\Model\Config\Source\Lensshape</source_model>
+                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
                 </field>
                 <field id="containLensZoom" translate="label comment" type="text" sortOrder="160"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Contain Lens Zoom</label>
                     <comment>for use with the Lens Zoom Type. This makes sure the lens does not fall outside the outside of the image</comment>
+                    <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
                     <depends><field id="zoomType" separator=",">lens</field></depends>
                 </field>
                 <field id="lensColour" translate="label comment" type="text" sortOrder="170"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Lens Colour</label>
-                    <comment>colour of the lens background</comment>
+                    <label>Lens Colour and window Colour</label>
+                    <comment>Colour of the lens or window background</comment>
                     <frontend_model>Magepow\Productzoom\Block\System\Config\Form\Field\Color</frontend_model>
-                    <depends><field id="zoomType" separator=",">lens</field></depends>
+                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
                 </field>
                 <field id="lensOpacity" translate="label comment" type="select" sortOrder="180"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Lens Opacity</label>
@@ -134,30 +141,30 @@
                     <source_model>Magepow\Productzoom\Model\Config\Source\Opacity</source_model>
                     <depends><field id="zoomType" separator=",">lens</field></depends>
                 </field>
-                <field id="lenszoom" translate="label comment" type="select" sortOrder="190"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+<!--                 <field id="lenszoom" translate="label comment" type="select" sortOrder="190"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Lens Zoom</label>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
                     <depends><field id="zoomType" separator=",">lens</field></depends>
-                </field>
+                </field> -->
 
                 <!-- Type Inside -->
                 <field id="tint" translate="label comment" type="select" sortOrder="200"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Lens Zoom</label>
+                    <label>Tint</label>
                     <comment>enable a tint overlay, other options: true</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Truefalse</source_model>
-                    <!-- <depends><field id="zoomType" separator=",">inside</field></depends> -->
+                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
                 </field>
                 <field id="tintColour" translate="label comment" type="text" sortOrder="210"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Tint Colour</label>
                     <comment>colour of the tint, can be #hex, word (red, blue), or rgb(x, x, x)</comment>
                     <frontend_model>Magepow\Productzoom\Block\System\Config\Form\Field\Color</frontend_model>
-                    <!-- <depends><field id="zoomType" separator=",">inside</field></depends> -->
+                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
                 </field>
                 <field id="tintOpacity" translate="label comment" type="select" sortOrder="220"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Tint Opacity</label>
                     <comment>opacity of the tint</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Opacity</source_model>
-                    <!-- <depends><field id="zoomType" separator=",">inside</field></depends> -->
+                    <depends><field id="zoomType" separator=",">window,lens</field></depends>
                 </field>
 
                 <!-- Type General -->
@@ -165,6 +172,7 @@
                     <label>Cursor</label>
                     <comment>The default cursor is usually the arrow, if using a lightbox, then set the cursor to pointer so it looks clickable - Options are default, cursor, crosshair</comment>
                     <source_model>Magepow\Productzoom\Model\Config\Source\Cursor</source_model>
+                    <depends><field id="zoomType" separator=",">window,inner</field></depends>
                 </field>
 
                 <field id="responsive" translate="label comment" type="select" sortOrder="240"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">

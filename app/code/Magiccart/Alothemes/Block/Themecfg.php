@@ -10,19 +10,29 @@
  * @@Function:
  */
 namespace Magiccart\Alothemes\Block;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
-class Themecfg extends \Magento\Framework\View\Element\Template
+
+class Themecfg extends \Magento\Framework\View\Element\Template implements
+    \Magento\Framework\DataObject\IdentityInterface
 {
+    const DEFAULT_CACHE_TAG = 'MAGICCART_ALOTHEMES';
+
+    public $_helper;
     public $_themeCfg;
-    public $_time;
     public $_rtl;
-    public $_scopeConfig;
     public $assetRepository;
     public $filesystem;
     public $cssFile = '_cache/merged/stores/%s/alothemes_custom.css';
     public $storeManager;
-    protected $_dir;
+    protected $directorySaticView;
     protected $storeId;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
     /**
      * @var State
      */
@@ -34,50 +44,62 @@ class Themecfg extends \Magento\Framework\View\Element\Template
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\Stdlib\DateTime\DateTime $time,
         \Magiccart\Alothemes\Helper\Data $_helper,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->_time        = $time;
-        $this->_themeCfg    = $_helper->getThemeCfg();
-        $this->_scopeConfig = $context->getScopeConfig();
-        $this->filesystem   = $context->getFilesystem();
-        $this->appState     = $context->getAppState();
-        $this->request      = $context->getRequest();
+        $this->request         = $context->getRequest();
+        $this->appState        = $context->getAppState();
+        $this->filesystem      = $context->getFilesystem();
+        $this->storeManager    = $context->getStoreManager();
         $this->assetRepository = $context->getAssetRepository();
-
-        $this->_rtl = (isset($this->_themeCfg['rtl']['enabled']) && $this->_themeCfg['rtl']['enabled']) ? 'rtl' : '';
-        if($this->_rtl) $context->getPageConfig()->addBodyClass($this->_rtl);
-        $widescreen = (isset($this->_themeCfg['widescreen']['enabled']) && $this->_themeCfg['widescreen']['enabled']) ? 'widescreen' : '';
-        if($widescreen) $context->getPageConfig()->addBodyClass($widescreen);
-        // $loading_body = (isset($this->_themeCfg['preload']['loading_body']) && $this->_themeCfg['preload']['loading_body']) ? 'loading_body' : '';
-        // if($loading_body) $context->getPageConfig()->addBodyClass($loading_body);
-        // $loading_img = (isset($this->_themeCfg['preload']['loading_img']) && $this->_themeCfg['preload']['loading_img']) ? 'loading_img' : '';
-        // if($loading_img) $context->getPageConfig()->addBodyClass($loading_img);
-        $mergeCss = $this->_scopeConfig->getValue( 'dev/css/merge_css_files', \Magento\Store\Model\ScopeInterface::SCOPE_STORE );
+        $this->_helper         = $_helper;
+        $this->_themeCfg       = $this->_helper->getThemeCfg();
+        $this->pageConfig      = $context->getPageConfig();
+        // $mergeCss              = $this->_helper->getConfig('dev/css/merge_css_files');
+        // if(!$mergeCss) $mergeCss = $this->_helper->getConfig('alodesign/general/developer');
+        $mergeCss              = $this->_helper->getConfigModule('css/merge_css_files');
         // if( $mergeCss || $this->_appState->getMode() == State::MODE_PRODUCTION ){
         if($mergeCss){
-            $this->storeManager = $context->getStoreManager();
-            $this->storeId      = $this->storeManager->getStore()->getId();
-            $this->cssFile      = sprintf($this->cssFile, $this->storeId);
-
+            $this->storeId = $this->storeManager->getStore()->getId();
+            $this->cssFile = sprintf($this->cssFile, $this->storeId);
             $this->createAsset();
         } else {
+
             $this->cssFile = '';
         }
 
+        $this->addBodyClass();
+    }
 
+    protected function getCacheLifetime()
+    {
+        return parent::getCacheLifetime() ?: 86400;
+    }
+
+    public function getCacheKeyInfo()
+    {
+        $keyInfo     =  parent::getCacheKeyInfo();
+        $keyInfo[]   =  self::DEFAULT_CACHE_TAG;
+        return $keyInfo;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [self::DEFAULT_CACHE_TAG, self::DEFAULT_CACHE_TAG];
     }
 
     public function createAsset()
     {
-        $this->_dir = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW);
-        $cssFilePath = $this->_dir->getAbsolutePath($this->cssFile);
-        if(!$this->_dir->isExist($cssFilePath)){
+        $this->directorySaticView = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW);
+        $cssFilePath = $this->directorySaticView->getAbsolutePath($this->cssFile);
+        if(!$this->directorySaticView->isExist($cssFilePath)){
             try {
                 $css = $this->generalCss();
-                $this->_dir->writeFile($this->cssFile, $css);
+                $this->directorySaticView->writeFile($this->cssFile, $css);
             } catch (FileSystemException $e) {
                 $this->cssFile = '';
                 echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -89,45 +111,7 @@ class Themecfg extends \Magento\Framework\View\Element\Template
 
     public function generalCss()
     {
-        $cfg = $this->_themeCfg;
-        $css ='';
-        $fontCfg   = $cfg['font'];
-        $font      = $fontCfg['google'] ? $fontCfg['google'] : $fontCfg['custom'];
-        /* CssGenerator */
-        $css  .= 'body{font-size: ' . $fontCfg['size'] . ';';
-        if($font) $css  .= "font-family: '" . $font . "', sans-serif";
-        $css  .= '}';
-
-        $design = $this->_scopeConfig->getValue( 'alodesign', \Magento\Store\Model\ScopeInterface::SCOPE_STORE );
-
-        if (is_array($design) || is_object($design)){
-            foreach ($design as $group => $options) 
-            {
-                foreach ($options as $property => $values) {
-                    $tmp = json_decode($values, true);
-                    if(json_last_error() == JSON_ERROR_NONE){
-                        $values = $tmp;
-                    } else {
-                        $values = @unserialize($values);
-                    }
-                    if(is_array($values) || is_object($values)){
-                        foreach ($values as $value) {
-                            if(!$value) continue;
-                            $css .= htmlspecialchars_decode($value['selector']) .'{';
-                                $css .= $value['color']        ? 'color:' .$value['color']. ';'                    : '';
-                                $css .= $value['background']   ? ' background-color:' .$value['background']. ';'   : '';
-                                $css .= $value['border']       ? ' border-color:' .$value['border']. ';'           : '';
-                            $css .= '}';
-                        }               
-                    }
-
-                }
-            }
-        }
-
-        if(isset($design['extra_css']['color'])) $css .= $design['extra_css']['color'];
-
-        return $css;
+        return $this->_helper->generalCss();
     }
 
     public function getExtraCssUrl()
@@ -148,6 +132,24 @@ class Themecfg extends \Magento\Framework\View\Element\Template
         return  '//' . $this->request->getHttpHost() . ':35729';
         // $scheme = $this->request->isSecure() ? 'https' : 'http';
         // return $scheme . '://' . $this->request->getHttpHost() . ':35729';
+    }
+
+    public function addBodyClass()
+    {
+        $customLayout = [
+            '1column-full-width'  => 'page-layout-1column',
+            '2columns-full-width' => 'page-layout-2columns-left'
+        ];
+        $pageLayout = $this->pageConfig->getPageLayout();
+        foreach ($customLayout as $layout => $class) {
+            if($layout != $pageLayout) continue;
+            $this->pageConfig->addBodyClass($class);
+        }
+
+        $this->_rtl = ($this->_helper->getConfigModule('rtl/enabled')) ? 'rtl' : '';
+        if($this->_rtl) $this->pageConfig->addBodyClass($this->_rtl);
+        $widescreen = ($this->_helper->getConfigModule('widescreen/enabled')) ? 'widescreen' : '';
+        if($widescreen) $this->pageConfig->addBodyClass($widescreen);
     }
 
 }

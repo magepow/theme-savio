@@ -32,15 +32,11 @@ if ( empty($images) ) return;
     </div>
 </div>
 <script type="text/javascript">
-    require([
-        'jquery',
-        'magiccart/slick'
-        ], function($, slick){
+    require(['jquery', 'slick'], function($, slick){
         var slider    = $('.<?php echo $selector?>');
         var sliderFor = slider.find('.slider-for');
         var sliderNav = slider.find('.slider-nav');
-        if(!$(sliderFor).hasClass('slick-initialized')) {
-             sliderFor.slick({
+        var sliderForConfig = {
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 pauseOnHover: true,
@@ -48,8 +44,8 @@ if ( empty($images) ) return;
                 fade: true,
                 asNavFor: sliderNav,
                 speed: 100
-            });
-            sliderNav.slick({
+            };
+        var sliderNavConfig = {
                 vertical: true,
                 verticalSwiping: true,
                 slidesToShow: 2,
@@ -62,7 +58,17 @@ if ( empty($images) ) return;
                 focusOnSelect: true,
                 infinite: false,
                 speed: 100
-            });
+            };
+
+        if( $('body').hasClass('rtl') ){
+            sliderFor.attr('dir', 'rtl');
+            sliderNav.attr('dir', 'rtl');
+            sliderForConfig = $.extend(sliderForConfig, { 'rtl': true});
+            sliderNavConfig = $.extend(sliderNavConfig, { 'rtl': true});
+        }
+        if(!$(sliderFor).hasClass('slick-initialized')) {
+            sliderFor.slick(sliderForConfig);
+            sliderNav.slick(sliderNavConfig);
         }
 
     });

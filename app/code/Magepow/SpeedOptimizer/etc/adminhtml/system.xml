@@ -15,7 +15,7 @@
             <class>separator-top</class>
             <label>Speed Optimizer</label>
             <tab>magepow</tab>
-            <resource>Magepow_SpeedOptimizer::config_speedoptimizer</resource>
+            <resource>Magepow_SpeedOptimizer::config</resource>
             <group id="general" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
                 <field id="enabled" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -57,15 +57,36 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="regex_block" translate="label comment" type="textarea" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Regex Block</label>
-                    <comment>Regex Block HMTL you want add lazyload.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <label>Regex Block Start Lazyload</label>
+                    <comment><![CDATA[Regex Block HMTL you want add lazyload example: <<i>!-- lazyload-start --<i>>]]></comment>
+                </field>
+                <field id="exclude_html_desktop" translate="label comment" type="text" sortOrder="45"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Regex exclude HTML in desktop version</label>
+                    <comment>Regex exclude HTML in desktop version(comma separated)</comment>
+                </field>
+                <field id="exclude_html_tablet" translate="label comment" type="text" sortOrder="48"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Regex exclude HTML in Tablet version</label>
+                    <comment>Regex exclude html in Tablet version(comma separated)</comment>
+                </field>
+                <field id="exclude_html_mobile" translate="label comment" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Regex exclude HTML in mobile version</label>
+                    <comment>Regex exclude html in mobile version(comma separated)</comment>
                 </field>
                 <field id="minify_html" translate="label comment" type="select" sortOrder="60"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Minify Html</label>
                     <comment>Minify Html</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="minify_js" translate="label comment" type="select" sortOrder="70"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Minify inline Javascript</label>
+                    <comment>Minify inline Javascript</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+<!--                 <field id="defer_js" translate="label comment" type="select" sortOrder="75"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Defer Javascript</label>
+                    <comment>Move JS code to the bottom of the page</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field> -->
                 <field id="body_includes" translate="label comment" type="textarea" sortOrder="80"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Scripts and Style Sheets</label>
                     <comment>This will be included before body closing tag in page HTML.</comment>

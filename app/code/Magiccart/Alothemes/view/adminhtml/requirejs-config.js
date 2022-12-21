@@ -1,22 +1,20 @@
 var config = {
     map: {
         '*': {
-            mcolorpicker: "Magiccart_Alothemes/js/mcolorpicker",
-            alothemes: "Magiccart_Alothemes/js/alothemes",
+            alothemes: "Magiccart_Alothemes/js/alothemes"
         },
     },
 
 	paths: {
-		'mcolorpicker'	: 'Magiccart_Alothemes/js/mcolorpicker',
-		'alothemes'		: 'Magiccart_Alothemes/js/alothemes',
+		'magiccart/mcolorpicker'	: 'Magiccart_Alothemes/js/mcolorpicker'
 	},
 
 	shim: {
-		'mcolorpicker': {
+		'magiccart/mcolorpicker': {
 			deps: ['jquery']
 		},
 		'alothemes': {
-			deps: ['jquery', 'mcolorpicker']
+			deps: ['jquery', 'magiccart/mcolorpicker']
 		},
 
 	}

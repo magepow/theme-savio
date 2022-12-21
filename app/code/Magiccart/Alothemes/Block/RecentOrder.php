@@ -3,14 +3,15 @@
 /**
  * @Author: nguyen
  * @Date:   2019-01-20 12:52:42
- * @Last Modified by:   Alex Dong
- * @Last Modified time: 2020-06-26 16:27:01
+ * @Last Modified by:   nguyen
+ * @Last Modified time: 2021-05-21 12:09:58
  */
 
 namespace Magiccart\Alothemes\Block;
 
-class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct
+class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\Framework\DataObject\IdentityInterface
 {
+    const DEFAULT_CACHE_TAG = 'ALOTHEMES_RECENTORDER';
 
     /**
      * @var \Magento\Framework\Url\Helper\Data
@@ -46,7 +47,7 @@ class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct
      * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
-	
+    
     protected $_limit; // Limit Product
     protected $_orderInfo; // Limit Product
 
@@ -81,6 +82,26 @@ class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct
         parent::__construct( $context, $data );
     }
 
+    protected function getCacheLifetime()
+    {
+        return parent::getCacheLifetime() ?: 86400;
+    }
+
+    public function getCacheKeyInfo()
+    {
+        $keyInfo     =  parent::getCacheKeyInfo();
+        $keyInfo[]   =  $this->_storeManager->getStore()->getStoreId();
+        return $keyInfo;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [self::DEFAULT_CACHE_TAG, self::DEFAULT_CACHE_TAG . '_' . $this->_storeManager->getStore()->getStoreId()];
+    }
+
     public function getTypeFilter()
     {
         return 'RecentOrder';
@@ -91,6 +112,7 @@ class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct
         return [
             'autoplay',
             'firsttime',
+            'close_off',
             'speed',
         ];
     }
@@ -143,7 +165,7 @@ class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct
                     $info = array();
                     $info['time'] = isset($faketime[$key]) ? $faketime[$key]: $faketime[array_rand($faketime)];
                     $address = isset($fakeaddress[$key]) ? $fakeaddress[$key]: $fakeaddress[array_rand($fakeaddress)];
-                    $info['address'] = sprintf(__('from %s'), $address);
+                    $info['address'] = __('from %1', $address);
                     $this->_orderInfo[$id] = $info;
                     # code...
                 }

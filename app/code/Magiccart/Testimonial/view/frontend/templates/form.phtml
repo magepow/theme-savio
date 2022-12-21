@@ -1,36 +1,22 @@
 <?php
-
-if($this->getConfig('customers_submit'))
-{
-    $customer_session = $this->getCustomerSession()->getCustomer();
-	if($this->getConfig('allowGuest')) {
-		$show_submit = true;
-	}else {
-		if($customer_session->getName()) {
-			$show_submit = true;
-		}else {
-            $show_submit = true;
-		}
-    }
-}else {
-	$show_submit = false;
+if(!$this->helper->getConfigModule('general/customers_submit')) return;
+$customer = $this->getCustomerSession()->getCustomer();
+if(!$this->helper->getConfigModule('allowGuest') && !$customer) {
+    return;
 }
-	if($show_submit==true):
 ?>
 <div class="alo-testimonial-submit">
     <form action="<?php echo $block->escapeUrl($block->getFormAction()) ?>" method="post" id="form-validate"
         enctype="multipart/form-data" class="form" data-mage-init='{"validation":{}}'>
         <fieldset class="fieldset">
             <input name="store_id" id="store_id" type="hidden" value="<?php echo $this->getStoreId();?>" />
-            <input name="status" id="status" type="hidden"
-                value="<?php if($this->getConfig('approve_testimonials')) echo '1'; else echo '3'; ?>" />
             <div class="field field-name required">
                 <label for="name" class="label">
                     <span><?php echo __('Your Name');?></span>
                 </label>
                 <div class="input-box">
                     <input name="name" id="name" class="input-text required-entry" type="text"
-                        value="<?php echo $customer_session->getName();?>" />
+                        value="<?php echo $customer ? $customer->getName() : '';?>" />
                 </div>
             </div>
             <div class="field field-email required">
@@ -39,7 +25,7 @@ if($this->getConfig('customers_submit'))
                 </label>
                 <div class="input-box">
                     <input name="email" id="email" class="input-text required-entry validate-email" type="text"
-                        value="<?php echo $customer_session->getEmail();?>" />
+                        value="<?php echo $customer ? $customer->getEmail() : '';?>" />
                 </div>
             </div>
             <div class="field field-website required">
@@ -129,10 +115,7 @@ if($this->getConfig('customers_submit'))
     </form>
 </div>
 <script>
-    require([
-        "jquery",
-        "mage/mage"
-    ], function($){
+    require(["jquery", "mage/mage"], function($){
         var dataForm = $('#form-validate');
         dataForm.mage('validation', {
             errorPlacement: function(error, element) {
@@ -145,4 +128,3 @@ if($this->getConfig('customers_submit'))
         });
     });
 </script>
-<?php endif; ?>

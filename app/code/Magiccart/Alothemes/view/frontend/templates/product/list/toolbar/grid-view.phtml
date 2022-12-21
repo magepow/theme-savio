@@ -1,0 +1,40 @@
+<?php
+$_aloHelper = $this->helper('Magiccart\Alothemes\Helper\Data');
+if(!$_aloHelper->getConfigModule('category_page/gridview') || !$block->isModeActive('grid')){
+	echo $_aloHelper->getGridStyle('.products-grid .product-item');
+	return;
+}
+$options    = $_aloHelper->getCategoryOptions();
+?>
+<div class="grid-view-mode" data-mage-init='{"gridView": {}}'
+<?php foreach ($options as $key => $value): ?>
+	data-<?php echo $key ?>='<?php echo $value ?>'
+<?php endforeach ?>
+>
+<?php 
+echo $_aloHelper->getGridStyle('.products-grid .product-item');
+$gridNum = $options['grid-max'] + 1;
+while ($gridNum) : ?>
+	<span class="grid-mode grid-<?= $gridNum ?>" data-grid="<?= $gridNum ?>">
+		<span class="icon">
+			<?php 
+				$num = $gridNum;
+				$r = 3;
+				$width = (3*$num - 1)*$r;	/* 2*$r*$num + ($num-1)*$r; */
+				$height = 8*$r;
+				$cx = $r;
+	 		?>
+			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="<?php echo $width ?>px" height="<?php echo $height ?>px" viewBox="0 0 <?php echo $width ?> <?php echo $height ?>" enable-background="new 0 0 <?php echo $width ?> <?php echo $height ?>" xml:space="preserve">
+	 			<?php while ($num) : ?>
+					<circle fill="#D1D2D1" cx="<?= $cx ?>" cy="<?= $r ?>"   r="<?= $r ?>"/>
+					<circle fill="#D1D2D1" cx="<?= $cx ?>" cy="<?= 4*$r ?>" r="<?= $r ?>"/>
+					<circle fill="#D1D2D1" cx="<?= $cx ?>" cy="<?= 7*$r ?>" r="<?= $r ?>"/>	 				
+				<?php $num--; $cx = $cx + 3*$r ?>
+				<?php endwhile ?>
+	 		</svg>
+		</span>
+	</span>
+	<?php $gridNum--; ?>
+<?php endwhile ?>
+</div>

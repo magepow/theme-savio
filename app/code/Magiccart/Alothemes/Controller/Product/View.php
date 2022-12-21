@@ -6,7 +6,7 @@
  * @license   http://www.magiccart.net/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2017-02-05 10:40:51
- * @@Modify Date: 2019-07-27 00:05:21
+ * @@Modify Date: 2021-05-14 00:05:21
  * @@Function:
  */
 
@@ -179,6 +179,10 @@ class View extends \Magento\Catalog\Controller\Product\View
 
                 $product = $page->getLayout()->getOutput();
 
+                $product = str_replace("swatch-options","swatch-options-".$productId, $product);
+                $product = str_replace('data-gallery-role="gallery-placeholder"','data-gallery-role="gallery-placeholder-'.$productId.'"',$product);
+                $product = str_replace('data-gallery-role=gallery-placeholder','data-gallery-role=gallery-placeholder-'.$productId,$product);
+                // $product = str_replace('gallery-placeholder','gallery-placeholder-'.$productId, $product);
                 $this->getResponse()->setBody( $product );
 
 

@@ -65,7 +65,32 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_objectManager;
-    
+
+    /**
+     * @var _stockconfig
+     */
+    protected $_stockConfig;
+
+     /**
+     * @var \Magento\CatalogInventory\Helper\Stock
+     */
+    protected $_stockFilter;
+
+    /**
+     * [$_brandFactory description]
+     * @var \Magiccart\Shopbrand\Model\ShopbrandFactory 
+     */
+    protected $_brandFactory;
+    /**
+     * [$_limit description]
+     * @var [type]
+     */
+    protected $_limit; // Limit Product
+    /**
+     * [$_helperData description]
+     * @var [type]
+     */
+    protected $_helperData;
     /**
      * Initialize
      *
@@ -84,31 +109,37 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Model\Layer\Resolver $layerResolver, 
         CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Url\Helper\Data $urlHelper,
-
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magiccart\Shopbrand\Model\ShopbrandFactory $brandFactory,
+        \Magiccart\Shopbrand\Helper\Data $helperData,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\CatalogInventory\Helper\Stock $stockFilter,
+        \Magento\CatalogInventory\Model\Configuration $stockConfig,
             array $data = []
     ) {
         $this->_catalogLayer = $layerResolver->get();
         $this->_postDataHelper = $postDataHelper;
         $this->categoryRepository = $categoryRepository;
         $this->urlHelper = $urlHelper;
-
+        $this->_brandFactory = $brandFactory;
+        $this->_helperData = $helperData;
+        $this->_eavConfig = $eavConfig;
         $this->_objectManager = $objectManager;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_stockFilter = $stockFilter;
+        $this->_stockConfig = $stockConfig;
 
         parent::__construct($context, $postDataHelper, $layerResolver, $categoryRepository, $urlHelper, $data);
     }
 
     public function getType()
-    {
-        $type = $this->getRequest()->getParam('type');
-        if(!$type){
-            $type = $this->getActive(); // get form setData in Block
-        }
-        return $type;
+    {   
+        $brandId = $this->getRequest()->getParam('id', 0);
+        $option_id = $this->_brandFactory->create()->load($brandId);
+        return $option_id;
     }
 
     public function getWidgetCfg($cfg=null)
@@ -127,26 +158,39 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $type = $this->getType();
-            $collection = $this->getBrandProducts($type);
+
+            $brand = $this->getType()->getData('option_id');
+            $collection = $this->getBrandProducts($brand);
+
+            if ($this->_stockConfig->isShowOutOfStock() != 1) {
+                $this->_stockFilter->addInStockFilterToCollection($collection);
+            }
+            // $this->_eventManager->dispatch(
+            //     'catalog_block_product_list_collection',
+            //     ['collection' => $collection]
+            // );
+
             $this->_productCollection = $collection;
         }
-        return $this->_productCollection;
+
+        $page = $this->getRequest()->getParam('p', 1);
+
+        return $this->_productCollection->setCurPage($page);
     }
 
-
     public function getBrandProducts($brand)
-    {
-
+    {   
+        $attributeCode = $this->_helperData->getConfigModule('general/attributeCode');
+        $this->_limit = $this->getWidgetCfg('limit');
         $collection = $this->_productCollectionFactory->create();
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
-        $collection->addAttributeToFilter('manufacturer', $brand)
+        $collection->addAttributeToFilter($attributeCode, $brand)
                     ->addStoreFilter()
                     ->addAttributeToSelect('*')
                     ->addMinimalPrice()
                     ->addFinalPrice()
                     ->addTaxPercents()
-                    ->setPageSize($this->_limit)->setCurPage(1);
+                    ->setPageSize($this->_limit);
 
         return $collection;
 

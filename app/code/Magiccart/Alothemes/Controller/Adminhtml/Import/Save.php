@@ -6,7 +6,7 @@
  * @license     http://www.magiccart.net/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2016-01-05 10:40:51
- * @@Modify Date: 2020-05-25 14:52:26
+ * @@Modify Date: 2020-09-15 14:52:26
  * @@Function:
  */
 
@@ -76,13 +76,13 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
         }
         $this->_store = is_array($stores) ? $stores : explode(',', $stores);
         if($request['action']){
-            if( isset($request['block']) && $request['block'] )   $this->importBlock(isset($request['overwrite_block']));
-            if( isset($request['page'])  && $request['page'] )    $this->importPage(isset($request['overwrite_page']));
-            if( isset($request['config'])  && $request['config'] )  $this->importSystem($scope);
-            $this->importMagicmenu();
-            $this->importMagicproduct();            
-            $this->importMagicslider();            
-            $this->importLookbook();            
+            if( isset($request['block']) && $request['block'] )                 $this->importBlock(isset($request['overwrite_block']));
+            if( isset($request['page'])  && $request['page'] )                  $this->importPage(isset($request['overwrite_page']));
+            if( isset($request['config'])  && $request['config'] )              $this->importSystem($scope);
+            if( isset($request['magicmenu']) && $request['magicmenu'] )         $this->importMagicmenu();
+            if( isset($request['magicslider']) && $request['magicslider'] )     $this->importMagicslider(); 
+            if( isset($request['magicproduct']) && $request['magicproduct'] )   $this->importMagicproduct(isset($request['magicproduct_conditions']));
+            if( isset($request['lookbook']) && $request['lookbook'] )           $this->importLookbook();
         } else {
             if( isset($request['block']) && $request['block'] )   $this->removeBlock();
             if( isset($request['page'])  && $request['page'] )    $this->removePage();
@@ -348,7 +348,7 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
         }
     }
 
-    public function importMagicproduct()
+    public function importMagicproduct($conditions=false)
     {
         $fileName = 'magicproduct.xml';
         $backupFilePath = $this->getImportFile($fileName);
@@ -378,8 +378,19 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
                             continue;
                         }
                     }
-                    $model = $this->_objectManager->create('Magiccart\Magicproduct\Model\Magicproduct');   
-                    $model->setData($item->asArray())->save();
+                    $model = $this->_objectManager->create('Magiccart\Magicproduct\Model\Magicproduct');
+                    if($conditions){
+                        $model->setData($item->asArray())->save();
+                    } else {
+                        $dataXml = $item->asArray();
+                        if(isset($dataXml['config']) && $dataXml['config']){
+                            $config  = unserialize($dataXml['config']);
+                            if(isset($config['parameters'])) unset($config['parameters']);
+                            $dataXml['config'] = serialize($config);
+                        }
+                        $model->setData($dataXml)->save();                       
+                    }
+
                     $num++;
                 }               
             }

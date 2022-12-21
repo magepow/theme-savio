@@ -35,34 +35,33 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
-<!--             <group id="category_page" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="category_page" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Category Page</label>
-                <field id="cart" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Cart</label>
-                    <comment>Show Add To Cart</comment>
+                <field id="page_layout" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Page Layout</label>
+                    <comment>Page Layout</comment>
+                    <source_model>Magiccart\Alothemes\Model\Design\Frontend\Layout</source_model>
+                </field>
+                <field id="gridview" translate="label comment" type="select" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Switcher Grid View</label>
+                    <comment>Show Switcher Mode Grid View</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="compare" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Compare</label>
-                    <comment>Show Compare</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <field id="config_display" translate="label comment tooltip" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Config Display</label>
+                    <frontend_model>Magiccart\Alothemes\Block\System\Config\Form\Field\Display</frontend_model>
+                    <backend_model>Magiccart\Alothemes\Model\Design\Backend\Display</backend_model>
+                    <comment>Config Displayin detail page</comment>
+                    <tooltip>Config Display custom.</tooltip>
                 </field>
-                <field id="wishlist" translate="label comment" type="select" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Wishlist</label>
-                    <comment>Show Wishlist</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <field id="style" type="textarea" translate="label comment tooltip" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>CSS</label>
+                    <tooltip>Custom Extra Styles.</tooltip>
+                   <comment>
+                        <![CDATA[Custom style category page]]>
+                    </comment>
                 </field>
-                <field id="quickview" translate="label comment" type="select" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Quickview</label>
-                    <comment>Show Quick view</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="review" translate="label comment" type="select" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Review</label>
-                    <comment>Show Review</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group> -->
+            </group>
             <group id="grid" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Grid Category Page</label>
                 <field id="mobile" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -115,15 +114,68 @@
                     <comment>Padding Left and Right</comment>
                     <validate>required-entry validate-digits validate-zero-or-greater</validate>
                 </field>
+                <field id="visible_plus" translate="label comment" type="select" sortOrder="110"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[min-width 1920: ]]></label>
+                    <comment><![CDATA[Display Private with layout 1 column]]></comment>
+                    <source_model>Magiccart\Alothemes\Model\System\Config\Col</source_model>
+                </field>
             </group>
-<!--             <group id="product_page" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="product_page" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Product Page</label>
-                <field id="zoom" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Enable Zoom</label>
-                    <comment>Enable Zoom while hover image</comment>
+                <field id="page_layout" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Page Layout</label>
+                    <comment>Page Layout</comment>
+                    <source_model>Magiccart\Alothemes\Model\Design\Frontend\Layout</source_model>
+                </field>
+<!--                 <field id="cart" translate="label comment" type="select" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Cart</label>
+                    <comment>Show Add To Cart</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-            </group> -->
+                <field id="compare" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Compare</label>
+                    <comment>Show Compare</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="wishlist" translate="label comment" type="select" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Wishlist</label>
+                    <comment>Show Wishlist</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="review" translate="label comment" type="select" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Review</label>
+                    <comment>Show Review</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field> -->
+                <field id="config_display" translate="label comment tooltip" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Config Display</label>
+                    <frontend_model>Magiccart\Alothemes\Block\System\Config\Form\Field\Display</frontend_model>
+                    <backend_model>Magiccart\Alothemes\Model\Design\Backend\Display</backend_model>
+                    <comment>Config Displayin detail page</comment>
+                    <tooltip>Config Display custom.</tooltip>
+                </field>
+                <field id="tab_block" translate="label comment tooltip" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Tab Block</label>
+                    <frontend_model>Magiccart\Alothemes\Block\System\Config\Form\Field\Tab\Block</frontend_model>
+                    <backend_model>Magiccart\Alothemes\Model\Design\Backend\Tab\Block</backend_model>
+                    <comment>Product tab in detail page</comment>
+                    <tooltip>Tab Block.</tooltip>
+                </field>
+                <field id="tab_attribute" translate="label comment tooltip" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Tab Attribute</label>
+                    <frontend_model>Magiccart\Alothemes\Block\System\Config\Form\Field\Tab\Attribute</frontend_model>
+                    <backend_model>Magiccart\Alothemes\Model\Design\Backend\Tab\Attribute</backend_model>
+                    <comment>Product tab in detail page</comment>
+                    <tooltip>Tab Attribute.</tooltip>
+                </field>
+                <field id="style" type="textarea" translate="label comment tooltip" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>CSS</label>
+                    <tooltip>Custom Extra Styles.</tooltip>
+                   <comment>
+                        <![CDATA[Custom style product page]]>
+                    </comment>
+                </field>
+            </group>
             <group id="grid_widget" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Grid Widget of Magento</label>
                 <field id="mobile" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -589,10 +641,16 @@
                     <validate>validate-digits validate-greater-than-zero</validate>
                     <depends><field id="enabled" separator=",">1</field></depends>
                 </field>
-                <field id="speed" translate="label comment" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="speed" translate="label comment" type="text" sortOrder="70"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Speed</label>
                     <comment>Speed Next time</comment>
                     <validate>validate-digits validate-greater-than-zero</validate>
+                    <depends><field id="enabled" separator=",">1</field></depends>
+                </field>
+                <field id="close_off" translate="label comment" type="select" sortOrder="80"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Don't show again when close</label>
+                    <comment>Don't show again in current page or other pages when customer click to button close</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends><field id="enabled" separator=",">1</field></depends>
                 </field>
 <!--                 <field id="heading_responsive" translate="label comment" sortOrder="60"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -650,6 +708,10 @@
                     <comment>Maximal Depth</comment>
                     <validate>validate-digits validate-zero-or-greater</validate>
                 </field>
+                <field id="level_symbol" translate="label comment" type="text" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Level Symbol</label>
+                    <comment>Level Symbol</comment>
+                </field>
             </group>
             <group id="newsletter" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Newsletter Popup</label>
@@ -699,6 +761,10 @@
                     <upload_dir config="system/filesystem/media" scope_info="1">magiccart/newsletter</upload_dir>
                     <base_url type="media" scope_info="1">magiccart/newsletter</base_url>
                 </field>
+                <field id="heading_content_edit" translate="label comment" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>You can edit content newsletter popup in: Admin Panel > Content > Blocks > newsletter_popup</label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                </field>
             </group>
             <group id="font" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Font</label>
@@ -721,6 +787,45 @@
                     <label>Custom Font : </label>
                     <depends><field id="google" separator=",">0</field></depends>
                     <!-- <validate>required-entry</validate> -->
+                </field>
+            </group>
+            <group id="flags" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Flags</label>
+<!--                 <field id="flag" translate="label comment tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Flags</label>
+                    <frontend_model>Magiccart\Alothemes\Block\System\Config\Form\Field\Flag</frontend_model>
+                    <backend_model>Magiccart\Alothemes\Model\Design\Backend\Flag</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">magiccart/flags</upload_dir>
+                    <comment>Flag store language</comment>
+                    <tooltip>Flag.</tooltip>
+                </field> -->
+                <field id="flag" translate="label comment" type="image" sortOrder="45"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Flag Image :</label>
+                    <comment>Allowed file types: jpg, jpeg, gif, png.</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">magiccart/flags</upload_dir>
+                    <base_url type="media" scope_info="1">magiccart/flags</base_url>
+                </field>
+            </group>
+            <group id="css" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>CSS Settings</label>
+                <field id="merge_css_files" translate="label comment" type="select" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Merge CSS Files</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="extra_css" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Custom Extra Styles, CSS ..etc</label>
+                <field id="style" type="textarea" translate="label comment tooltip" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>CSS</label>
+                    <tooltip>Custom Extra Styles.</tooltip>
+                   <comment>
+                        <![CDATA[
+                            <style type="text/css">
+                                #alothemes_extra_css_color {width:600px;height:400px}
+                            </style>
+                        ]]>
+                    </comment>
                 </field>
             </group>
         </section>
@@ -950,10 +1055,10 @@
                     <label>Access Token: </label>
                     <comment>Get access Token follow guide here: https://developers.facebook.com/docs/instagram-api/getting-started/</comment>
                 </field>
-                <field id="tags" translate="label comment" type="text" sortOrder="3"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+<!--                 <field id="tags" translate="label comment" type="text" sortOrder="3"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Tags</label>
                     <comment>Tags</comment>
-                </field>
+                </field> -->
                 <field id="limit" translate="label comment" type="text" sortOrder="5"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Limit</label>
                     <comment>Limit</comment>

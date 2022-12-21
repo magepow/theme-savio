@@ -6,16 +6,17 @@
  * @license     http://www.magepow.com/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2017-01-05 10:40:51
- * @@Modify Date: 2020-05-01 18:09:48
+ * @@Modify Date: 2020-10-22 18:09:48
  * @@Function:
  */
 
 namespace Magiccart\Magicslider\Block\Widget;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
-class Slider extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
+class Slider extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface, \Magento\Framework\DataObject\IdentityInterface
 {
-
+    const DEFAULT_CACHE_TAG = 'MAGICCART_MAGICSLIDER';
     const MEDIA_PATH = 'magiccart/magicslider';
 
     public $_sysCfg;
@@ -82,6 +83,7 @@ class Slider extends \Magento\Framework\View\Element\Template implements \Magent
                         ->addFieldToFilter('identifier', $identifier)
                         ->setOrder('stores', 'desc')
                         ->setOrder('magicslider_id', 'desc')
+                        ->setPageSize(1)
                         ->getFirstItem();
         if (!$this->_magicslider){
             echo '<div class="message-error error message">Identifier "'. $identifier . '" not exist.</div> ';          
@@ -96,10 +98,10 @@ class Slider extends \Magento\Framework\View\Element\Template implements \Magent
         $total = count($breakpoints);
         $responsive = '[';
         foreach ($breakpoints as $size => $screen) {
-            if(isset($data[$screen])){
-                $responsive .= '{"breakpoint": '.$size.', "settings": {"slidesToShow": '.$data[$screen].'}}';
-            }
-            if($total-- > 1) $responsive .= ', ';
+            $total--;
+            if(!isset($data[$screen])) continue;
+            $responsive .= '{"breakpoint": '.$size.', "settings": {"slidesToShow": '.$data[$screen].'}}';
+            if($total > 0) $responsive .= ', ';
         }
         $responsive .= ']';
         $data['responsive'] = $responsive;
@@ -107,9 +109,30 @@ class Slider extends \Magento\Framework\View\Element\Template implements \Magent
         // $data['swipe-To-Slide'] = 'true';
         $data['vertical-Swiping'] = $data['vertical'];
         $data['slide'] = 1;
+        // if(!isset($data['rows'])  || $data['rows'] == 1 ) $data['rows'] = 0;
         //$data['lazy-Load'] = 'progressive';
         $this->addData($data);
         parent::_construct();
+    }
+
+    protected function getCacheLifetime()
+    {
+        return parent::getCacheLifetime() ?: 86400;
+    }
+
+    public function getCacheKeyInfo()
+    {
+        $keyInfo     =  parent::getCacheKeyInfo();
+        $keyInfo[]   =  $this->getMagicslider()->getId();
+        return $keyInfo;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [self::DEFAULT_CACHE_TAG, self::DEFAULT_CACHE_TAG . '_' . $this->getMagicslider()->getId()];
     }
 
     public function getAdminUrl($adminPath, $routeParams=[], $storeCode = 'default' ) 
@@ -142,7 +165,7 @@ class Slider extends \Magento\Framework\View\Element\Template implements \Magent
             $images = $this->_collectionFactory->create();
             $i=0;
             foreach ($this->getMediaGallery('images') as $image) {
-                if ((isset($image['disabled']) && $image['disabled'])
+                if ((isset($image['disabled']) && $image['disabled'] || !isset($image['file']))
                 ) {
                     continue;
                 }
@@ -244,7 +267,7 @@ class Slider extends \Magento\Framework\View\Element\Template implements \Magent
 
     public function getSlideOptions()
     {
-        return array('autoplay', 'arrows', 'autoplay-Speed', 'speed', 'dots', 'infinite', 'padding', 'vertical', 'vertical-Swiping', 'responsive', 'rows', 'slides-To-Show');
+        return array('autoplay', 'arrows', 'autoplay-Speed', 'speed', 'dots', 'fade', 'infinite', 'padding', 'vertical', 'vertical-Swiping', 'responsive', 'rows', 'slides-To-Show');
     }
 
     public function getFrontendCfg()

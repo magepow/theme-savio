@@ -26,12 +26,14 @@
                 <infinite>true</infinite>
                 <autoplay>true</autoplay>
                 <arrows>false</arrows>
-                <center_mode>true</center_mode>
+                <center_mode>false</center_mode>
                 <dots>false</dots>
                 <fade>true</fade>
-                <rows>1</rows>
+                <rows>0</rows>
                 <speed>300</speed>
+                <autoplay_speed>3000</autoplay_speed>
                 <autoplay-Speed>3000</autoplay-Speed>
+                <adaptive_height>false</adaptive_height>
                 <padding>15</padding>
                 <mobile>1</mobile>
                 <portrait>1</portrait>

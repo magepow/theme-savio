@@ -19,9 +19,10 @@ use Magento\Framework\App\Action\Action;
 <div class= "<?php /* @escapeNotVerified */ echo $selector?> recentorder suggest-slider autoplay" 
 		data-autoplay="<?php echo $this->getWidgetCfg('autoplay') ?>" 
 		data-firsttime="<?php echo $this->getWidgetCfg('firsttime') ?>" 
+		data-close_off="<?php echo $this->getWidgetCfg('close_off') ?>" 
 		data-speed="<?php echo $this->getWidgetCfg('speed') ?>" 
 	>
-	<div class="notify-slider-wrapper content-products"       
+	<div class="notify-slider-wrapper"       
 	>
 		<?php
 		$_productCollection = $block->getLoadedProductCollection();

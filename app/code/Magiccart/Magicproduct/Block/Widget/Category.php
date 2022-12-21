@@ -60,7 +60,7 @@ class Category extends Product
         if(!$this->_tabs){
             $tabs = array();
             $categoryIds = $this->getCategoryIds();
-            if(in_array('0', $categoryIds)) $tabs['0'] = __('All');
+            if(is_array($categoryIds) && in_array('0', $categoryIds)) $tabs['0'] = __('All');
             $types =  $this->_categoryInstance->getCollection()
                             // ->setStoreId()
                             ->addAttributeToFilter('entity_id', array('in' => $categoryIds))
@@ -83,8 +83,9 @@ class Category extends Product
         return $this->_tabs;
     }
 
-    public function getContent($template)
+    public function getContent($template='')
     {
+        if($template) $this->setTemplateProduct($template); 
         $content = '';   
         $tabs = ($this->getAjax()) ? $tabs = array($this->getTabActivated() => 'Activated') : $this->getTabs();
         foreach ($tabs as $type => $name) {

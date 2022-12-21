@@ -17,7 +17,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Save extends \Magiccart\Magicslider\Controller\Adminhtml\Action
 {
     
-    private $_mediaDir = 'magiccart/magicslider/';
+    private $_mediaDir = 'magiccart/magicslider';
 
     /**
      * @var \Magento\Framework\View\Result\PageFactory
@@ -37,7 +37,7 @@ class Save extends \Magiccart\Magicslider\Controller\Adminhtml\Action
                 $identifier = isset($data['identifier']) ? $data['identifier'] : '';
                 $magicslider = $this->_magicsliderFactory->create()->getCollection()->addFieldToSelect('*')->addFieldToFilter('stores', $store);
                 if($identifier) $magicslider->addFieldToFilter('identifier', $identifier);
-                $magicslider = $magicslider->setOrder('stores', 'desc')->setOrder('magicslider_id', 'desc')->getFirstItem(); 
+                $magicslider = $magicslider->setOrder('stores', 'desc')->setOrder('magicslider_id', 'desc')->setPageSize(1)->getFirstItem(); 
                 if($magicslider && $magicslider->getId() != $id){
                     $this->messageManager->addError(__('identifier "%1" already exists in store "%2"!', $identifier, $store));
                     $this->_getSession()->setFormData($data);
@@ -105,7 +105,7 @@ class Save extends \Magiccart\Magicslider\Controller\Adminhtml\Action
                     $media_gallery = $data['product']['media_gallery'];
                     $images = $media_gallery['images'];
                     foreach ($images as $key => $image) {
-                        if($image['removed']){
+                        if(isset($image['removed']) && $image['removed']){
                             if ($_file->isExists($mediaRootDir . $image['file']))  {
 
                                 $_file->deleteFile($mediaRootDir . $image['file']);    
@@ -120,7 +120,7 @@ class Save extends \Magiccart\Magicslider\Controller\Adminhtml\Action
                     $media_gallery_mobile = $data['product']['media_gallery_mobile'];
                     $images = $media_gallery_mobile['images'];
                     foreach ($images as $key => $image) {
-                        if($image['removed']){
+                        if(isset($image['removed']) && $image['removed']){
                             if ($_file->isExists($mediaRootDir . $image['file']))  {
 
                                 $_file->deleteFile($mediaRootDir . $image['file']);    

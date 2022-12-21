@@ -1,58 +1,65 @@
 <?php
+
 /**
- * Magiccart 
- * @category    Magiccart 
- * @copyright   Copyright (c) 2014 Magiccart (http://www.magiccart.net/) 
- * @license     http://www.magiccart.net/license-agreement.html
- * @Author: DOng NGuyen<nguyen@dvn.com>
- * @@Create Date: 2015-12-14 20:26:27
- * @@Modify Date: 2016-03-21 15:59:53
- * @@Function:
+ * @Author: nguyen
+ * @Date:   2021-06-17 09:43:45
+ * @Last Modified by:   nguyen
+ * @Last Modified time: 2021-06-17 09:47:16
  */
 
 namespace Magiccart\Testimonial\Helper;
 
-// use \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig;
-use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Helper\Context;
-use Magento\Framework\UrlInterface;
-use Magento\Customer\Model\Session;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
     private $customerSession;
+
     private $urlInterface;
-    const SECTIONS      = 'testimonial';   // module name
-    const GROUPS        = 'general';        // setup general
-    const MEDIA_PATH    = 'magiccart/testimonial/';
+
+    /**
+     * @var array
+     */
+    protected $configModule;
+
     public function __construct(
-        Context $context,
-        Session $customerSession
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Customer\Model\Session $customerSession
     )
     {
         parent::__construct($context);
         $this->customerSession = $customerSession;
-        $this->urlInterface = $context->getUrlBuilder();
+        $this->urlInterface    = $context->getUrlBuilder();
+        $module = strtolower(str_replace('Magiccart_', '', $this->_getModuleName()));
+        $this->configModule = $this->getConfig($module);
     }
 
-    public function getConfig($cfg=null)
+    public function getConfig($cfg='')
     {
-        return $this->scopeConfig->getValue(
-            $cfg,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+        if($cfg) return $this->scopeConfig->getValue( $cfg, \Magento\Store\Model\ScopeInterface::SCOPE_STORE );
+        return $this->scopeConfig;
     }
-    
-    public function getGeneralCfg($cfg=null) 
-    {
-        $config = $this->scopeConfig->getValue(
-            self::SECTIONS.'/'.self::GROUPS,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
 
-        if(isset($config[$cfg])) return $config[$cfg];
-        return $config;
+    public function getConfigModule($cfg='', $value=null)
+    {
+        $values = $this->configModule;
+        if( !$cfg ) return $values;
+        $config  = explode('/', $cfg);
+        $end     = count($config) - 1;
+        foreach ($config as $key => $vl) {
+            if( isset($values[$vl]) ){
+                if( $key == $end ) {
+                    $value = $values[$vl];
+                }else {
+                    $values = $values[$vl];
+                }
+            } 
+
+        }
+        return $value;
     }
 
     public function isAllowedToAddTestimonial()

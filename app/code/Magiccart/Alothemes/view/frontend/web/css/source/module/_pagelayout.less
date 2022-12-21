@@ -1,0 +1,263 @@
+& when (@media-common =true) {
+    .page-layout-1column,
+    .page-layout-1column-full-width {
+        &.page-with-filter {
+            .block {
+                &.filter {
+                    .block-title {
+                        &.filter-title {
+                            display: inline-block;
+
+                            strong {
+                                display: inline-block;
+                                cursor: pointer;
+                                height: 35px;
+                                line-height: 33px;
+                                padding: 0 15px;
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                left: auto;
+                                z-index: 11;
+                            }
+                        }
+                    }
+
+                    .block-content {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        height: 100vh;
+                        padding: 0 20px 20px;
+                        -webkit-transform: translateX(-100%);
+                        -ms-transform: translateX(-100%);
+                        -o-transform: translateX(-100%);
+                        transform: translateX(-100%);
+                        -webkit-transition: all .3s ease;
+                        -moz-transition: all .3s ease;
+                        -o-transition: all .3s ease;
+                        transition: all .3s ease;
+                        z-index: 11;
+                        max-width: 300px;
+                        margin-top: 0;
+
+                        .filter-subtitle {
+                            display: block;
+                            text-transform: uppercase;
+                            padding: 10px 10px;
+                            border-bottom-width: 1px;
+                            border-bottom-style: solid;
+                            font-size: 1.8rem;
+                            margin-bottom: 20px;
+                            position: static;
+                            height: auto;
+                        }
+
+                        .filter-options {
+                            height: calc(~"100vh - 90px");
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                            padding-right: 10px;
+                            position: static;
+                            background-color: #fff;
+                            z-index: 12;
+                            border-width: 0;
+
+                            &::-webkit-scrollbar {
+                                width: 5PX;
+                                -webkit-border-radius: 5px;
+                                -moz-border-radius: 5px;
+                                border-radius: 5px;
+                            }
+
+                            &::-webkit-scrollbar-t {
+                                background-color: #484848;
+                                -webkit-border-radius: 5px;
+                                -moz-border-radius: 5px;
+                                border-radius: 5px;
+                            }
+
+                            .filter-options-item {
+                                width: 100%;
+                                margin: 0 0 20px;
+
+                                .filter-options-content {
+                                    position: static;
+                                    box-shadow: none;
+                                    border-width: 0px;
+                                    display: block;
+                                    width: 100%;
+                                }
+
+                                &:before {
+                                    border: 0;
+                                    clip: rect(0, 0, 0, 0);
+                                    height: 1px;
+                                    margin: -1px;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    position: absolute;
+                                    width: 1px;
+                                }
+                            }
+                        }
+
+                        &::-webkit-scrollbar-track {
+                            -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+                            background-color: #fafafa;
+                            -webkit-border-radius: 5px;
+                            -moz-border-radius: 5px;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+
+                &.active {
+                    .block-title {
+                        &.filter-title {
+                            strong {
+                                &:after {
+                                    content: "";
+                                    position: fixed;
+                                    top: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    left: 0;
+                                    background-color: rgba(0, 0, 0, .5);
+                                }
+
+                                &:before {
+                                    content: @icon-remove;
+                                    font-family: @icon-font;
+                                    font-size: 18px;
+                                    position: fixed;
+                                    top: 0;
+                                    left: 300px;
+                                    z-index: 13;
+                                    width: 35px;
+                                    height: 35px;
+                                    line-height: 33px;
+                                    display: inline-block;
+                                    background-color: #fff;
+                                    border: 1px solid #dfdfdf;
+                                    text-align: center;
+                                }
+                            }
+                        }
+                    }
+
+                    .block-content {
+                        -webkit-transform: translateX(0);
+                        -ms-transform: translateX(0);
+                        -o-transform: translateX(0);
+                        transform: translateX(0);
+                    }
+                }
+            }
+
+            .toolbar {
+                max-width: calc(~"100% - 100px");
+            }
+
+            .toolbar-bottom {
+                .toolbar {
+                    max-width: 100%;
+                }
+            }
+
+            &.page-with-filter {
+                .page-main {
+                    z-index: 9999;
+                }
+            }
+        }
+
+        &.has-sidebar-filters-toggle{
+            .toolbar {
+                max-width: 100%;
+            }
+        }
+    }
+
+    .page-layout-1column-full-width,
+    .page-layout-2columns-left-full-width,
+    .page-layout-2columns-right-full-width {
+        .container {
+            max-width: 100%;
+        }
+    }
+
+
+    @media (max-width: 767px) {
+
+        .page-layout-1column,
+        .page-layout-1column-full-width {
+            &.page-with-filter {
+                .block {
+                    &.filter {
+                        .block-title {
+                            &.filter-title {
+                                strong {
+                                    right: auto;
+                                    left: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 479px) {
+
+        .page-layout-1column,
+        .page-layout-1column-full-width {
+            &.page-with-filter {
+                .block {
+                    &.filter {
+                        &.active {
+
+                            .block-title {
+                                &.filter-title {
+                                    z-index: 13;
+
+                                    strong {
+                                        right: 0;
+                                        left: auto;
+                                        font-size: 0;
+                                        top: 5px;
+
+                                        &:after {
+                                            border: 0;
+                                            clip: rect(0, 0, 0, 0);
+                                            height: 1px;
+                                            margin: -1px;
+                                            overflow: hidden;
+                                            padding: 0;
+                                            position: absolute;
+                                            width: 1px;
+                                        }
+
+                                        &:before {
+                                            position: static;
+                                            border: 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .block-content {
+                                .filter-subtitle {
+                                    border-width: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

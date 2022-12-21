@@ -6,12 +6,12 @@
  * @license     http://www.magiccart.net/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2016-02-23 18:59:34
- * @@Modify Date: 2020-07-20 23:45:31
+ * @@Modify Date: 2020-09-20 27:45:31
  * @@Function:
  */ -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-	<default>
-	    <alothemes>
+    <default>
+        <alothemes>
             <rtl>
                 <enabled>0</enabled>
             </rtl>
@@ -23,6 +23,9 @@
                 <enabled>1</enabled>
             </widescreen>
             <category_page>
+                <page_layout></page_layout>
+                <gridview>1</gridview>
+                <config_display><![CDATA[{"_1601090070156_156":{"title":"Show Cart","selector":".catalog-category-view .product-item .actions-cart, .product-item .tocart","enabled":"1"},"_1601090072720_720":{"title":"Show Compare","selector":".catalog-category-view .product-item .tocompare","enabled":"1"},"_1601090074061_61":{"title":"Show Wishlist","selector":".catalog-category-view .product-item .towishlist","enabled":"1"},"_1601090074700_700":{"title":"Show Quickview","selector":".catalog-category-view .product-item .link-view","enabled":"1"},"_1601090075319_319":{"title":"Show Review","selector":".catalog-category-view .product-item .product-reviews-summary","enabled":"1"},"_1601953500959_959":{"title":"Stock Status","selector":".catalog-category-view .product-item .stock","enabled":"1"},"_1601953611355_355":{"title":"Price","selector":".catalog-category-view .product-item .price-box","enabled":"1"},"_1625731086274_274":{"title":"View Mode 4 Column","selector":".grid-view-mode .grid-4","enabled":"1"},"_1625731097543_543":{"title":"View Mode 3 Column","selector":".grid-view-mode .grid-3","enabled":"1"},"_1625731097323_323":{"title":"View Mode 2 Column","selector":".grid-view-mode .grid-2","enabled":"1"},"_1625731097058_58":{"title":"View Mode 1 Column","selector":".grid-view-mode .grid-1","enabled":"1"}}]]></config_display>
                 <cart>1</cart>
                 <compare>1</compare>
                 <wishlist>1</wishlist>
@@ -40,8 +43,15 @@
                 <widescreen>3</widescreen>
                 <visible>3</visible>
                 <padding>15</padding>
+                <visible_plus>5</visible_plus>
             </grid>
             <product_page>
+                <page_layout></page_layout>
+                <config_display><![CDATA[{"_1601183793747_747":{"title":"Show Cart","selector":".product-info-main .actions-cart, .tocart","enabled":"1"},"_1601183797109_109":{"title":"Show Compare","selector":".product-info-main .tocompare","enabled":"1"},"_1601183798190_190":{"title":"Show Wishlist","selector":".product-info-main .towishlist","enabled":"1"},"_1601183832717_717":{"title":"Show Review","selector":".product-info-main .product-reviews-summary","enabled":"1"},"_1601518572381_381":{"title":"Show SKU","selector":".product-info-main .attribute.sku","enabled":"1"},"_1601953214789_789":{"title":"Stock Status","selector":".product-info-main .product-info-stock-sku .stock","enabled":"1"},"_1601953645904_904":{"title":"Price","selector":".product-info-main .price-box","enabled":"1"},"_1602553251992_992":{"title":"Show Sticky Cart","selector":".stickyCart .clSticky","enabled":"1"}}]]></config_display>
+                <cart>1</cart>
+                <compare>1</compare>
+                <wishlist>1</wishlist>
+                <review>1</review>
                 <zoom>1</zoom>
             </product_page>
             <grid_widget>
@@ -137,21 +147,23 @@
                 <limit>10</limit>
                 <autoplay>1</autoplay>
                 <firsttime>3000</firsttime>
-                <speed>9000</speed>
+                <speed>12000</speed>
+                <close_off>1</close_off>
             </recentorder>
             <labels>
-            	<newText>New</newText>
-            	<saleText>Sale</saleText>
-            	<salePercent>1</salePercent>
+                <newText>New</newText>
+                <saleText>Sale</saleText>
+                <salePercent>1</salePercent>
                 <zeroText>Free</zeroText>
             </labels>
             <timer>
-            	<enabled>0</enabled>
-            	<caption>1</caption>
+                <enabled>0</enabled>
+                <caption>1</caption>
             </timer>
             <categorysearch>
-            	<enabled>0</enabled>
-				<depth>0</depth>
+                <enabled>0</enabled>
+                <depth>0</depth>
+                <level_symbol>*</level_symbol>
             </categorysearch>
             <newsletter>
                 <enabled>1</enabled>
@@ -165,16 +177,19 @@
                 <background_color>#ffffff</background_color>
             </newsletter>
             <font>
-            	<size>14px</size>
-            	<google>Raleway</google>
+                <size>14px</size>
+                <google>Raleway</google>
                 <custom>Open Sans</custom>
             </font>
-	    </alothemes>
-	    <alodesign>
-	        <general>
-	            <developer>1</developer>
-	        </general>
-	    </alodesign>
+            <css>
+                <merge_css_files>1</merge_css_files>
+            </css>
+        </alothemes>
+        <alodesign>
+            <general>
+                <developer>1</developer>
+            </general>
+        </alodesign>
         <alosocial>
             <social>
                 <enabled>0</enabled>
@@ -248,5 +263,5 @@
                 <limit>10</limit>
             </picasa>
         </alosocial>
-	</default>
+    </default>
 </config>

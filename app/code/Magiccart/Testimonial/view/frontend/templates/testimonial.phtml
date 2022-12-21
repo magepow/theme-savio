@@ -5,10 +5,10 @@ $testimonials = $this->getTestimonials();
 if(!count($testimonials)) return;
 $options = $this->getFrontendCfg();
 $centerMode = false;
-if(isset($options['center-Mode']) && $options['center-Mode']) $centerMode = true;
+if(isset($options['center-mode']) && $options['center-mode']) $centerMode = true;
 ?>
-<div class="<?php /* @escapeNotVerified */ echo $selector ?>">
-    <div class="testimonial<?php echo $centerMode ? 'center-mode' : '' ?>"
+<div class="<?php /* @escapeNotVerified */ echo $selector ?>" data-mage-init='{"gridSlider": {}}' >
+    <div class="testimonial <?php echo $centerMode ? 'center-mode' : '' ?> grid-slider"
     <?php foreach ($options as $opt) :?>
         data-<?php /* @escapeNotVerified */ echo $opt ?>='<?php /* @escapeNotVerified */ echo $this->getData($opt) ?>'
     <?php endforeach;?>  
@@ -42,14 +42,3 @@ if(isset($options['center-Mode']) && $options['center-Mode']) $centerMode = true
         <?php endforeach ?>
     </div>
 </div>
-
-<script type="text/javascript">
-    require([
-        'jquery',
-        'magiccart/slick',
-        'alothemes',
-        ], function($, slick, alothemes){
-            var testimonial  = $('.<?php echo $selector ?> .testimonial');
-            if(testimonial.length) $('head').append(magicproduct(testimonial, '.item'));
-    });
-</script>

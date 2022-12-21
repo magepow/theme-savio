@@ -118,12 +118,18 @@
                     <validate>validate-zero-or-greater</validate>
                     <depends><field id="slide" separator=",">1</field></depends>
                 </field>
-                <!-- <field id="autoplay-Speed" translate="label comment" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="autoplay_speed" translate="label comment" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>autoplay Speed</label>
                     <comment>autoplay Speed</comment>
                     <validate>validate-zero-or-greater</validate>
                     <depends><field id="slide" separator=",">1</field></depends>
-                </field> -->
+                </field>
+                <field id="adaptive_height" translate="label comment" type="text" sortOrder="52"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Adaptive Height</label>
+                    <comment>Adaptive Height</comment>
+                    <source_model>Magiccart\Testimonial\Model\System\Config\Truefalse</source_model>
+                    <depends><field id="slide" separator=",">1</field></depends>
+                </field>
                 <field id="padding" translate="label comment" type="text" sortOrder="55"  showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Padding</label>
                     <comment>Padding Item Logo brand</comment>

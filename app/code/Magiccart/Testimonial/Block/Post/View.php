@@ -4,14 +4,14 @@
  * @Author: nguyen
  * @Date:   2020-05-31 11:59:46
  * @Last Modified by:   nguyen
- * @Last Modified time: 2020-05-31 12:05:32
+ * @Last Modified time: 2021-06-17 10:01:02
  */
 
 namespace Magiccart\Testimonial\Block\Post;
 
 class View extends \Magento\Framework\View\Element\Template
 {
-    protected $_testimonialFactory;
+    protected $testimonialFactory;
 
     /**
      * Core registry
@@ -20,21 +20,14 @@ class View extends \Magento\Framework\View\Element\Template
      */
     protected $_coreRegistry;
 
-    /**
-     * @var \Magento\Framework\App\ResourceConnection
-     */
-    protected $_resource;
-
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magiccart\Testimonial\Model\TestimonialFactory $testimonialFactory,
-        \Magento\Framework\App\ResourceConnection $resource,
         array $data = []
         ) {
-        $this->_testimonialFactory = $testimonialFactory;
+        $this->testimonialFactory = $testimonialFactory;
         $this->_coreRegistry = $registry;
-        $this->_resource = $resource;
         parent::__construct($context, $data); 
     }
 

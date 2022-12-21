@@ -1,5 +1,38 @@
-# Magento 2 Product Zoom Extension
-**Magento 2 Product Zoom extension**
+## Magento 2 Product image zoom extension 
+
+Are you selling products on an online Magento store? 
+**Magento 2 Product image zoom extension** is for you!
+When shopping in an online store, the problem that hinders the customer's shopping process is the inability to view product details directly. Understanding this, the Magepow team developed the Product image zoom extension.
+
+This extension allows customers to enlarge product images to see details that they cannot see at normal resolution. 3 zoom types you can use are Window zoom, Inner zoom, and Lens zoom.
+
+- Window zoom: Positioning the window can be done by setting a default position and then using x and y offset to adjust. You can also position the window into a container. 
+The administrator can customize the size of the Zoom window (width, height) and zoom window offset (x-axis, y-axis) in the admin panel.
+
+- Inner Zoom: the zoom can be placed inside of the image
+
+- Lens zoom: You can use the lens zoom setting to "Magnify the image". The image to the least has been constrained so it tucks underneath the image.
+
+[![Latest Stable Version](https://poser.pugx.org/magepow/productzoom/v/stable)](https://packagist.org/packages/magepow/productzoom)
+[![Total Downloads](https://poser.pugx.org/magepow/productzoom/downloads)](https://packagist.org/packages/magepow/productzoom)
+[![Daily Downloads](https://poser.pugx.org/magepow/productzoom/d/daily)](https://packagist.org/packages/magepow/productzoom)
+
+### Magepow_Productzoom Features
+- Use 3 Zoom type to suit your product
+
+- Product image zoom hover: hover over your product image, scroll forward to enlarge product details, scroll back down to reduce zoom. 
+
+- Smooth zooming with Easing effect and FadeIn & FadeOut Speed.
+
+- Choose Cursor: Options are default, cursor, crosshair
+
+- Support responsive
+
+- Image Cross Fade
+
+- Customize Boder
+
+- Customize Tints
 
 ## 1. How to install Magento 2 Product Zoom
 
@@ -121,5 +154,3 @@ If this project help you reduce time to develop, you can give me a cup of coffee
 
 * [Hire Magento Developer](https://magepow.com/hire-magento-developer.html)
 
-[![Latest Stable Version](https://poser.pugx.org/magepow/productzoom/v/stable)](https://packagist.org/packages/magepow/productzoom)
-[![Total Downloads](https://poser.pugx.org/magepow/productzoom/downloads)](https://packagist.org/packages/magepow/productzoom)

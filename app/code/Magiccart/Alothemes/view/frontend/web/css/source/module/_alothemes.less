@@ -1,4 +1,13 @@
 & when (@media-common = true) {
 	.alothemes{display: block;}
 	.fotorama__fullscreen .zoomImg {display: none !important;}
+	.modal-popup {
+         pointer-events: none;
+    }
+	.grid-slider {
+		opacity: 0;
+	}
+	.grid-init .grid-slider, .grid-slider.grid-init, .grid-slider.slick-initialized {
+		opacity: 1;
+	}
 }

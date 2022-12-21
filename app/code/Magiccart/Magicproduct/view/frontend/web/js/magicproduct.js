@@ -5,13 +5,13 @@
  * @license 	http://www.magiccart.net/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2014-04-25 13:16:48
- * @@Modify Date: 2020-05-18 11:08:12
+ * @@Modify Date: 2021-02-25 11:08:12
  * @@Function:
  */
 
 define([
     'jquery',
-    'magiccart/slick'
+    'slick'
     ], function ($) {
     "use strict";
     $.fn.magicproduct = function (options) {
@@ -22,6 +22,10 @@ define([
             loading  : '.ajax_loading',
             product  : '.content-products',
             padding  : 15, // padding item
+            actionmore 				: '.action-more',
+			loadmoreSelector		: '.load-more',
+			loadendSelector			: '.load-end',
+			loadmoreDisabledClass	: 'disabled'
         };
 
         var settings = $.extend(defaults, options);
@@ -30,6 +34,7 @@ define([
         var product 	= settings.product;
         var $content 	= $(this);
         var $product 	= $(product, $content);
+        var actionmore 	= $(settings.actionmore, $content);
 		if( !$product.data( 'vertical') && $('body').hasClass('rtl') ){
 			$product.attr('dir', 'rtl');
 			$product.data( 'rtl', true );
@@ -53,14 +58,6 @@ define([
                     methods.magicproductLoad();
                 });
             },
-            
-            /******************************
-            Initialize Items
-            Fully initialize everything. Plugin is loaded and ready after finishing execution
-        *******************************/
-            // initialize : function(options) {
-            //     Object.extend(settings, options);
-            // },
 
             magicproductLoad: function(buttonClass){
             	// over tab
@@ -78,14 +75,26 @@ define([
 					var type = $this.data('type');
 					var typeClass = '.mc-'+type;
 					if($this.hasClass('activated')){
-						var productsActivated = $product.find(typeClass).addClass('activated').find('.products-grid .items');
-						if(options.slidesToShow){
-							var float  = $('body').hasClass('rtl') ? 'right' : 'left';
-							$head.append('<style type="text/css">' + classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}</style>');
-							methods.productSlider(options, productsActivated);
-						} else{
-							isGrid = true;
-							methods.productGrid(options);
+						var productsActivated = $product.find(typeClass).addClass('activated');
+						if ("IntersectionObserver" in window) {
+							var style 	= methods.getStyleCLS(options);
+							var styleId = selector.replace(/[.]/g, '_');
+							$head.append('<style type="text/css" id="' + styleId +  '" >'+style+'</style>');
+							let productsObserver = new IntersectionObserver(function(entries, observer) {
+								entries.forEach(function(entry) {
+									if (entry.isIntersecting) {
+										// let el = entry.target;
+						                $head.find('#' + styleId).remove();
+										methods.gridSlider(productsActivated);
+										productsObserver.unobserve(entry.target);
+									}
+								});
+							});
+						    productsActivated.each(function(){
+						    	productsObserver.observe(this);
+						    });
+						} else {
+							methods.gridSlider(productsActivated);
 						}
 					}
 				});
@@ -106,33 +115,130 @@ define([
 							$content.find('.banner-'+ type ).slideDown(500).addClass('activated');
 							// end banner tab
 							var productsActivated = $product.find(typeClass).addClass('activated'); //.fadeIn(); // not show()
+							var nextPage = productsActivated.data('next-page');
+							methods.loadMoreButton(nextPage);
 							productsActivated.siblings().removeClass('activated'); //.hide();  // not fadeOut()
-							productsActivated = productsActivated.find('.products-grid .items');
-							if(isGrid) methods.playAnimate(productsActivated); //require for Animate
-							else  methods.productSlider(options, productsActivated);
+							productsActivated = productsActivated.find('.products.items');
+							if(isGrid){
+								if(!productsActivated.hasClass('grid-init')) productsActivated.addClass('grid-init');
+								methods.playAnimate(productsActivated); //require for Animate
+							} else  methods.productSlider(options, productsActivated);
 						}
 				});
+				methods.loadMore();
+            },
 
+            getStyleCLS : function (options) {
+            	if(!options.slidesToShow) return;
+            	var style 		= '';
+            	var padding 	= options.padding;
+				var responsive 	= options.responsive;
+				var length = Object.keys(responsive).length;
+				var nthChild =  options.slidesToShow + 1;
+				style += selector + ' .content-products .item:nth-child(n+ ' + nthChild + ')' + '{display: none;} ' + selector +  ' .item{float:left};';
+				var gridResponsive = [];
+				$.each( responsive, function( key, value ) { 
+					var breakpoint = {};
+					breakpoint[value.breakpoint] = options.vertical ? parseInt(options.rows) : parseInt(value.settings.slidesToShow);
+					gridResponsive.push(breakpoint);
+				 });
+				var girdOptions = Object.assign({}, options);
+				girdOptions.responsive  = gridResponsive.reverse();
+				style += methods.productGrid(girdOptions, true);
+				return style;
+            },
+
+            gridSlider : function(productsActivated) {
+				var nextPage = productsActivated.data('next-page');
+				var products = productsActivated.find('.products.items');
+				methods.loadMoreButton(nextPage);
+				if(options.slidesToShow){
+					var float  = $('body').hasClass('rtl') ? 'right' : 'left';
+					$head.append('<style type="text/css">' + classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}</style>');
+					methods.productSlider(options, products);
+				} else{
+					isGrid = true;
+					methods.productGrid(options);
+				}
+				products.addClass('grid-init');
+            },
+
+            loadMore : function() {
+            	var loadmoreButton = actionmore.find(settings.loadmoreSelector);
+            	if(loadmoreButton.length) loadmoreButton.data('text', loadmoreButton.text());
+				$content.on("click", settings.actionmore + ' .load-more', function(){
+					if($(this).hasClass(settings.loadmoreDisabledClass)) return;
+					var $this = $tabs.find('.item.activated');
+					var type  = $this.data('type');
+					if(type == undefined) return;
+					var typeClass = '.mc-'+type;
+					if($this.hasClass('loaded')){
+						var productsActivated = $product.find(typeClass); //.fadeIn(); // not show()
+						var nextPage = productsActivated.data('next-page');
+						methods.loadMoreButton(nextPage);
+						if(nextPage < 2) return;
+						var info = $.extend(infotabs, { 'p' : nextPage});
+						methods.disableLoadmoreButton(actionmore);
+						methods.sendAjax(type, info, nextPage);
+					} 
+				});
+            },
+
+            loadMoreButton : function(nextPage=0){
+            	if(nextPage){
+            		actionmore.show();
+            	}else {
+            		actionmore.hide();
+            	}
+            	if(nextPage > 1){
+					actionmore.find(settings.loadmoreSelector).show();
+					actionmore.find(settings.loadendSelector).hide();
+            	}else {
+					actionmore.find(settings.loadmoreSelector).hide();
+					actionmore.find(settings.loadendSelector).show();
+            	}
             },
 
             productSlider : function(options, el) {
 				if(el.hasClass('slick-initialized')) el.slick("refresh"); // slide.resize(); // $(window).trigger('resize');
 				else{ // var selector = $content.selector; // '.' + $content.attr('class').trim().replace(/ /g , '.');
 					if( !options.vertical && $('body').hasClass('rtl') ) el.attr('dir', 'rtl');
+					var galleryPlaceholder = el.find('.gallery-placeholder.autoplay');
                     el.on('init', function(event, slick){
                         $('body').trigger('contentUpdated');
+                 		if(galleryPlaceholder.length) methods.gallerySlider(galleryPlaceholder);
                     });
 					el.slick(options);
 				}
             }, 
 
-            productGrid : function(options) {
+            gallerySlider : function(el) {
+                el.each(function() {
+	                var gallery = $(this).find('.gallery-items');
+	                if(gallery.hasClass('slick-initialized')) return;
+	                var nav        = $(this).find('.slider-nav');
+	                var galleryCfg = gallery.data();
+	                var navCfg 	   = nav.data();
+	                var isRTL 	   = false;
+	                if( !navCfg.vertical && $('body').hasClass('rtl') ){
+	                	gallery.attr('dir', 'rtl');
+	                	nav.attr('dir', 'rtl');
+	                	isRTL 	   = true;
+	                }
+	                var galleryCfg = $.extend(galleryCfg, {'asNavFor': nav, 'rtl': isRTL});
+	                var navCfg 	   = $.extend(navCfg, {'asNavFor': gallery, 'rtl': isRTL});
+	                gallery.slick(galleryCfg);
+	                nav.slick(navCfg);
+	            }); 
+            },
+
+            productGrid : function(options, returnStyle=false) {
             	if(style) return;
             	var padding 	= options.padding;
 				var responsive 	= options.responsive;
 				var length = Object.keys(responsive).length;
 				var float  = $('body').hasClass('rtl') ? 'right' : 'left';
-				style += padding ? classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' : '';
+				style += (typeof padding !== 'undefined') ? classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' : '';
 				
 				$.each( responsive, function( key, value ) { // data-responsive="[{"1":"1"},{"361":"1"},{"480":"2"},{"640":"3"},{"768":"3"},{"992":"4"},{"1200":"4"}]"
 					var col = 0;
@@ -150,32 +256,45 @@ define([
 					}
 					style += ' {'+selector + ' .content-products' + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}'+classes+'{padding-left: '+padding+'px; padding-right:'+padding+'px; width: '+(Math.floor((10/col) * 100000000000) / 10000000000)+'%} '+classes+':nth-child('+col+'n+1){clear: ' + float + ';}}';
 				});
-				// $.each( responsive, function( key, value ) { // data-responsive="[{"col":"1","min":1,"max":360},{"col":"2","min":361,"max":479},{"col":"3","min":480,"max":639},{"col":"3","min":640,"max":767},{"col":"4","min":768,"max":991},{"col":"4","min":992,"max":1199},{"col":"4","min":1200,"max":3600}]"
-				// var padding = options.padding*(value.max/1200); // padding responsive
-				// 	style += ' @media (min-width: '+value.min+'px) and (max-width: '+value.max+'px) {'+selector + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}'+classes+'{padding-left: '+padding+'px; padding-right:'+padding+'px; width: '+(Math.floor((10/value.col) * 100000000000) / 10000000000)+'%} '+classes+':nth-child('+value.col+'n+1){clear: ' + float + ';}}';
-				// });
+
+				if(returnStyle) return style;
 
 				$head.append('<style type="text/css">'+style+'</style>');
-
             },
 
-            sendAjax : function(type, infotabs) {
+            sendAjax : function(type, infotabs, nextPage=1) {
+            	$content.addClass('loading');
 				$loading.show();
 				$.ajax({
 					type: 'post',
-					data: { type: type, info: infotabs },
+					data: { type: type, info: infotabs, p : nextPage },
 					url : $loading.data('url'),
 					success:function(data){
 						$loading.hide();
+						$content.removeClass('loading');
 						// banner tab
 						$content.find('.category-banner').slideUp(500).removeClass('activated');
 						$content.find('.banner-'+ type ).slideDown(500).addClass('activated');
 						// end banner tab
 						var typeClass = '.mc-'+type;
-						var productsActivated = $content.find(product).append(data).find(typeClass).addClass('activated');
+						var products  = $content.find(product);
+						var productsActivated = products.find(typeClass);
+						var productMore = $(data);
+						var nextPage 	= productMore.data('next-page');
+						if(productsActivated.length){
+							var productsActivated = $content.find(product).find(typeClass).addClass('activated');
+							productsActivated.data('next-page', nextPage);
+							productsActivated.find('.products.items').append(productMore.find('.products.items').html());
+							nextPage++; // nextPage + 1 is ajax.
+							methods.enableLoadmoreButton(actionmore);
+						} else {
+							var productsActivated = products.append(data).find(typeClass).addClass('activated');
+						}
+						methods.loadMoreButton(nextPage); 
 						productsActivated.trigger('contentUpdated');
 						productsActivated.siblings().removeClass('activated'); //.hide();  // not fadeOut()
-						productsActivated = productsActivated.find('.products-grid .items');
+						productsActivated = productsActivated.find('.products.items');
+						productsActivated.addClass('grid-init');
 						$itemtabs.each(function(){
 							if($(this).data('type') == type) $(this).addClass('loaded');
 						});
@@ -225,6 +344,24 @@ define([
 				// });
 			},
 
+            disableLoadmoreButton: function () {
+                var loadmoreButton = actionmore.find(settings.loadmoreSelector);
+                loadmoreButton.text(loadmoreButton.data('loading'));
+                loadmoreButton.attr('title', loadmoreButton.data('loading'));
+            },
+
+            enableLoadmoreButton: function () {
+                var loadmoreButton = actionmore.find(settings.loadmoreSelector);
+                loadmoreButton.text(loadmoreButton.data('loaded'));
+                loadmoreButton.attr('title', loadmoreButton.data('loaded'));
+
+                setTimeout(function () {
+                    loadmoreButton.removeClass(settings.loadmoreDisabledClass);
+                    loadmoreButton.text(loadmoreButton.data('text'));
+                    loadmoreButton.attr('title', loadmoreButton.data('text'));
+                }, 1000);
+            }
+
         };
 
         if (methods[options]) { // $("#element").pluginName('methodName', 'arg1', 'arg2');
@@ -240,7 +377,12 @@ define([
     $( document ).ready(function($) {
 	    $("*[class^='alo-content-']").each(function() {
 	    	if($(this).hasClass('autoplay')){
-	    		var selector = '.' + $(this).attr('class').trim().replace(/ /g , '.');
+				var selector  = $(this).attr('class').split(" ");
+				selector.forEach(item => {
+					if(item.indexOf('alo-content-') === 0) {
+					    selector = item.replace(/[.]/g, ' ').trim();
+					}
+				});	    		
 	    		$(this).magicproduct({selector: selector}); // don't use $(this)
 	    	}
 	    });

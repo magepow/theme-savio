@@ -1,6 +1,17 @@
 <?php
+$jsonHelper = $this->helper('Magento\Framework\Json\Helper\Data');
 $helper     = $this->helper('Magepow\Productzoom\Helper\Data');
 $data       = $helper->getConfigModule('general');
+foreach ($data as $key => $value) {
+    if(is_numeric($value)){
+        $data[$key] = (float) $value;
+        continue;
+    }
+    $value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    if(!is_null($value)){
+        $data[$key] = $value; 
+    }
+}
 ?>
 <script type="text/javascript">
     require([
@@ -8,9 +19,9 @@ $data       = $helper->getConfigModule('general');
         'magepow/elevatezoom',
         ], function($){
             "use strict";
-            if( $(window).width() < 768 ) return;
 
-            var options = <?php echo is_array($data) ? json_encode( $data, JSON_NUMERIC_CHECK ) : '{}' ?>;
+            if( $(window).width() < <?php echo $helper->getConfigModule('general/screensize') ?> ) return;
+            var options = <?php echo is_array($data) ? $jsonHelper->jsonEncode($data) : '{}' ?>;
             $('head').append('<style type="text/css">.zoomContainer{z-index:' + options.zIndex + '}</style>');
             $(document).on('fotorama:load fotorama:showend fotorama:fullscreenenter fotorama:fullscreenexit', function (event, fotorama, extra) {
                 $('.zoomContainer').remove();

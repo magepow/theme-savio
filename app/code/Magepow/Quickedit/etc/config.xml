@@ -10,7 +10,7 @@
 	    <magepow_quickedit>
             <general>
                 <enabled>1</enabled>
-                <use_config_dev_debug>1</use_config_dev_debug>
+                <use_config_dev_debug>0</use_config_dev_debug>
                 <restrict_allow_ips></restrict_allow_ips>
                 <show_with_parameter>1</show_with_parameter>
                 <parameter_value>magento</parameter_value>

@@ -44,7 +44,12 @@ class ContentMobile extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form
 
     protected function _prepareLayout()
     {
-        $this->addChild('uploader', 'Magento\Backend\Block\Media\Uploader');
+        $this->addChild(
+            'uploader',
+            \Magento\Backend\Block\Media\Uploader::class,
+            ['image_upload_config_data' => $this]
+        );
+
         $this->getChildBlock('uploader')->setTemplate('Magiccart_Magicslider::media/uploader.phtml');
         // $this->addChild(
         //     'uploader', 
@@ -74,6 +79,14 @@ class ContentMobile extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form
         // $this->setTemplate('catalog/video/helper/gallery.phtml');
         // return parent::_prepareLayout();
     }
- 
+
+    public function  getImageUploadConfigData()
+    {
+        return $this;
+    }
+    public function  getIsResizeEnabled()
+    {
+        return 0;
+    } 
 
 }

@@ -1,37 +1,55 @@
 <?php
 
+/**
+ * @Author: nguyen
+ * @Date:   2021-06-17 11:58:22
+ * @Last Modified by:   nguyen
+ * @Last Modified time: 2021-06-17 12:01:51
+ */
+
 namespace Magiccart\Testimonial\Block\Post;
 
 use Magento\Framework\UrlInterface;
 
-/**
- * Main contact form block
- */
 class TestimonialList extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @param Template\Context $context
-     * @param array $data
+     * @var \Magento\Customer\Model\Session
      */
-    protected $_testimonialFactory;
 	protected $customerSession;
-	/**
-     * url builder
-     *
-     * @var \Magento\Framework\UrlInterface
+
+    /**
+     * @var \Magiccart\Testimonial\Model\TestimonialFactory
+     */
+    protected $testimonialFactory;
+
+    /**
+     * @var \Magiccart\Testimonial\Helper\Data
+     */
+    public $helper;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magiccart\Testimonial\Model\TestimonialFactory $testimonialFactory
+     * @param \Magiccart\Testimonial\Helper\Data $helper
+     * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magiccart\Testimonial\Model\TestimonialFactory $testimonialFactory,
         \Magento\Customer\Model\Session $customerSession,
+        \Magiccart\Testimonial\Model\TestimonialFactory $testimonialFactory,
+        \Magiccart\Testimonial\Helper\Data $helper,
         array $data = []
      ) 
     {
-        $this->_testimonialFactory = $testimonialFactory;
-		$this->customerSession = $customerSession;
+		$this->customerSession    = $customerSession;
+        $this->testimonialFactory = $testimonialFactory;
+        $this->helper             = $helper;
+    
         parent::__construct($context, $data);
         //get collection of data 
-        $collection = $this->_testimonialFactory->create()->getCollection();
+        $collection = $this->testimonialFactory->create()->getCollection();
 		$collection->addFieldToFilter('status',1);
 		$collection->getSelect()->order(array('order asc', 'testimonial_id desc'));
         $this->setCollection($collection);
@@ -67,13 +85,12 @@ class TestimonialList extends \Magento\Framework\View\Element\Template
 
     public function getBaseUrl()
     {
-    return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
     }
 	
 	public function getMediaUrl()
     {
-		
-		 return $this->_urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]).'/testimonial/image';
+		return $this->_urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]).'/testimonial/image';
     }
 	
 	public function getMediabaseUrl()
@@ -94,8 +111,9 @@ class TestimonialList extends \Magento\Framework\View\Element\Template
         return $this->getViewFileUrl('Magiccart_testimonial::images/default.jpg');
     }
 	
-	public function getConfig($config)
-	{
-		return $this->_scopeConfig->getValue('testimonial/general/'.$config, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    public function getConfig($config)
+    {
+        return $this->helper->getConfigModule('general/'.$config);
     }
+
 }

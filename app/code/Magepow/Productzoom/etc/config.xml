@@ -6,13 +6,19 @@
  * @Last Modified time: 2020-04-28 18:55:34
  */ -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-	<default>
-	    <magepow_productzoom>
+    <default>
+        <magepow_productzoom>
             <general>
                 <enabled>1</enabled>
+                <screensize>991</screensize>
                 <responsive>false</responsive>
                 <scrollZoom>true</scrollZoom>
-                <zIndex>999</zIndex>
+                <zoomLevel>1</zoomLevel>
+                <zoomType>window</zoomType>
+                <zoomWindowPosition>1</zoomWindowPosition>
+                <zoomWindowFadeIn>true</zoomWindowFadeIn>
+                <zoomWindowFadeOut>true</zoomWindowFadeOut>
+                <zIndex>99</zIndex>
                 <imageCrossfade>false</imageCrossfade>
                 <loadingIcon>false</loadingIcon>
                 <cursor>default</cursor>
@@ -21,6 +27,9 @@
                 <easing>false</easing>
                 <easingType>zoomdefault</easingType>
                 <easingDuration>2000</easingDuration>
+                <lensShape>square</lensShape>
+                <lensFadeIn>false</lensFadeIn>
+                <lensFadeOut>false</lensFadeOut>
                 <lensBorder>1</lensBorder>
                 <lensColour>#fff</lensColour>
                 <lensOpacity>0.4</lensOpacity>
@@ -28,5 +37,5 @@
                 <tintOpacity>0.4</tintOpacity>
             </general>
         </magepow_productzoom>    
-	</default>
+    </default>
 </config>

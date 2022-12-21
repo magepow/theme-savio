@@ -2,8 +2,12 @@ var config = {
 
 	map: {
 		'*': {
-			'alothemes': 'magiccart/alothemes',
-			'slick': 'magiccart/slick',
+			'alothemes'	  : 'magiccart/alothemes',
+			'easing'	  : 'magiccart/easing',
+			'slick'		  : 'magiccart/slick',
+			'gridSlider'  : 'Magiccart_Alothemes/js/grid-slider',
+			'gridView'    : 'Magiccart_Alothemes/js/grid-view',
+			'notifySlider': 'Magiccart_Alothemes/js/notifyslider'
 		},
 	},
 
@@ -41,7 +45,7 @@ var config = {
 			deps: ['jquery']
 		},
         'alothemes': {
-            deps: ['jquery', 'magiccart/easing', 'slick']
+            deps: ['jquery', 'easing', 'slick']
         },
 
 	}

@@ -6,14 +6,16 @@
  * @license     http://www.magepow.com/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2016-02-14 20:26:27
- * @@Modify Date: 2020-06-03 16:14:15
+ * @@Modify Date: 2020-10-22 16:14:15
  * @@Function:
  */
 
 namespace Magiccart\Magicproduct\Block\Widget;
 
-class Product extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
+class Product extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface, \Magento\Framework\DataObject\IdentityInterface
 {
+    const DEFAULT_CACHE_TAG = 'MAGICCART_MAGICPRODUCT';
+
     protected $_magicproduct;
     protected $_types;
     protected $_tabs = array();
@@ -50,13 +52,36 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
         if ($this->hasData('identifier')) {$this->_jnitWidget();}
         parent::_construct();
     }
-    
+
+    protected function getCacheLifetime()
+    {
+        return parent::getCacheLifetime() ?: 86400;
+    }
+
+    public function getCacheKeyInfo()
+    {
+        $keyInfo     =  parent::getCacheKeyInfo();
+        $currencyCode = $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
+        if($this->getMagicproduct()) $keyInfo[] = $this->getMagicproduct()->getId() . '_' . $currencyCode;
+        return $keyInfo;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $currencyCode = $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
+        return [ self::DEFAULT_CACHE_TAG, self::DEFAULT_CACHE_TAG . '_' . $this->getMagicproduct()->getId() . '_' . $currencyCode ];
+    }
+
     protected function _jnitWidget()
     {
         $identifier = $this->getIdentifier();
         $this->_magicproduct = $this->magicproductFactory->create()->getCollection( $identifier, 'identifier')
                                     ->addFieldToFilter('identifier', $identifier)
                                     ->addFieldToFilter('type_id', $this->_typeId)
+                                    ->setPageSize(1)
                                     ->getFirstItem();
         if (!$this->_magicproduct){
             echo '<div class="message-error error message">Identifier "'. $identifier . '" not exist.</div> ';          
@@ -73,8 +98,10 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
             $total = count($breakpoints);
             $responsive = '[';
             foreach ($breakpoints as $size => $screen) {
-                $responsive .=  isset($data[$screen]) ? '{"breakpoint": '.$size.', "settings": {"slidesToShow": '. $data[$screen] .'}}' : '';
-                if($total-- > 1) $responsive .= ', ';
+                $total--;
+                if(!isset($data[$screen])) continue;
+                $responsive .= '{"breakpoint": '.$size.', "settings": {"slidesToShow": '. $data[$screen] .'}}';
+                if($total > 0) $responsive .= ', ';
             }
             $responsive .= ']';
             $data['responsive'] = $responsive;
@@ -83,6 +110,7 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
             $data['vertical-Swiping'] = $data['vertical'];
             if(!isset($data['fade'])) $data['fade'] = 'false';
             if(!isset($data['center-Mode'])) $data['center-Mode'] = 'false';
+            // if(!isset($data['rows'])  || $data['rows'] == 1 ) $data['rows'] = 0;
         }
         $data['jnit_widget'] =1 ;
         if(is_array($data)) $this->addData($data);
@@ -142,9 +170,15 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
         return $activated;
     }
 
-    public function getContent($template)
+    public function setTemplateProduct($template)
     {
-        $content = '';    
+        $this->setData('template_product', $template);
+    }
+
+    public function getContent($template='')
+    {
+        if($template) $this->setTemplateProduct($template);
+        $content = '';
         $tabs = ($this->getAjax()) ? $tabs = array($this->getTabActivated() => 'Activated') : $this->getTabs();
         foreach ($tabs as $type => $name) {
             $content .= $this->getLayout()->createBlock('Magiccart\Magicproduct\Block\Product\GridProduct') // , "magicproduct.product.$type"
@@ -163,6 +197,8 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
         foreach ($this->_options as $option) {
             $ajax[$option] = $this->getData($option);
         }
+        $template = $this->getTemplateProduct();
+        if($template) $ajax['template'] = $template;
         if($this->getData('parameters')) $ajax['identifier'] =  $this->getIdentifier();
         return json_encode($ajax);
     }
@@ -222,7 +258,7 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
 
     function getGridStyle($selector=' .products-grid .product-item')
     {
-        $styles = '';
+        $styles  = $selector . '{float: left}';
         $listCfg = $this->getData();
         $padding = $listCfg['padding'];
         $prcents = $this->getPrcents();
@@ -251,7 +287,7 @@ class Product extends \Magento\Framework\View\Element\Template implements \Magen
     {
         if(!$this->_images){
             $gallery = $this->getData('media_gallery');
-            $this->_images = $gallery['images'];
+            if( isset($gallery['images']) ) $this->_images = $gallery['images'];
         }
         return $this->_images;
     }

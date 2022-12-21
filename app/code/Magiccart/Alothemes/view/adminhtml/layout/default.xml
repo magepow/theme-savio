@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magiccart_Alothemes::css/alothemes.css"/>
+    </head>
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="Magento\Backend\Block\Template" name="alothemes_config" template="Magiccart_Alothemes::config.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

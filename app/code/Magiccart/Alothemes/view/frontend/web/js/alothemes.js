@@ -1,73 +1,28 @@
 /**
  * Magiccart 
- * @category 	Magiccart 
+ * @category    Magiccart 
  * @copyright 	Copyright (c) 2014 Magiccart (http://www.magepow.com/) 
  * @license 	https://www.magepow.com/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2014-04-25 13:16:48
- * @@Modify Date: 2020-07-10 12:05:30
+ * @@Modify Date: 2021-05-12 12:05:30
  * @@Function:
  */
 
 define([
     'jquery',
-    'magiccart/slick',
+    'gridSlider',
+    'notifySlider',
 	'magiccart/parallax',
+	'magiccart/bootstrap',
 	'jquery/jquery.cookie',
 	'Magento_Ui/js/modal/modal'
-    ], function ($, slick, parallax, cookie, modal) {
+    ], function ($, gridSlider, notifySlider, parallax, bootstrap, cookie, modal) {
 	"use strict";
 	window.magicproduct = function(el, iClass) {
-		if( !el.data( 'vertical') && $('body').hasClass('rtl') ){
-			el.attr('dir', 'rtl');
-			el.data( 'rtl', true );
-			// el.data( 'vertical-reverse', true );
-		}
-		var options = el.data();
-		if(iClass === undefined){
-			el.children().addClass('alo-item');
-			iClass = '.alo-item';
-		}
-		var selector = el.selector;
-		if(!selector) {
-			selector = 'magicslider-' + Math.floor((Math.random() * 9999999999) + 1);
-			el.addClass(selector);
-			selector = '.' + selector;
-		}
-		var classes = selector + ' '+ iClass;
-		var padding = options.padding;
-		var float  = $('body').hasClass('rtl') ? 'right' : 'left';
-		var style = padding ? classes + '{float: ' + float + '; padding-left: '+padding+'px; padding-right:'+padding+'px} ' + selector + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}' : '';
-		if(options.slidesToShow){
-			el.on('init', function(event, slick){
-			    $('body').trigger('contentUpdated');
-			});			
-			if(el.hasClass('slick-initialized')) el.slick("refresh");
-			else $(el).slick(options);
-		} else {
-			var responsive 	= options.responsive;
-			if(responsive == undefined) return;
-			var length = Object.keys(responsive).length;
-
-			$.each( responsive, function( key, value ) { // data-responsive="[{"1":"1"},{"361":"1"},{"480":"2"},{"640":"3"},{"768":"3"},{"992":"4"},{"1200":"4"}]"
-				var col = 0;
-				var maxWith = 0;
-				var minWith = 0;
-				$.each( value , function(size, num) { minWith = parseInt(size) + 1; col = num;});
-				if(key+2<length){
-					$.each( responsive[key+1], function( size, num) { maxWith = size; col = num;});
-					// padding = options.padding*(maxWith/1200); // padding responsive
-					style += ' @media (min-width: '+minWith+'px) and (max-width: '+maxWith+'px)';
-				} else { 
-					if(key+2 == length) return; // don't use key = length - 1;
-					$.each( responsive[key], function( size, num) { maxWith = size; col = num;});
-					style += ' @media (min-width: '+maxWith+'px)';
-				}
-				style += ' {'+selector + '{margin-left: -'+padding+'px; margin-right: -'+padding+'px}'+classes+'{padding-left: '+padding+'px; padding-right:'+padding+'px; width: '+(Math.floor((10/col) * 100000000000) / 10000000000)+'%} '+classes+':nth-child('+col+'n+1){clear: ' + float + ';}}';
-			});
-		}
-
-		$('head').append('<style type="text/css">'+style+'</style>'); // return '<style type="text/css">'+style+'</style>';
+		if(!el.length) return;
+		if(!el.hasClass('grid-slider')) el.addClass('grid-slider');
+		el.parent().gridSlider();
 	};
 
 	/* Timer */
@@ -76,8 +31,8 @@ define([
 		$.fn.timer = function (options) {
 			var defaults = {
 				classes  	 : '.countdown',
-				layout	 	 : '<span class="day">%%D%%</span><span class class="colon">:</span><span class="hour">%%H%%</span><span class="colon">:</span><span class="min">%%M%%</span><span class="colon">:</span><span class="sec">%%S%%</span>',
-				layoutcaption: '<div class="timer-box"><span class="day">%%D%%</span><span class="title">Days</span></div><div class="timer-box"><span class="hour">%%H%%</span><span class="title">Hrs</span></div><div class="timer-box"><span class="min">%%M%%</span><span class="title">Mins</span></div><div class="timer-box"><span class="sec">%%S%%</span><span class="title">Secs</span></div>',
+				layout	 	 : '<span class="number day">%%D%%</span><span class class="colon">:</span><span class="number hour">%%H%%</span><span class="colon">:</span><span class="number min">%%M%%</span><span class="colon">:</span><span class="number sec">%%S%%</span>',
+				layoutcaption: '<div class="timer-box"><span class="number day">%%D%%</span><span class="title">Days</span></div><div class="timer-box"><span class="number hour">%%H%%</span><span class="title">Hrs</span></div><div class="timer-box"><span class="number min">%%M%%</span><span class="title">Mins</span></div><div class="timer-box"><span class="number sec">%%S%%</span><span class="title">Secs</span></div>',
 				leadingZero	 : true,
 				countStepper : -1, // s: -1 // min: -60 // hour: -3600
 				timeout	 	 : '<span class="timeout">Time out!</span>',
@@ -109,9 +64,14 @@ define([
 						var end = Date.parse(gsecs);
 						gsecs  = (end - start)/1000;	
 					}
-					if(gsecs > 0 ){
-						methods.CountBack(el, gsecs);
-					}
+                    if (gsecs > 0) {
+                        var isLayout = el.find('.min');
+                        if (!isLayout.length) {
+                            if (el.hasClass('caption'))  el.html(layoutcaption);
+                            else el.html(layout);;
+                        }
+                        methods.CountBack(el, gsecs);
+                    }
 				},
 
 				calcage: function (secs, num1, num2) {
@@ -125,15 +85,10 @@ define([
 						el.html(timeout);
 						return;
 					}
-					if(el.hasClass('caption')){
-						var timerStr = layoutcaption.replace(/%%D%%/g, methods.calcage(secs,86400,100000));
-					}else {
-						var timerStr = layout.replace(/%%D%%/g, methods.calcage(secs,86400,100000));					
-					}
-					timerStr = timerStr.replace(/%%H%%/g, methods.calcage(secs,3600,24));
-					timerStr = timerStr.replace(/%%M%%/g, methods.calcage(secs,60,60));
-					timerStr = timerStr.replace(/%%S%%/g, methods.calcage(secs,1,60));
-					el.html(timerStr);
+					el.find('.day').html(methods.calcage(secs,86400,100000));
+					el.find('.hour').html(methods.calcage(secs,3600,24));
+					el.find('.min').html(methods.calcage(secs,60,60));
+					el.find('.sec').html(methods.calcage(secs,1,60));
 					setTimeout(function(){ methods.CountBack(el, (secs+countStepper))}, setTimeOutPeriod);
 				},
 
@@ -148,111 +103,26 @@ define([
 			}
 		}
 
-		$(document).ready(function($) {
+		$(function($) {
+			var countdown = $('.alo-count-down').not('.exception');
 			if (typeof alo_timer_layoutcaption != 'undefined'){
-				$('.alo-count-down').not('.exception').timer({
-					classes			: '.countdown',
-					layout			: alo_timer_layout, 
-					layoutcaption	: alo_timer_layoutcaption, 
-					timeout 		: alo_timer_timeout
-				});
+				countdown.timer({layout : alo_timer_layout, layoutcaption : alo_timer_layoutcaption, timeout : alo_timer_timeout });
 			} else {
-				$('.alo-count-down').not('.exception').timer({classes : '.countdown'});			
+				countdown.timer();			
 			}
 		});
 	})($);
 	/* End Timer */
-	/* notifySlider */
-	(function ($) {
-	    "use strict";
-	    $.fn.notifySlider = function (options) {
-	      	var defaults = {
-		        autoplay   : true,
-		        firsttime  : 3000,
-		        speed      : 9000
-	      	};
 
-			var settings    = $.extend(defaults, options);
-			var firsttime   = parseInt(settings.firsttime);
-			var speed    	= parseInt(settings.speed);
-			var autoplay    = settings.autoplay;
-
-	      	var methods = {
-		        init : function() {
-			        return this.each(function() {
-			        	methods.suggestLoad($(this));
-			        });
-		        },
-		        
-		        suggestLoad: function(suggest){
-		            var el  = suggest.find('.notify-slider-wrapper');
-		            suggest.find('.x-close').click(function() {
-		                suggest.addClass('close')
-		            });
-		            var slideCount    = suggest.find('.slider >.item').length;
-		            var slideWidth    = suggest.find('.slider >.item').width();
-		            var slideHeight   = suggest.find('.slider >.item').height();
-		            var sliderUlWidth = slideCount * slideWidth;
-		            /*suggest.find('.notify-slider').css({ width: slideWidth, height: slideHeight });*/
-		            suggest.find('.notify-slider .slider').css({ width: sliderUlWidth});
-		            suggest.find('.notify-slider .slider >.item:last-child').prependTo('.notify-slider .slider');
-		            setTimeout(function(){
-		            	el.slideDown('slow'); 
-			            if(!autoplay) return;
-			            setInterval(function () {
-			                el.slideUp({
-			                        duration:'slow', 
-			                        easing: 'swing',
-			                        complete: function(){
-			                            methods.moveRight(suggest, slideWidth);
-			                            setTimeout(function(){ el.slideDown('slow'); }, speed/2);
-			                        }
-			                    });
-
-			            }, speed);
-		            }, firsttime);
-		        },
-
-		        moveRight: function(suggest, slideWidth){
-		            suggest.find('.notify-slider .slider').animate({
-		                left: - slideWidth
-		            }, 0, function () {
-		                var slider = suggest.find('.notify-slider .slider');
-		                suggest.find('.notify-slider .slider >.item:first-child').appendTo(slider);
-		                slider.css('left', '');
-		            })
-		        }
-
-	      	};
-
-	      	if (methods[options]) {
-	        	return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
-	      	} else if (typeof options === 'object' || !options) {
-	        	return methods.init.apply(this);
-	      	} else {
-	        	$.error('Method "' + method + '" does not exist in timer plugin!');
-	      	}
-	    }
-
-	    $(document).ready(function($) {
-		    $('.suggest-slider').each(function() {
-		    	if($(this).hasClass('autoplay')){
-		    		var config = $(this).data();
-		    		$(this).notifySlider(config);
-		    	}
-		    });  
-	    });
-	    
-  	})($);
-
-	/* End notifySlider */
-	
-	$(document).ready(function($) {
+	$(function($) {
 		$('body').removeClass('preload');
 		var specialOffer = $('#header-offer');
 		specialOffer.find('.header-offer-close').click(function() {
 			specialOffer.slideUp('slow');
 		});
+
+		/* Fixed error header mobile Alothemes */
+		$('.alo-account >.header.links').clone().appendTo('#store\\.links');
 
 		$('.home-slider, .magicslider').each(function() { // home-slider, magic-slider
 			if($(this).hasClass('autoplay')){
@@ -303,6 +173,23 @@ define([
 			$(this).closest('.tool-map').removeClass('toggle-visible').find('.toggle-content-close').removeClass('visible');
 		});
 
+		function _filterToggle(){
+			var $body 			 = $('body');
+            var filtersToggle    = $body.find('.sidebar-filters-toggle');
+            if(!filtersToggle.length) return;
+			var $layerednav 	 = $('#narrow-by-list, .filter-actions');
+			var $layerednavBrand = $('#layerednav-filter-block-brand');
+			if(!$body.hasClass('has-sidebar-filters-toggle') && ($layerednav.length || $layerednavBrand.length)){
+				$body.addClass('has-sidebar-filters-toggle');
+				$(document).on('click', '.sidebar-filters-toggle', function(event) {
+					event.preventDefault();
+					$body.toggleClass('filter-active');
+					$('#layerednav-filter-block').toggleClass('active');
+					$('#layerednav-filter-block-brand').toggleClass('active');
+				});
+			}
+		}
+
 	    function _increaseJnit(){
 	    	var updateCart;
 			$('.main').on("click", '.alo_qty_dec', function(){
@@ -318,25 +205,52 @@ define([
 		        input.val(value+1);
 		        clearTimeout(updateCart);
 		        updateCart = setTimeout(function(){ $('.action.update').trigger('click'); }, 1000);
-		    });			    	
+		    });
+
+		    /* The code custom on product list */
+	        $(document).on("click",  '.product-item .increase', function() {
+	            var $input = $(this).closest('.product-item').find("input.qty");
+	            $input.val(function(i, value) {
+	                value = parseInt(value);
+	                return value + 1;
+	            });
+	        });
+
+	        $(document).on("click", '.product-item .reduced', function() {
+	            var $input = $(this).closest('.product-item').find("input.qty");
+	            var values = $input.val();
+	            values = parseInt(values);
+	            if (values > 1) {
+	                $input.val(function(i, value) {
+	                    value = parseInt(value);
+	                    return value - 1;
+	                });
+	            }
+	        });		    	
 	    }
 
 	    function _goTopJnit(){
+			var $body = $('body');
 			var $backtotop = $('#backtotop');
 			$backtotop.hide();
 			var height =  $(document).height();
+			var lastScrollTop = 0;
 			$(window).scroll(function () {
-				if(!$('body').hasClass('cms-no-route'))
-					if ($(this).scrollTop() > height/10) {
-						$backtotop.fadeIn();
-					} else {
-						$backtotop.fadeOut();
-					}
+				var st = $(this).scrollTop();
+				if (st > lastScrollTop){
+					$body.removeClass('scroll_up scroll_init').addClass('scroll_down');
+				} else if(st == lastScrollTop){
+					$body.removeClass('scroll_down scroll_up').addClass('scroll_init');
+				} else {
+					$body.removeClass('scroll_down scroll_init').addClass('scroll_up');
+				}
+				lastScrollTop = st;
+				if($('body').hasClass('cms-no-route')) return;
+				if (st > height/10) $backtotop.fadeIn();
+				else $backtotop.fadeOut();
 			});
 			$backtotop.click(function () {
-				$('body,html').animate({
-					scrollTop: 0
-				}, 800);
+				$('body,html').animate({scrollTop: 0}, 800);
 				return false;
 			});
 	    }
@@ -353,7 +267,6 @@ define([
                 if (postion > postionTop ){
                     $('.magicmenu .nav-desktop').append(minicart);
                 } else {
-                	('.magicmenu .nav-desktop')
                 	minicartParent.prepend($('.magicmenu .nav-desktop').find('.minicart-wrapper'))
                 }
             });
@@ -373,15 +286,11 @@ define([
 				if(!index) bntUp.addClass('disabled');
 				if(index == length-1) bntDown.addClass('disabled');
 				elevator.find('.btn-elevator').click(function(e) {
-					 e.preventDefault();
+					e.preventDefault();
 					var target = this.hash;
-					if($(document).find(target).length <=0){
-						return false;
-					}
+					if(!$(document).find(target).length) return false;
 					var $target = $(target);
-					$('html, body').stop().animate({
-						'scrollTop': $target.offset().top-50
-					}, 500);
+					$('html, body').stop().animate({'scrollTop': $target.offset().top-50 }, 500);
 					return false;
 				});
 			});
@@ -467,52 +376,53 @@ define([
 		}
 
 		function _qsJnit(){
-			var obj = arguments[0];
-			var _qsModalContent = '<div class="content-quickview">quickview placeholder</div>';
-			if(!$('#modals_quickview').length){
-				$(document.body).append('<div id="modals_quickview" style="display:none">' + _qsModalContent + '</div>');
-			}
-			var _qsModal = $('#modals_quickview .content-quickview');
-			var quickajax= function(url){
-				if(_qsModal.length) $('#modals_quickview').html(_qsModalContent);
-				// _qsModal.trigger('contentUpdated');
+            var obj = arguments[0];
+            var body = $('body');
+            if(!$('#modals_quickview').length) body.append('<div id="modals_quickview" style="display:none"></div>');
+            var _qsModal = $('#modals_quickview');
+            var quickajax= function(url){
                 $.ajax({
                     url:url,
                     type:'POST',
                     showLoader: true,
                     cache:false,   
                     success:function(data){
-                    	_qsModal.html(data);
-			            modal({
-			                type: 'popup',
-			                modalClass: 'modals-quickview',
-			                responsive: true, 
-							buttons: false,
-			                closed: function(){
-			                	$('.modals-quickview').remove();
-			                }                       	
-						}, _qsModal);
-						var body = $('body');
-						_qsModal.modal('openModal');
-						body.addClass('open-quickview');
-						_qsModal.trigger('contentUpdated');
-						_qsModal.on('modalclosed', function(){body.removeClass('open-quickview');});
+                        _qsModal.html('<div class="content-quickview">' + data + '</div>');
+                        if(!body.hasClass('open-quickview')){
+                            body.addClass('open-quickview');
+                            var modalsQuickview = body.find('.modals-quickview');
+                            if(!modalsQuickview.length){
+                                modal({
+                                    type: 'popup',
+                                    modalClass: 'modals-quickview',
+                                    responsive: true,
+                                    innerScroll: true,
+                                    buttons: false,
+                                    closed: function(){
+                                        body.removeClass('open-quickview');                                       
+                                    } 
+                                }, _qsModal);
+                            }
+                            _qsModal.modal('openModal');
+                        }
+                        _qsModal.trigger('contentUpdated');                          
                     }
                 });
                 _qsModal.on('fotorama:load', function(){
-					_qsModal.find(".product-view .product-info-main.product-shop").height(_qsModal.find(".product-img-box").height());
+                    _qsModal.find(".product-view .product-info-main.product-shop").height(_qsModal.find(".product-img-box").height());
                 });
-			}
-			if(obj.url){
-				quickajax(obj.url)
-			} else {
-				$(document).on('click', obj.itemClass, function(e) {
-					e.preventDefault();
-	                quickajax($(this).data('url'))
-				});
-			}
+            }
+            if(obj.url){
+                quickajax(obj.url)
+            } else {
+                $(document).on('click', obj.itemClass, function(e) {
+                    e.preventDefault();
+                    quickajax($(this).data('url'))
+                });
+            }
 		}
 
+		_filterToggle()
 		_increaseJnit()
 
 		_goTopJnit()
@@ -521,30 +431,16 @@ define([
 
 		_elevatorJnit()
 
-		$(window).resize(function(){
-			_equalHeightJnit();
-		});
-		$(document).on('swatch.initialized', function() {
+		$(window).on('resize contentUpdated swatch.initialized', function() {
 			_equalHeightJnit();
 		})
 
-		_qsJnit({
-			url : '',
-			itemClass : '.quickview.autoplay',
-		});
+		_qsJnit({url : '',itemClass : '.quickview.autoplay'});
 
 		$.fn.quickview 	 = _qsJnit;
 		$.fn.equalheight = _equalHeightJnit;
 
-		if($('.bg-parallax').length >0){
-
-			$('.bg-parallax').each(function(){
-
-				$(this).parallax("50%",0.1);
-
-			})  
-
-		}
+		$('.bg-parallax').each(function(){$(this).parallax("50%",0.1);})
 
 		$('.delivery-return .delivery-return-text').click(function () {
 			$('#delivery-return-popup').modal({
@@ -555,7 +451,21 @@ define([
 			});
 			$("#delivery-return-popup").modal("openModal");
 		});
-	
+
+		$(document).on('click', '.crisp-chat-popup', function(e) {
+			e.preventDefault();
+			if (typeof $crisp !== 'undefined') {
+				$crisp.push(['do', 'chat:open']);
+			}
+		});
+	    $('body').one('mousemove', function() { 
+			$('.suggest-slider').each(function() {
+				if($(this).hasClass('autoplay')){
+					var config = $(this).data();
+					$(this).notifySlider(config);
+				}
+			});
+		 } );	
 	});
 
 });

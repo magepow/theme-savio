@@ -87,7 +87,7 @@ class Post extends \Magento\Framework\App\Action\Action
                     
                     $data['image'] = 'magiccart/testimonial/'.$result['file'];
 
-                    $autoApprove = $this->_moduleHelper->getGeneralCfg('autoApprove');
+                    $autoApprove = $this->_moduleHelper->getConfigModule('general/autoApprove');
                     if(!$autoApprove)
                         $data['status'] = 2;
                     else

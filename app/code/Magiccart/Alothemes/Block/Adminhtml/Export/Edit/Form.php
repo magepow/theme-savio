@@ -68,21 +68,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('System Export')]);
 
-        $theme = \Magento\Framework\App\ObjectManager::getInstance()->create('Magiccart\Alothemes\Model\Export\Theme');
-        $themes = $theme->toOptionArray();
-
-        $fieldset->addField(
-            'theme_path',
-            'select',
-            [
-                'name' => 'theme_path',
-                'label' => __('Theme'),
-                'title' => __('Theme'),
-                'required' => true,
-                'values' => $themes
-            ]
-        );
-
         /* Check is single store mode */
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
@@ -109,10 +94,23 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $model->setStoreId($this->_storeManager->getStore(true)->getId());
         }
 
+        $theme = \Magento\Framework\App\ObjectManager::getInstance()->create('Magiccart\Alothemes\Model\Export\Theme');
+        $themes = $theme->toOptionArray();
+
+        $fieldset->addField(
+            'theme_path',
+            'select',
+            [
+                'name' => 'theme_path',
+                'label' => __('Theme'),
+                'title' => __('Theme'),
+                'required' => true,
+                'values' => $themes
+            ]
+        );
 
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();
     }
 }
-

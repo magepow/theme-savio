@@ -6,7 +6,7 @@
  * @license     http://www.magiccart.net/license-agreement.html
  * @Author: DOng NGuyen<nguyen@dvn.com>
  * @@Create Date: 2016-01-05 10:40:51
- * @@Modify Date: 2018-02-09 14:56:16
+ * @@Modify Date: 2020-09-15 14:56:16
  * @@Function:
  */
 
@@ -199,7 +199,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         );
 
-
         $overwrite_block = $fieldset->addField('overwrite_block', 'checkbox',
             [
                 'label' => __('Overwrite Existing Blocks'),
@@ -210,6 +209,85 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'checked' => 'checked',
                 'after_element_html' => '<small> Overwrite Existing Blocks</small>',
             ]
+        );
+
+        $magicmenu = $fieldset->addField('magicmenu', 'checkbox',
+            [
+                'label' => __('Magicmenu'),
+                'title' => __('Magicmenu'),
+                'name' => 'magicmenu',
+                'value' => 1,
+                'checked' => 'checked',
+            ]
+        );
+
+        $magicmenu->setAfterElementHtml(
+            '<small>Magiccart > Magicmenu > Extra Menu</small>
+            <style> .field-' . $magicmenu->getHtmlId() . ' {display:none}</style>
+            '
+        );
+
+        $magicslider = $fieldset->addField('magicslider', 'checkbox',
+            [
+                'label' => __('Magicslider'),
+                'title' => __('Magicslider'),
+                'name' => 'magicslider',
+                'value' => 1,
+                'checked' => 'checked',
+            ]
+        );
+
+        $magicslider->setAfterElementHtml(
+            '<small> Magiccart > Magic Slider</small>
+            <style> .field-' . $magicslider->getHtmlId() . ' {display:none}</style>
+            '
+        );
+
+        $magicproduct = $fieldset->addField('magicproduct', 'checkbox',
+            [
+                'label' => __('Magicproduct'),
+                'title' => __('Magicproduct'),
+                'name' => 'magicproduct',
+                'value' => 1,
+                'checked' => 'checked',
+            ]
+        );
+
+        $magicproduct->setAfterElementHtml(
+            '<small> Magiccart > Magic Product</small>
+            <style> .field-' . $magicproduct->getHtmlId() . ' {display:none}</style>
+            '
+        );
+
+        $magicproductConditions = $fieldset->addField('magicproduct_conditions', 'checkbox',
+            [
+                'label' => __('Magicproduct Conditions'),
+                'title' => __('Magicproduct Conditions'),
+                'name' => 'magicproduct_conditions',
+                'value' => 1,
+            ]
+        );
+
+        $magicproductConditions->setAfterElementHtml(
+            '<small> Magiccart > Magic Product > Edit > Conditions</small>
+            <style> .field-' . $magicproductConditions->getHtmlId() . ' {display:none}</style>
+            '
+        );
+
+        $lookbook = $fieldset->addField('lookbook', 'checkbox',
+            [
+                'label' => __('Lookbook'),
+                'title' => __('Lookbook'),
+                'name' => 'lookbook',
+                'value' => 1,
+                'checked' => 'checked',
+            ]
+        );
+
+        $lookbook->setAfterElementHtml(
+            '<small> Magiccart > Lookbook</small>
+            <style> .field-' . $lookbook->getHtmlId() . ' {display:none}</style>
+            '
         );
 
         $block = $fieldset->addField('action', 'select',

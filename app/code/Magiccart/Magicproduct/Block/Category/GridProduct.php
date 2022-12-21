@@ -99,7 +99,7 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
 
         $this->_limit = (int) $this->getWidgetCfg('limit');
         $this->_types = $this->escapeHtml($this->getWidgetCfg('types'));
-        if(!$this->_types) return $this->_productCollection->setPageSize($this->_limit);
+        if(!$this->_types || is_array($this->_types)) return $this->_productCollection->setPageSize($this->_limit);
         $fn = 'get' . ucfirst( $this->_types );
         $collection = $this->{$fn}($this->_productCollection);
 
@@ -124,18 +124,25 @@ class GridProduct extends \Magiccart\Magicproduct\Block\Product\ListProduct
 
     public function getBestseller($collection){
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $report = $objectManager->get('\Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory')->create();
-        $ids = $collection->getAllIds();
-        $report->addFieldToFilter('product_id', array('in' => $ids))->setPageSize($this->_limit)->setCurPage(1);
-        $producIds = array();
-        // $notIds = array();
-        foreach ($report as $product) {
-            // if(!in_array($product->getProductId(), $ids )) $notIds[] =  $product->getProductId();
-            $producIds[] = $product->getProductId();
-        }
+        $producIds = $collection->getAllIds();
 
-        $collection->addAttributeToFilter('entity_id', array('in' => $producIds));
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $collection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory')->create();
+        $collection->joinField(
+                'qty_ordered', 'sales_bestsellers_aggregated_yearly', 'qty_ordered', 'product_id=entity_id', null, 'inner'
+            );
+
+        $categoryId = $this->getTypeFilter();
+        $collection->addCategoriesFilter(['in' => [$categoryId]])
+                ->addAttributeToFilter('entity_id', array('in' => $producIds))
+                ->groupByAttribute('entity_id')
+                ->addAttributeToSort('qty_ordered', 'desc')
+                ->addStoreFilter()
+                ->setPageSize($this->_limit)->setCurPage(1);
+
+        $collection = $this->_addProductAttributesAndPrices(
+            $collection
+        );
     
         return $collection;
         

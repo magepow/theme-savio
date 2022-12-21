@@ -71,12 +71,16 @@
         </parameters>
     </widget>
     <widget id="alothemes_blog" class="Magiccart\Alothemes\Block\Widget\Blog">
-        <label translate="true">Blog Slider Widget</label>
+        <label translate="true">Magiccart Blog Slider Widget</label>
         <description>Blog Slider Latest Posts</description>
         <parameters>
             <parameter name="title" xsi:type="text" visible="true" sort_order="0" >
                 <label translate="true">Title</label>
                 <value>Latest Posts Blog</value>
+            </parameter>
+            <parameter name="subtitle" xsi:type="text" visible="true" sort_order="0" >
+                <label translate="true">Sub title</label>
+                <value>Sub title Posts Blog or empty</value>
             </parameter>
             <parameter name="limit" required="true" xsi:type="text"  visible="true" sort_order="5">
                 <label translate="true">Limit Posts Display</label>
@@ -170,12 +174,26 @@
                 </depends>
                 <value>300</value>
             </parameter>
-            <parameter name="autoplay-Speed" required="true" xsi:type="text"  visible="true" sort_order="50">
+            <parameter name="autoplay_speed" required="true" xsi:type="text"  visible="true" sort_order="50">
                 <label translate="true">Autoplay Speed</label>
                 <depends>
                     <parameter name="slide" value="1" />
                 </depends>
                 <value>3000</value>
+            </parameter>
+            <parameter name="adaptive_height" required="true" xsi:type="select"  visible="true" sort_order="50">
+                <label translate="true">Adaptive Height</label>
+                <depends>
+                    <parameter name="slide" value="1" />
+                </depends>
+                <options>
+                    <option name="false" value="false">
+                        <label translate="true">False</label>
+                    </option>
+                    <option name="true" value="true" selected="true">
+                        <label translate="true">True</label>
+                    </option>
+                </options>
             </parameter>
             <parameter name="padding" required="true" xsi:type="text"  visible="true" sort_order="55">
                 <label translate="true">Padding</label>
@@ -195,7 +213,10 @@
                     <parameter name="slide" value="1" />
                 </depends>
                 <options>
-                    <option name="1" value="1" selected="true">
+                    <option name="0" value="0" selected="true">
+                        <label translate="true">1 row(s) without warp /slider</label>
+                    </option>
+                    <option name="1" value="1">
                         <label translate="true">1 row(s) /slider</label>
                     </option>
                     <option name="2" value="2">

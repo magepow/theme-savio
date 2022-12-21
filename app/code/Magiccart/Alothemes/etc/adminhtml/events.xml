@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="admin_system_config_changed_section_alothemes">
+		<observer name="admin_system_config_changed_section_alothemes_save" instance="Magiccart\Alothemes\Observer\Config\Alothemes"/>
+	</event>
+	<event name="admin_system_config_changed_section_alodesign">
+		<observer name="admin_system_config_changed_section_alodesign_save" instance="Magiccart\Alothemes\Observer\Config\Alodesign"/>
+	</event>
+</config>

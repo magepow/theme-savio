@@ -1,0 +1,39 @@
+<?php
+    return; /* disabled in module */
+    $_aloHelper     = $this->helper('Magiccart\Alothemes\Helper\Data');
+    $configDisplay  = $_aloHelper->getConfigModule("product_page/config_display");
+    $configDisplay  = $_aloHelper->getConfigArraySerialized($configDisplay);
+    $style = '';
+    foreach ($configDisplay as $cfg) {
+        if( isset($cfg['selector']) && !isset($cfg['enabled'])) {
+             $style .= $style ?  ', ' . $cfg['selector'] : $cfg['selector'];
+        }
+    }
+
+    $style  = $style ? $style . '{display:none}' : '';
+    $style .= $_aloHelper->getConfigModule("product_page/style");
+    echo $style ? '<style>' . $style .'</style>' : '';
+    /*
+    echo $_aloHelper->getGridStyle('.category-products .product-items .product-item');
+    */
+    $layout         = $_aloHelper->getConfigModule('product_page/page_layout');
+    $pageLayout     = 'page-layout-' . $layout;
+    if(!$layout) return;
+?>
+<script type="text/javascript">
+require([
+    'jquery'
+], function ($) {
+    var body    = $('body');
+    var layout = '<?php echo $pageLayout ?>';
+    if(!body.hasClass(layout)){
+        body.removeClass (function (index, css) {
+           return (css.match (/(^|\s)page-layout-\S+/g) || []).join(' ');
+        });
+        body.addClass(layout);
+    }
+    if(layout == "page-layout-1column"){
+        $(".columns > .sidebar").remove();
+    }
+});
+</script>

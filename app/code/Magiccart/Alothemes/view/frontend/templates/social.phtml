@@ -45,10 +45,7 @@ $marginTop  = isset($socialCfg['marginTop']) ? 'style="margin-top: '.$socialCfg[
     <?php endif; ?>
 </div>
 <script type="text/javascript">
-    require([
-        'jquery',
-        'magiccart/easing',
-        ], function($, easing){
+    require(['jquery', 'easing'], function($, easing){
             $(document).ready(function($) {
                 $('.social-icons .social-icon').mouseenter(function () {
                     $(this).stop();

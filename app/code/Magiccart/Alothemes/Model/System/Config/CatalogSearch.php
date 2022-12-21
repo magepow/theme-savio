@@ -48,7 +48,7 @@ class CatalogSearch implements \Magento\Framework\Option\ArrayInterface
         $this->_category = $category;
     }
  
-    public function toOptionArray($depth=0)
+    public function toOptionArray($depth=0, $levelSymbol=self::REPEATER)
     {
 		if(!$this->_options){
             $rootCategoryId = $this->_storeManager->getStore()->getRootCategoryId();
@@ -61,7 +61,7 @@ class CatalogSearch implements \Magento\Framework\Option\ArrayInterface
                         'value' => $_category->getEntityId(),
                         'class' => 'item top'
                     );
-                    if ($_category->hasChildren()) $this->_getChildOptions($_category->getChildren(), $depth);
+                    if ($_category->hasChildren()) $this->_getChildOptions($_category->getChildren(), $depth, $levelSymbol);
                 }
  
             }
@@ -69,19 +69,19 @@ class CatalogSearch implements \Magento\Framework\Option\ArrayInterface
         return $this->_options;
     }
  
-    protected function _getChildOptions($categories, $depth=0)
+    protected function _getChildOptions($categories, $depth=0, $levelSymbol=self::REPEATER)
     {
         if (is_array($categories) || is_object($categories)){
             foreach ($categories as $category) {
                 $level = $category->getLevel();
                 if( $depth  && $level > $depth) return;
-                $prefix = str_repeat(self::REPEATER, ($level -1)) . self::PREFIX_END;
+                $prefix = str_repeat($levelSymbol, ($level -1)) . self::PREFIX_END;
                 $this->_options[] = array(
                     'label' => $prefix . $category->getName(),
                     'value' => $category->getEntityId(),
                     'class' => 'item'
                 );
-                if ($category->hasChildren()) $this->_getChildOptions($category->getChildren(), $depth);
+                if ($category->hasChildren()) $this->_getChildOptions($category->getChildren(), $depth, $levelSymbol);
             }
         }
     }

@@ -1,0 +1,21 @@
+<?php 
+	/* 
+		Copy code below to any list.phtml
+		echo $this->getLayout()->createBlock('Magento\Framework\View\Element\Template')->setProduct($_product)->setTemplate('Magiccart_Alothemes::increase_reduced_qty.phtml')->toHtml();
+	*/
+	$_product = $this->getProduct();
+	if(!$_product) return;
+ ?>
+<div class="product-qty-update">
+	<div class="product-qty">
+		<div class="control custom-qty">
+			<div class="btn-plus">
+				<button type="button" class="alo_qty_dec reduced">-</button>
+			</div>
+			<input type="number" name="qty" class="input-text qty qty-<?php echo $_product->getId()?>" maxlength="12" value="1" data-validate="{'required-number':true,'validate-item-quantity':{'minAllowed':1,'maxAllowed':2000}}">
+			<div class="btn-plus">
+				<button type="button" class="alo_qty_inc increase">+</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -71,6 +71,9 @@ class Sold extends \Magento\Framework\App\Helper\AbstractHelper
         ];
         if(in_array($type, $simpleType)){
             $stockItem = $_product->getExtensionAttributes()->getStockItem();
+            if(!$stockItem){
+                $stockItem = $this->stockRegistry->getStockItem($_product->getId(), $_product->getStore()->getWebsiteId());
+            }
             $qty       = (int) $stockItem->getQty();
             return $qty;
         }

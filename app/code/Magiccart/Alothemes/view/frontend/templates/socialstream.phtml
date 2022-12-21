@@ -46,32 +46,25 @@ $limit      = isset($socialCfg["limit"])    ? $socialCfg["limit"] : 10;
 </article>
 
 <script type="text/javascript">
-    require([
-        'jquery',
-        'magiccart/socialstream',
-        'magiccart/slick',
-        ], function($, socialstream, slick){
-            $('.<?php echo $selector?> .section-content').socialstream({
-                socialnetwork: '<?php echo $socialnetwork?>',
-                limit: <?php echo $limit ?>,
-                username: '<?php echo $username ?>',
-                tags: '<?php echo $tags ?>',
-                <?php echo $accessToken ? $accessToken . ',' : '' ?>
-                afterload: function() {
-                    var el = $(this).find('.social-list');
-                    if( el.length ){
-                        if( !$(this).data( 'vertical') && $('body').hasClass('rtl') ){
-                            el.attr('dir', 'rtl');
-                            $(this).data( 'rtl', true );
-                        } 
-                        var options = $(this).data();
-                        el.on('init', function(event, slick){
-                            $('body').trigger('contentUpdated');
-                        });
-                        el.slick(options);
-                    }   
-            
-                }
-            }) 
+    require(['jquery', 'magiccart/socialstream', 'gridSlider'], function($, socialstream, gridSlider){
+        $('.<?php echo $selector?> .section-content').socialstream({
+            socialnetwork: '<?php echo $socialnetwork?>',
+            limit: <?php echo $limit ?>,
+            username: '<?php echo $username ?>',
+            tags: '<?php echo $tags ?>',
+            <?php echo $accessToken ? $accessToken . ',' : '' ?>
+            afterload: function() {
+                var el = $(this).find('.social-list');
+                if( el.length ){
+                    if( !$(this).data( 'vertical') && $('body').hasClass('rtl') ){
+                        el.attr('dir', 'rtl');
+                        $(this).data( 'rtl', true );
+                    } 
+                    var options = $(this).data();
+                    el.data(options).addClass('grid-slider').gridSlider({selector: ''});
+                }   
+        
+            }
+        }) 
     });
 </script>

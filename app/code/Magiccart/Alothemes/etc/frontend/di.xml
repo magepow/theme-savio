@@ -7,5 +7,15 @@
  */ -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    
     <preference for="Magiccart\Magicproduct\Helper\Alothemes" type="Magiccart\Alothemes\Helper\Data" />
+    <preference for="Magiccart\Magicproduct\Helper\Sold" type="Magiccart\Alothemes\Helper\Sold" />
+    <preference for="Magiccart\Shopbrand\Helper\Alothemes" type="Magiccart\Alothemes\Helper\Data" />
+
+    <type name="Magento\Store\Block\Switcher">
+        <plugin name="alothemes_frontend_switcher" type="Magiccart\Alothemes\Plugin\Flag" sortOrder="10"/>
+    </type>
+<!--    <type name="Magento\Catalog\Controller\Product\View">
+        <plugin name="alothemes_catalog_product_view_layout" type="Magiccart\Alothemes\Plugin\Catalog\Controller\Product\View" sortOrder="10" />
+    </type> -->
 </config>

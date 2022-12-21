@@ -4,7 +4,7 @@
  * @Author: nguyen
  * @Date:   2020-05-09 23:33:09
  * @Last Modified by:   Alex Dong
- * @Last Modified time: 2020-06-08 10:35:28
+ * @Last Modified time: 2021-05-31 15:02:25
  */
 
 namespace Magepow\Quickedit\Observer\Framework\View\Element;
@@ -329,6 +329,7 @@ class AbstractBlock extends DevHelper implements ObserverInterface
                             $magicproduct        = $magicproductFactory->create()->getCollection( $identifier, 'identifier')
                                                                                 ->addFieldToFilter('identifier', $identifier)
                                                                                 ->addFieldToFilter('type_id', $type[$class])
+                                                                                ->setPageSize(1)
                                                                                 ->getFirstItem();
                         }
                         if($magicproduct){

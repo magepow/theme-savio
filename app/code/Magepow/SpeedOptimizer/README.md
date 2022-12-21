@@ -1,10 +1,85 @@
-# Magento2 SpeedOptimizer
+## Magento 2 Speed Optimizer Extension
 
-Website speed is one of the most important factors that significantly impact your online sales. In fact, many research resources show that websites with fast loading page speed give lower bounce rates, the online revenue also increases after optimized. No doubt, the faster speed can bring to you great shopping experience instead of slow page loading. Some store owners might find different ways to improve their page speed such as speed optimization Service, extensions to optimize, or using some features in Magento default to increase website speed.
-Speed Optimizer for Magento 2 is the extension that can help you improve your website speed significantly by using simple and quick configurations. No coding needed, the store owners also can enable, manage, configure in Admin Panel. For example, in the Admin Panel, you can easy to apply LazyLoad, minify HTML, defer JavaScripts,...to improve your website speed. Therefore, the extension will help you save much of time and cost.
+The speed of your website is slow, which has a negative effect on Google rating and ranking and especially on the customer experience. Magento 2 Speed Optimizer or Magento 2 Speed Optimize (also known as [Google page speed optimizer Magento 2](https://magepow.com/magento2-speed-optimizer.html)) of Magepow will help speed up your website.
 
-## How to install Magento 2 Speed Optimizer
-### ✓ Install Magepow Speed Optimizer via composer (recommend)
+### Description
+In fact, many research resources show that users often leave a website if it takes more than 3 seconds to load. Thus, it can be seen that a slow web speed will make you lose potential customers before they visit your store. (Read more [Why is website speed important](https://magepow.com/blog/post/why-is-site-speed-important/))
+
+No doubt, the faster speed can bring to customers a great shopping experience instead of slow page loading. Understanding this, Google used speed as one of the factors to rank a website. If your [website speed](https://magepow.com/blog/things-to-know-about-website-speed/) is fast, your chances of getting to the top will be higher, reach more potential customers, and your ability to sell goods will be higher. 
+
+To test your web speed you can use [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/). This is a free tool of Google that allows you to [test the website speed](https://magepow.com/blog/website-speed-test-tools/). If the result is below 80 points, we recommend that you explore ways to make your website perform better. 
+
+Some other tools to measure website speed such as: [Lighthouse](https://magepow.com/blog/google-lighthouse-pagespeed-test-tool/), [GTmetrix](https://magepow.com/blog/website-speed-test-gtmetrix/)...  
+
+Let's find out [why website loading speed very slow](https://magepow.com/blog/website-loading-speed-very-slow/) and them in a number of ways such as: move your website to a better host, using the CDN, minimize HTTP requests, files, optimize CSS, lazy loading, [reduce image sizes to speed up website](https://magepow.com/blog/how-to-speed-up-image-loading-on-website/), use external hosting platforms, reduce the number of plugins, reduce redirects, enable browser caching, set up G-Zip encryption to compress data, [monitor mobile page speed](https://magepow.com/blog/how-to-speed-up-website-for-mobile/)... (Detailed information about [how to speed up website](https://magepow.com/blog/how-to-speed-up-website/))
+
+Speed Optimizer for Magento 2 is the extension that can help page speed optimization and performance optimization by using simple and quick configurations. No coding needed, the store owners also can enable, manage, configure in Admin Panel. For example, in the Admin Panel, you can easy to apply LazyLoad, minify HTML, defer JavaScripts... to improve your website speed. Therefore, Magento 2 Speed Optimizer extension will help you save much time and cost.
+
+[![Latest Stable Version](https://poser.pugx.org/magepow/speedoptimizer/v/stable)](https://packagist.org/packages/magepow/speedoptimizer)
+[![Total Downloads](https://poser.pugx.org/magepow/speedoptimizer/downloads)](https://packagist.org/packages/magepow/speedoptimizer)
+[![Daily Downloads](https://poser.pugx.org/magepow/speedoptimizer/d/daily)](https://packagist.org/packages/magepow/speedoptimizer)
+
+### Highlight Features
+#### 1. Easy To Enable/Disable 
+- Disable and Enable the module whenever you want in Admin Panel.
+ 
+#### 2. Preloading Body
+- Allow applying Preloading Body and upload Loading Body placeholder
+- Allow applying Preloading Images and upload Image placeholder
+ 
+#### 3. Lazy Load
+- Ability to exclude Images that you don't want to apply lazy load and preloading based on Image classes (use comma to separate).
+- Support for placeholder images to keep the layout of the website not broken when the site isn't loaded completely.
+- Allow setting the place that you want to apply to lazyload from that to bottom by busing ID or class of the block.
+- This is ideal for those who don't want to apply lazy load to the page-top such as the header or top banner slider.
+ 
+#### 4. Minify/Defer Files
+- Support minify javascript inline
+- Defer javascript: move Javascript to page bottom. A script that will not run until after the page has loaded (This is abandon magento avaiable feature in Admin Panel > Stores > Configuration > Advanced > Developer > Javascript Settings > Move JS code to the bottom of the page => Choose "Yes" )
+- Support minify CSS inline
+ 
+#### 5. Easy To Customize
+- Scripts and Style Sheets: This field is for who want to customize the lazy load, use particular scripts or style.
+
+**Pro version with outstanding features**
+
+| Features  | Free Version  | Pro Version |
+| :------------ |:---------------:| :-----:|
+|Preloading Body|:white_check_mark:|:white_check_mark:|
+|Change the preloading body icon|:white_check_mark:|:white_check_mark:|
+|Preloading Images|:white_check_mark:|:white_check_mark:|
+|Change the preloading images icon|:white_check_mark:|:white_check_mark:|
+|Lazy Load |:white_check_mark:|:white_check_mark:|
+|Exclude images that loaded, not lazy or do not want to be preloaded|:white_check_mark:|:white_check_mark:|
+|Placeholder help keep layout original while loading|:white_check_mark:|:white_check_mark:|
+|Set the position where you want to apply the lazy load from that to bottom|:white_check_mark:|:white_check_mark:|
+|Exclude HTML in desktop version|:white_check_mark:|:white_check_mark:|
+|Exclude HTML in mobile version|:white_check_mark:|:white_check_mark:|
+|Minify Html|:white_check_mark:|:white_check_mark:|
+|Minify inline Javascript|:white_check_mark:|:white_check_mark:|
+|Customize the lazy load, use particular scripts or style|:white_check_mark:|:white_check_mark:|
+|Do not load images until mouse movement|X|:white_check_mark:|
+|Enabled mode no-js support optimize scores Gtmetrix or Google pagespeed|X|:white_check_mark:|
+|The unladen image will appear as a frame with the background|X|:white_check_mark:|
+|Customize background color|X|:white_check_mark:|
+|Customize background opacity|X|:white_check_mark:|
+
+Download the latest version at [Magento 2 Speed Optimization Extension](https://magepow.com/magento2-speed-optimizer.html)
+
+### Result After using Magento 2 Speed Optimizer Extension
+
+#### Speed Test On Gtmetrix.Com
+
+ ![speedoptimizer-img](https://github.com/magepow/magento2-SpeedOptimizer/blob/master/media/speed_gtmetrix.png)
+
+#### Speed Test On Google PageSpeed Insights
+
+ ![speedoptimizer-img](https://github.com/magepow/magento2-SpeedOptimizer/blob/master/media/speed_google.jpg)
+ 
+### Magento 2 Speed Optimization Service of Magepow
+ [![ Magento Speed Optimization Service](https://github.com/magepow/magento2-speedoptimizer/blob/master/media/Magento_Speed_Optimization_Pro.png)](https://magepow.com/magento-speed-optimization-service.html)
+### How to install Magento 2 Speed Optimizer
+#### ✓ Install Magepow Speed Optimizer via composer (recommend)
 Run the following command in Magento 2 root folder:
 
 ```
@@ -13,101 +88,82 @@ php bin/magento setup:upgrade
 php bin/magento setup:static-content:deploy -f
 ```
 
-## Highlight Features
-### 1. Easy To Enable/Disable 
-- Disable and Enable the module whenever you want in Admin Panel.
- 
-### 2. Preloading Body
-- Allow applying Preloading Body and upload Loading Body placeholder
-- Allow applying Preloading Images and upload Image placeholder
- 
-### 3. Lazy Load
-- Ability to exclude Images that you don't want to apply lazy load and preloading based on Image classes (use comma to separate).
-- Support for placeholder images to keep the layout of the website not broken when the site isn't loaded completely.
-- Allow setting the place that you want to apply to lazyload from that to bottom by busing ID or class of the block.
-- This is ideal for those who don't want to apply lazy load to the page-top such as the header or top banner slider.
- 
-### 4. Minify/Defer Files
-- Support minify javascript inline
-- Defer javascript: move Javascript to page bottom. A script that will not run until after the page has loaded (This is abandon magento avaiable feature in Admin Panel > Stores > Configuration > Advanced > Developer > Javascript Settings > Move JS code to the bottom of the page => Choose "Yes" )
-- Support minify CSS inline
- 
-### 5. Easy To Customize
-- Scripts and Style Sheets: This field is for who want to customize the lazy load, use particular scripts or style.
+#### ✓ Install Package from ```copy paste``` package
 
-## Result After using Speed Optimizer Extension
 
-### Speed Test On Gtmetrix.Com
+### Page Speed Optimization FAQs
 
- ![speedoptimizer-img](https://github.com/magepow/magento2-SpeedOptimizer/blob/master/media/speed_gtmetrix.png)
+#### Q: I got error javascript after enabled module
+A: The error can cause with SyntaxError: missing ; before statement. When module speedoptimizer minify js will cause error
+	You can read more error here [SyntaxError: missing ; before statement.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Missing_semicolon_before_statement)
+Solution 1 (Recommend): Fixed the all missing ; before statement you can use 'use strict'; in code to find js to find and fixed error missing ; before statement.
+	You can read more how to use 'use strict'; here [use strict](https://www.w3schools.com/js/js_strict.asp) or [Strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) 
 
-### Speed Test On Google PageSpeed Insights
+Solution 2: Go to Admin Panel > Stores > Configuration > Magepow > Speed Optimizer > Minify inline Javascript => Choose "No"
 
- ![speedoptimizer-img](https://github.com/magepow/magento2-SpeedOptimizer/blob/master/media/speed_google.jpg)
+### Detail User Guide
+* [User Guide Magento 2 Speed Optimize Extension](https://docs.alothemes.com/m2/extension/speedoptimizer/)
 
-## Detail User Guide
-* [Magento 2 Recent Order Document](https://docs.alothemes.com/m2/extension/speedoptimizer/)
-
-## Donation
+### Donation
 
 If this project help you reduce time to develop, you can give me a cup of coffee :) 
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/paypalme/alopay)
 
 
-**Free Extensions List**
+**[Our Magento 2 Extensions](https://magepow.com/magento-2-extensions.html)**
 
 * [Magento 2 Recent Sales Notification](https://magepow.com/magento-2-recent-sales-notification.html)
 
-* [Magento Categories Extension](https://magepow.com/magento-categories-extension.html)
+* [Magento 2 Categories Extension](https://magepow.com/magento-categories-extension.html)
 
-* [Magento Sticky Cart](https://magepow.com/magento-sticky-cart.html)
+* [Magento 2 Sticky Cart](https://magepow.com/magento-sticky-cart.html)
 
-* [Magento Ajax Contact](https://magepow.com/magento-ajax-contact-form.html)
+* [Magento 2 Ajax Contact](https://magepow.com/magento-ajax-contact-form.html)
 
-* [Magento Lazy Load](https://magepow.com/magento-lazy-load.html)
-
-**Premium Extensions List**
+* [Magento 2 Lazy Load](https://magepow.com/magento-lazy-load.html)
 
 * [Magento 2 Mutil Translate](https://magepow.com/magento-multi-translate.html)
 
 * [Magento 2 Instagram Integration](https://magepow.com/magento-2-instagram.html)
 
-* [Lookbook Pin Products](https://magepow.com/lookbook-pin-products.html)
+* [Magento 2 Lookbook Pin Products](https://magepow.com/lookbook-pin-products.html)
 
-* [Magento Product Slider](https://magepow.com/magento-product-slider.html)
+* [Magento 2 Product Slider](https://magepow.com/magento-product-slider.html)
 
-* [Magento Product Banner](https://magepow.com/magento-banner-slider.html)
+* [Magento 2 Product Banner](https://magepow.com/magento-banner-slider.html)
 
-**Featured Magento services**
+**[Our Magento 2 services](https://magepow.com/magento-services.html)**
 
 * [PSD to Magento 2 Theme Conversion](https://magepow.com/psd-to-magento-theme-conversion.html)
 
-* [Magento Speed Optimization Service](https://magepow.com/magento-speed-optimization-service.html)
+* [Magento 2 Speed Optimization Service](https://magepow.com/magento-speed-optimization-service.html)
 
-* [Magento Security Patch Installation](https://magepow.com/magento-security-patch-installation.html)
+* [Magento 2 Security Patch Installation](https://magepow.com/magento-security-patch-installation.html)
 
-* [Magento Website Maintenance Service](https://magepow.com/website-maintenance-service.html)
+* [Magento 2 Website Maintenance Service](https://magepow.com/website-maintenance-service.html)
 
-* [Magento Professional Installation Service](https://magepow.com/professional-installation-service.html)
+* [Magento 2 Professional Installation Service](https://magepow.com/professional-installation-service.html)
 
-* [Magento Upgrade Service](https://magepow.com/magento-upgrade-service.html)
+* [Magento 2 Upgrade Service](https://magepow.com/magento-upgrade-service.html)
 
-* [Customization Service](https://magepow.com/customization-service.html)
+* [Magento 2 Customization Service](https://magepow.com/customization-service.html)
 
-* [Hire Magento Developer](https://magepow.com/hire-magento-developer.html)
+* [Hire Magento 2 Developer](https://magepow.com/hire-magento-developer.html)
 
-**Featured Magento Themes**
+**[Our Magento 2 Themes](https://alothemes.com/)**
 
-* [Expert Multipurpose responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/expert-premium-responsive-magento-2-and-1-support-rtl-magento-2-/21667789)
+* [Expert Multipurpose Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/expert-premium-responsive-magento-2-and-1-support-rtl-magento-2-/21667789)
 
-* [Gecko Premium responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/gecko-responsive-magento-2-theme-rtl-supported/24677410)
+* [Gecko Premium Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/gecko-responsive-magento-2-theme-rtl-supported/24677410)
 
-* [Milano Fashion responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/milano-fashion-responsive-magento-1-2-theme/12141971)
+* [Milano Fashion Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/milano-fashion-responsive-magento-1-2-theme/12141971)
 
-* [Electro responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/electro-responsive-magento-1-2-theme/17042067)
+* [Electro 2 Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/electro2-premium-responsive-magento-2-rtl-supported/26875864)
 
-* [Pizzaro food responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/pizzaro-food-responsive-magento-1-2-theme/19438157)
+* [Electro Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/electro-responsive-magento-1-2-theme/17042067)
+
+* [Pizzaro Food responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/pizzaro-food-responsive-magento-1-2-theme/19438157)
 
 * [Biolife organic responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/biolife-organic-food-magento-2-theme-rtl-supported/25712510)
 
@@ -115,7 +171,6 @@ If this project help you reduce time to develop, you can give me a cup of coffee
 
 * [Kuteshop responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/kuteshop-multipurpose-responsive-magento-1-2-theme/12985435)
 
-[![Latest Stable Version](https://poser.pugx.org/magepow/speedoptimizer/v/stable)](https://packagist.org/packages/magepow/speedoptimizer)
-[![Total Downloads](https://poser.pugx.org/magepow/speedoptimizer/downloads)](https://packagist.org/packages/magepow/speedoptimizer)
+* [Bencher - Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/bencher-responsive-magento-1-2-theme/15787772)
 
-
+* [Supermarket Responsive Magento 2 Theme](https://1.envato.market/c/1314680/275988/4415?u=https://themeforest.net/item/supermarket-responsive-magento-1-2-theme/18447995)

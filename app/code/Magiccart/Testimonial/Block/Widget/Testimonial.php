@@ -15,10 +15,11 @@ namespace Magiccart\Testimonial\Block\Widget;
 
 class Testimonial extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
-
-    public $_sysCfg;
-
+    /**
+    * @var \Magento\Framework\Image\AdapterFactory
+    */
     protected $_imageFactory;
+
     // protected $_filesystem;
     // protected $_directory;
 
@@ -28,55 +29,67 @@ class Testimonial extends \Magento\Framework\View\Element\Template implements \M
     protected $backendUrl;
 
     /**
-    * @var \Magiccart\Testimonial\Model\ResourceModel\Testimonial\CollectionFactory
+    * @var \Magiccart\Testimonial\Model\TestimonialFactory
     */
-    protected $_testimonialCollectionFactory;
-    protected $_testimonials = null;
-    protected $_attribute = null;
+    protected $testimonialFactory;
+
+    protected $_testimonials;
+
+    /**
+     * @var \Magiccart\Testimonial\Model\Config\Source\GridSlider
+     */    
+    protected $gridSlider;
+
+    /**
+     * @var \Magiccart\Testimonial\Helper\Data
+     */ 
+    public $helper;
 
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Image\AdapterFactory $imageFactory,
         // \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magiccart\Testimonial\Model\ResourceModel\Testimonial\CollectionFactory $testimonialCollectionFactory,
+        \Magiccart\Testimonial\Model\TestimonialFactory $testimonialFactory,
+        \Magiccart\Testimonial\Model\Config\Source\GridSlider $gridSlider,
+        \Magiccart\Testimonial\Helper\Data $helper,
+
         array $data = []
     ) {
 
-        $this->_imageFactory = $imageFactory;
-        // $this->_filesystem = $filesystem;
-        // $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $this->backendUrl = $backendUrl;
-        $this->_testimonialCollectionFactory = $testimonialCollectionFactory;
-
-        $this->_sysCfg= (object) $context->getScopeConfig()->getValue(
-            'testimonial',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+        $this->_imageFactory      = $imageFactory;
+        // $this->_filesystem        = $filesystem;
+        // $this->_directory         = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->backendUrl         = $backendUrl;
+        $this->testimonialFactory = $testimonialFactory;
+        $this->gridSlider         = $gridSlider;
+        $this->helper             = $helper;
 
         parent::__construct($context, $data);
     }
 
     protected function _construct()
     {
-
-        $data = $this->_sysCfg->general;
+        $data = $this->helper->getConfigModule('general');
         if($data['slide']){
-            $data['vertical-Swiping'] = $data['vertical'];
+            $data['vertical-swiping'] = $data['vertical'];
             $breakpoints = $this->getResponsiveBreakpoints();
             $responsive = '[';
             $num = count($breakpoints);
             foreach ($breakpoints as $size => $opt) {
                 $item = (int) $data[$opt];
-                $responsive .= '{"breakpoint": "'.$size.'", "settings": {"slidesToShow": "'.$item.'"}}';
+                $responsive .= '{"breakpoint": '.$size.', "settings": {"slidesToShow": '.$item.'}}';
                 $num--;
                 if($num) $responsive .= ', ';
             }
             $responsive .= ']';
-            $data['center-Mode']    = $data['center_mode'];
-            $data['slides-To-Show'] = $data['visible'];
-            $data['swipe-To-Slide'] = 'true';
-            $data['responsive'] = $responsive;
+            $data['center-mode']     = $data['center_mode'];
+            $data['slides-to-show']  = $data['visible'];
+            $data['autoplay-speed']  = $data['autoplay_speed'];
+            $data['adaptive-height'] = $data['adaptive_height'];
+            $data['swipe-to-slide']  = 'true';
+            $data['responsive']      = $responsive;
+            // if(!isset($data['rows'])  || $data['rows'] == 1 ) $data['rows'] = 0;
         }
 
         $this->addData($data);
@@ -122,12 +135,13 @@ class Testimonial extends \Magento\Framework\View\Element\Template implements \M
     {
         if(!$this->_testimonials){
             $store = $this->_storeManager->getStore()->getStoreId();
-            $testimonials = $this->_testimonialCollectionFactory->create()
+            $testimonials = $this->testimonialFactory->create()->getCollection()
                         ->addFieldToFilter('stores',array( array('finset' => 0), array('finset' => $store)))
                         ->addFieldToFilter('status', 1);
             $testimonials->getSelect()->order(array('order asc', 'testimonial_id desc'));
             $this->_testimonials = $testimonials;
         }
+
         return $this->_testimonials;
     }
 
@@ -156,13 +170,12 @@ class Testimonial extends \Magento\Framework\View\Element\Template implements \M
 
     public function getResponsiveBreakpoints()
     {
-        return array(1921=>'visible', 1920=>'widescreen', 1480=>'desktop', 1200=>'laptop', 992=>'notebook', 768=>'tablet', 576=>'landscape', 481=>'portrait', 361=>'mobile', 1=>'mobile');
-        return array(1201=>'visible', 1200=>'desktop', 992=>'notebook', 769=>'tablet', 641=>'landscape', 481=>'portrait', 361=>'mobile', 1=>'mobile');
+        return $this->gridSlider->getBreakpoints();
     }
 
     public function getSlideOptions()
     {
-        return array('autoplay', 'arrows', 'autoplay-Speed', 'center-Mode', 'dots', 'fade', 'infinite', 'padding', 'vertical', 'vertical-Swiping', 'responsive', 'rows', 'slides-To-Show', 'swipe-To-Slide');
+        return $this->gridSlider->getSlideOptions();
     }
 
     public function getFrontendCfg()

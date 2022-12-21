@@ -12,8 +12,9 @@
 
 namespace Magiccart\Alothemes\Block\Widget;
 
+use \Magiccart\Alothemes\Model\Design\Frontend\Responsive;
 /**
- * Blog sidebar categories block
+ *  Widget Blog
  */
 class Blog extends \Magefan\Blog\Block\Post\PostList\AbstractList implements \Magento\Widget\Block\BlockInterface
 {
@@ -44,6 +45,8 @@ class Blog extends \Magefan\Blog\Block\Post\PostList\AbstractList implements \Ma
             }
             $responsive .= ']';
             $data['slides-To-Show'] = $this->getData('visible');
+            $data['autoplay-Speed'] = $this->getData('autoplay_speed');
+            $data['adaptive-Height']= $this->getData('adaptive_height');
             $data['swipe-To-Slide'] = 'true';
             $data['responsive'] = $responsive;
             
@@ -88,12 +91,12 @@ class Blog extends \Magefan\Blog\Block\Post\PostList\AbstractList implements \Ma
 
     public function getResponsiveBreakpoints()
     {
-        return array(1201=>'visible', 991=>'desktop', 769=>'tablet', 641=>'landscape', 481=>'portrait', 361=>'mobile', 1=>'mobile');
+        return Responsive::getBreakpoints();
     }
 
     public function getSlideOptions()
     {
-        return array('autoplay', 'arrows', 'autoplay-Speed', 'dots', 'infinite', 'padding', 'vertical', 'vertical-Swiping', 'responsive', 'rows', 'slides-To-Show', 'swipe-To-Slide');
+        return array('autoplay', 'arrows', 'autoplay-Speed', 'adaptive-Height', 'dots', 'infinite', 'padding', 'vertical', 'vertical-Swiping', 'responsive', 'rows', 'slides-To-Show', 'swipe-To-Slide');
     }
 
     public function getFrontendCfg()

@@ -55,7 +55,7 @@ class Save extends \Magiccart\Testimonial\Controller\Adminhtml\Action
                     $result = $uploader->save(
                         $mediaDirectory->getAbsolutePath('magiccart/testimonial/')
                     );
-                    $data['image'] = 'magiccart/testimonial/'.$result['file'];
+                    $data['image'] = 'magiccart/testimonial'.$result['file'];
                 } catch (\Exception $e) {
                     if ($e->getCode() == 0) {
                         $this->messageManager->addError($e->getMessage());

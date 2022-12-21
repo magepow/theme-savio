@@ -1,6 +1,9 @@
 {
   "name": "magepow/quickedit",
   "description": "You quick access edit admin content from frontend.",
+  "require": {
+    "magepow/core": "^1.0.0"
+  },
   "type": "magento2-module",
   "license": [
       "OSL-3.0",
