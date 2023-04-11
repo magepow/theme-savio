@@ -44,15 +44,15 @@ class ShortContentExtractor implements ShortContentExtractorInterface
      * Retrieve short filtered content
      * @param string $content
      * @param mixed $len
-     * @param mixed $endСharacters
+     * @param mixed $endCharacters
      * @return string
      * @throws \Exception
      */
-    public function execute($content, $len = null, $endСharacters = null)
+    public function execute($content, $len = null, $endCharacters = null)
     {
         $content = (string)$content;
 
-        $key = md5($content) . $len . $endСharacters;
+        $key = md5($content) . $len . $endCharacters;
         if (!isset($this->executedContent[$key])) {
 
             $content = $this->filterProvider->getPageFilter()->filter(
@@ -156,19 +156,28 @@ class ShortContentExtractor implements ShortContentExtractorInterface
                 }
             }
 
-            if ($endСharacters === null) {
-                $endСharacters = '';
+            if ($endCharacters === null) {
+                $endCharacters = $this->scopeConfig->getValue(
+                    'mfblog/post_list/end_characters',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
             }
 
-            if ($len && $endСharacters) {
+            if ($len && $endCharacters) {
                 $trimMask = " \t\n\r\0\x0B,.!?";
                 if ($p = strrpos($content, '</')) {
+                    $p2 = $p;
+                    do {
+                        $p = $p2;
+                        $p2 = strrpos($content, '</', $p - strlen($content) - 1);
+                    } while ($p2 && $p - $p2 <= 6);
+
                     $content = trim(substr($content, 0, $p), $trimMask)
-                        . $endСharacters
+                        . $endCharacters
                         . substr($content, $p);
                 } else {
                     $content = trim($content, $trimMask)
-                        . $endСharacters;
+                        . $endCharacters;
                 }
             }
 

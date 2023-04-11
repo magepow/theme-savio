@@ -168,9 +168,9 @@ class RecentOrder extends \Magento\Catalog\Block\Product\AbstractProduct impleme
         if(isset($this->_recentConfig['fakeinfo']) && $this->_recentConfig['fakeinfo']){
             if(isset($this->_recentConfig['product_ids']) && $this->_recentConfig['product_ids']){
                 $producIds = $this->_recentConfig['product_ids'];
-                $producIds = explode(',',$producIds);
-                $faketime = explode(',', $this->_recentConfig['faketime']);
-                $fakeaddress = explode(',', $this->_recentConfig['fakeaddress']);
+                $producIds = explode(',', (string) $producIds);
+                $faketime = explode(',', (string) $this->_recentConfig['faketime']);
+                $fakeaddress = explode(',', (string) $this->_recentConfig['fakeaddress']);
                 foreach ( $producIds as $key => $id ) {
                     $info = array();
                     $info['time'] = isset($faketime[$key]) ? $faketime[$key]: $faketime[array_rand($faketime)];

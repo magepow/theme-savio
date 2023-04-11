@@ -47,7 +47,7 @@ class Chooser extends \Magento\Widget\Block\Adminhtml\Widget\Chooser
                          $(".modal-header:last .modal-title").replaceWith("'.$buttonHtml . '");
                          $(".modal-header:last").css({"background": "#f8f8f8", "border-bottom": "1px solid #e3e3e3","border-top": "1px solid #e3e3e3",
                          "margin-bottom": "20px"});
-                         var currentState = $("#' . $chooserId . 'label").html().replace("Not Selected","");
+                         var currentState = $("#' . $chooserId . 'label").html().replace("","");
                          var currentStateArray = []; 
     
                          if (currentState !== "") {
@@ -62,7 +62,7 @@ class Chooser extends \Magento\Widget\Block\Adminhtml\Widget\Chooser
                             if (window.postState.length) {
                                 postStateStr = window.postState.join(",");
                             }
-                        
+                            document.getElementById("'. $chooserId . '_input").value = postStateStr;
                            ' .
             $chooserId .
             '.setElementValue(postStateStr);
@@ -167,18 +167,25 @@ class Chooser extends \Magento\Widget\Block\Adminhtml\Widget\Chooser
         $configJson = $this->_jsonEncoder->encode($config->getData());
 
         return '
-            <label class="widget-option-label" id="' .
+            <input id="'. $chooserId . '_input" class="widget-option input-text admin__control-text" 
+            onkeyup="keyupFunctionMf()"
+            value="' . ($this->getLabel() ? $this->escapeHtml($this->getLabel()) : '') .'" />
+            <label class="widget-option-label" style="display: none" id="' .
             $chooserId .
             'label">' .
-            ($this->getLabel() ? $this->escapeHtml($this->getLabel()) : __(
-                'Not Selected'
-            )) .
+            ($this->getLabel() ? $this->escapeHtml($this->getLabel()) : '') .
             '</label>
             <div id="' .
             $chooserId .
             'advice-container" class="hidden"></div>' .
             '<script>' .
-                'require(["prototype", "mage/adminhtml/wysiwyg/widget"], function(){
+                '
+                function keyupFunctionMf() {
+                    var inputV = document.getElementById("' . $chooserId . '_input").value;
+                    ' . $chooserId . '.setElementValue(inputV);
+                    ' . $chooserId . '.setElementLabel(inputV);    
+                }
+                require(["prototype", "mage/adminhtml/wysiwyg/widget"], function(){
             //<![CDATA[
                 (function() {
                     var instantiateChooser = function() {

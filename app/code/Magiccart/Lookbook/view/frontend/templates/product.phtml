@@ -54,6 +54,8 @@ foreach ($productIds as $key => $id) {
             'product_img'   => $image_html,
         );
         $magic_pin[$key] = array_merge($magic_pin[$key], $add_options);
+    }else{
+        unset($magic_pin[$key]);
     }
 }
 

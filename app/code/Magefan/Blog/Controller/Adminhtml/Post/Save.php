@@ -71,7 +71,13 @@ class Save extends \Magefan\Blog\Controller\Adminhtml\Post
 
                         $model->setData($key, $image);
                     } else {
-                        if (isset($data[$key][0]['name'])) {
+                        if (isset($data[$key][0]['url'])
+                            && false != ($position = strpos($data[$key][0]['url'], '/media/'))) {
+                            $model->setData(
+                                $key,
+                                substr($data[$key][0]['url'],  $position + strlen('/media/'))
+                            );
+                        } elseif (isset($data[$key][0]['name'])) {
                             $model->setData($key, $data[$key][0]['name']);
                         }
                     }
@@ -167,7 +173,7 @@ class Save extends \Magefan\Blog\Controller\Adminhtml\Post
                 $filterRules[$dateField] = $dateFilter;
                 $data[$dateField] = preg_replace('/(.*)(\+\d\d\d\d\d\d)(\d\d)/U', '$1$3', $data[$dateField]);
 
-                if (!preg_match('/\d{1}:\d{2}/', $data[$dateField])) {
+                if (!preg_match('/\d{1}:\d{2}/', (string)$data[$dateField])) {
                     /*$data[$dateField] .= " 00:00";*/
                     $filterRules[$dateField] = $dateFilter;
                 } else {
@@ -176,7 +182,7 @@ class Save extends \Magefan\Blog\Controller\Adminhtml\Post
             }
         }
 
-        $inputFilter = new \Zend_Filter_Input(
+        $inputFilter = $this->getFilterInput(
             $filterRules,
             [],
             $data

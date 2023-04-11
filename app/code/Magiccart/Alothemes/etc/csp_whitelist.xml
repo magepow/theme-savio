@@ -3,30 +3,50 @@
     <policies>
         <policy id="font-src">
             <values>
+                <value id="adobe.com" type="host">*.adobe.com</value>
+                <value id="facebook" type="host">*.facebook.com</value>
+                <value id="facebooknet" type="host">*.facebook.net</value>
+                <value id="fontawesome.com" type="host">*.fontawesome.com</value>
                 <value id="googleapis" type="host">*.googleapis.com</value>
                 <value id="gstatic.com" type="host">*.gstatic.com</value>
             </values>
         </policy>
         <policy id="script-src">
             <values>
+                <value id="adobe.com" type="host">*.adobe.com</value>
+                <value id="facebook" type="host">*.facebook.com</value>
+                <value id="facebooknet" type="host">*.facebook.net</value>
+                <value id="fontawesome.com" type="host">*.fontawesome.com</value>
                 <value id="googleapis" type="host">*.googleapis.com</value>
                 <value id="gstatic.com" type="host">*.gstatic.com</value>
             </values>
         </policy>
         <policy id="style-src">
             <values>
+                <value id="adobe.com" type="host">*.adobe.com</value>
+                <value id="facebook" type="host">*.facebook.com</value>
+                <value id="facebooknet" type="host">*.facebook.net</value>
+                <value id="fontawesome.com" type="host">*.fontawesome.com</value>
                 <value id="googleapis" type="host">*.googleapis.com</value>
                 <value id="gstatic.com" type="host">*.gstatic.com</value>
             </values>
         </policy>
         <policy id="connect-src">
             <values>
+                <value id="adobe.com" type="host">*.adobe.com</value>
+                <value id="facebook" type="host">*.facebook.com</value>
+                <value id="facebooknet" type="host">*.facebook.net</value>
+                <value id="fontawesome.com" type="host">*.fontawesome.com</value>
                 <value id="googleapis" type="host">*.googleapis.com</value>
                 <value id="gstatic.com" type="host">*.gstatic.com</value>
             </values>
         </policy>
         <policy id="img-src">
             <values>
+                <value id="adobe.com" type="host">*.adobe.com</value>
+                <value id="facebook" type="host">*.facebook.com</value>
+                <value id="facebooknet" type="host">*.facebook.net</value>
+                <value id="fontawesome.com" type="host">*.fontawesome.com</value>
                 <value id="googleapis" type="host">*.googleapis.com</value>
                 <value id="gstatic.com" type="host">*.gstatic.com</value>
             </values>

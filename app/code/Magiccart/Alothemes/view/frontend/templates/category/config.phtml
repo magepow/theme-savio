@@ -1,5 +1,5 @@
 <?php
-    return; /* disabled in module */
+    /* return; disabled in module */
     $_aloHelper     = $this->helper('Magiccart\Alothemes\Helper\Data');
     $configDisplay  = $_aloHelper->getConfigModule("category_page/config_display");
     $configDisplay  = $_aloHelper->getConfigArraySerialized($configDisplay);
@@ -10,7 +10,7 @@
         }
     }
 
-    $style  = $style ? $style . '{display:none}' : '';
+    $style  = $style ? $style . '{display:none !important}' : '';
     $style .= $_aloHelper->getConfigModule("category_page/style");
     echo $style ? '<style>' . $style .'</style>' : '';
     /*

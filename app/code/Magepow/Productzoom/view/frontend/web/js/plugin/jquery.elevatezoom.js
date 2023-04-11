@@ -773,7 +773,7 @@ if ( typeof Object.create !== 'function' ) {
 							if(self.options.zoomWindowEffect){
 					            /* default effect flyOutImageToWindow */
 					            var effect = [
-					                { transform: 'translate3d(-100%, 0, 0) scale(0)' },
+					                { transform: $('body, html').hasClass('rtl') ? 'translate3d(100%, 0, 0) scale(0)' : 'translate3d(-100%, 0, 0) scale(0)' },
 					                { transform: 'translate3d(0, 0, 0) scale(1)' },
 					                { transition: 'all 0.8s linear both' }
 					            ],
@@ -795,7 +795,7 @@ if ( typeof Object.create !== 'function' ) {
 					                    break;
 					                case 'flySpinningImageToWindow':
 					                    effect = [
-					                      { transform: 'translate3d(-100%, 0, 0) scale(0) rotateZ(0)' },
+					                      { transform: $('body, html').hasClass('rtl') ? 'translate3d(100%, 0, 0) scale(0) rotateZ(0)' : 'translate3d(-100%, 0, 0) scale(0) rotateZ(0)' },
 					                      { transform: 'translate3d(0, 0, 0) scale(1) rotateZ(360deg)' },
 					                      { transition: 'all 0.5s linear both' }
 					                    ];

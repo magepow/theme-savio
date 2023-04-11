@@ -1286,7 +1286,7 @@ class MobileDetect
     public function prepareVersionNo($ver)
     {
         $ver = str_replace(array('_', ' ', '/'), '.', $ver);
-        $arrVer = explode('.', $ver, 2);
+        $arrVer = explode('.', (string) $ver, 2);
 
         if (isset($arrVer[1])) {
             $arrVer[1] = @str_replace('.', '', $arrVer[1]); // @todo: treat strings versions.

@@ -74,10 +74,36 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
                 $stores  = $request['scope_id']; 
             }
         }
-        $this->_store = is_array($stores) ? $stores : explode(',', $stores);
+        $this->_store = is_array($stores) ? $stores : explode(',', (string) $stores);
+        $blockIds = []; 
         if($request['action']){
-            if( isset($request['block']) && $request['block'] )                 $this->importBlock(isset($request['overwrite_block']));
-            if( isset($request['page'])  && $request['page'] )                  $this->importPage(isset($request['overwrite_page']));
+            if( isset($request['block']) && $request['block'] ){
+                $blockIds = $this->importBlock(isset($request['overwrite_block']));
+                // var_dump($blockIds);die('ssxx');
+                if(!empty($blockIds)){
+                    $blockCollection = $this->_objectManager->create('\Magento\Cms\Model\ResourceModel\Block\Collection');
+                    $blockCollection->addFieldToFilter('block_id', ['in'=> array_keys($blockIds)]);
+                    foreach ($blockCollection as $block) {
+                        $content = $block->getData('content');
+                        $content = $this->IdentifierToBlockId($content, $blockIds);
+                        $block->setData('content', $content);
+                        $block->save();
+                    }
+                }
+            }
+            if( isset($request['page'])  && $request['page'] ){
+                $pageIds = $this->importPage(isset($request['overwrite_page']));
+                if(!empty($blockIds) && !empty($pageIds)){
+                    $pageCollection = $this->_objectManager->create('\Magento\Cms\Model\ResourceModel\Page\Collection');
+                    $pageCollection->addFieldToFilter('page_id', ['in'=> array_keys($pageIds)]);
+                    foreach ($pageCollection as $page) {
+                        $content = $page->getData('content');
+                        $content = $this->IdentifierToBlockId($content, $blockIds);
+                        $page->setData('content', $content);
+                        $page->save();
+                    }
+                }
+            }
             if( isset($request['config'])  && $request['config'] )              $this->importSystem($scope);
             if( isset($request['magicmenu']) && $request['magicmenu'] )         $this->importMagicmenu();
             if( isset($request['magicslider']) && $request['magicslider'] )     $this->importMagicslider(); 
@@ -155,6 +181,7 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
         $fileName = 'block.xml';
         $backupFilePath = $this->getImportFile($fileName);
         $storeIds = $this->_store;
+        $blockIds = [];
         try{
             if (!is_readable($backupFilePath)) throw new \Exception(__("Can't read data file: %1", $backupFilePath));
             $xmlObj = new \Magento\Framework\Simplexml\Config($backupFilePath);
@@ -179,7 +206,8 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
                             if ($overwrite){
                                 $model->load($old->getId());
                                 $model->addData($item->asArray())->save();
-                                $num++; 
+                                $num++;
+                                $blockIds[$model->getId()] = (string) $item->identifier;
                                 // $this->messageManager->addNotice(__('Import overwrite Block Id (%1) Item(s) and Identifier "%2".', $old->getId(), $old->getIdentifier()));
                             } else {
                                 $this->messageManager->addNotice(__('Break overwrite Block Id (%1) Item(s) and Identifier "%2".', $old->getId(), $old->getIdentifier()));  
@@ -190,6 +218,7 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
 
                     $model = $this->_objectManager->create('Magento\Cms\Model\Block');
                     $model->setData($item->asArray())->setStores($storeIds)->save();
+                    $blockIds[$model->getId()] = (string) $item->identifier;
                     $num++;
                 }               
             }
@@ -199,6 +228,8 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
         } catch (\Exception $e) {
                 $this->messageManager->addError(__('Can not import file "%1".<br/>"%2"', $backupFilePath, $e->getMessage()));
         }
+
+        return $blockIds;
     }
 
     public function importPage($overwrite=false)
@@ -206,6 +237,7 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
         $fileName = 'page.xml';
         $backupFilePath = $this->getImportFile($fileName);
         $storeIds = $this->_store;
+        $pageIds = [];
         try{
             if (!is_readable($backupFilePath)) throw new \Exception(__("Can't read data file: %1", $backupFilePath));
             $xmlObj = new \Magento\Framework\Simplexml\Config($backupFilePath);
@@ -229,6 +261,7 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
                             if ($overwrite){ //If items can be overwrittenz
                                 $model->load($old->getId());
                                 $model->addData($item->asArray())->save();
+                                $pageIds[$model->getId()] = (string) $item->identifier;
                                 $num++; 
                                 // $this->messageManager->addNotice(__('Import overwrite Page Id (%1) Item(s) and Identifier "%2".', $old->getId(), $old->getIdentifier()));
                             } else {
@@ -239,6 +272,7 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
                     }
             
                     $model->setData($item->asArray())->setStores($storeIds)->save();
+                    $pageIds[$model->getId()] = (string) $item->identifier;
                     $num++;
                 }               
             }
@@ -246,7 +280,9 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
 
         } catch (\Exception $e) {
                 $this->messageManager->addError(__('Can not import file "%1".<br/>"%2"', $backupFilePath, $e->getMessage()));
-        }        
+        }
+        
+        return $pageIds;
     }
 
     public function importSystem($scope='default')
@@ -486,6 +522,24 @@ class Save extends \Magiccart\Alothemes\Controller\Adminhtml\Action
         } catch (\Exception $e) {
                 $this->messageManager->addError(__('Can not import file "%1".<br/>"%2"', $backupFilePath, $e->getMessage()));
         }
+    }
+
+    public function IdentifierToBlockId($content, $blockIds)
+    {
+        return preg_replace_callback(
+            '/block_id="(.*?)"/',
+            function($match) use ($blockIds) {
+                $identifier = $match[1];
+                $id = array_search($identifier, $blockIds);
+                if($id){
+                    $blockId = str_replace($match[1], $id, (string) $match[0]);
+                    return $blockId;
+                    // return 'block_id="' . $id . '"';
+                }
+                return $match[0];
+            },
+            $content
+        );
     }
 
 }

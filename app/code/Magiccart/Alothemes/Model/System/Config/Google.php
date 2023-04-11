@@ -18,7 +18,7 @@ class Google implements \Magento\Framework\Option\ArrayInterface
 	
 	public function toOptionArray()
 	{
-		$names = explode(',', $this->_names);
+		$names = explode(',', (string) $this->_names);
 		$options = array();
 		foreach ($names as $n){
 			$options[] = array( 'value' => $n, 'label' => $n);

@@ -112,10 +112,10 @@ class ConfigPlugin
             $settings['menubar'] = true;
             $settings['image_advtab'] = true;
 
-            $settings['plugins'] = 'advlist autolink code colorpicker directionality hr imagetools link media noneditable paste print table textcolor toc visualchars anchor charmap codesample contextmenu help image insertdatetime lists nonbreaking pagebreak preview searchreplace template textpattern visualblocks wordcount magentovariable magentowidget';
+            $settings['plugins'] = 'advlist autolink code colorpicker directionality hr imagetools link media noneditable paste print table textcolor toc visualchars anchor charmap codesample contextmenu help image insertdatetime lists nonbreaking pagebreak preview searchreplace template textpattern visualblocks wordcount magentovariable magentowidget emoticons';
 
             $settings['toolbar1'] = 'magentovariable magentowidget | formatselect | styleselect | fontselect | fontsizeselect | lineheight | forecolor backcolor | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent';
-            $settings['toolbar2'] = ' undo redo  | link anchor table charmap | image media insertdatetime | widget | searchreplace visualblocks  help | hr pagebreak';
+            $settings['toolbar2'] = ' undo redo  | link anchor table charmap | image media insertdatetime | widget | searchreplace visualblocks  help | hr pagebreak | emoticons';
             $settings['force_p_newlines'] = false;
 
             $settings['valid_children'] = '+body[style]';
@@ -126,6 +126,8 @@ class ConfigPlugin
             if (in_array($this->request->getModuleName(), ['cms', 'catalog'])) {
                 $type = $this->request->getModuleName() . '_' . $this->request->getControllerName();
             } elseif ('blog' == $this->request->getModuleName()) {
+                $type = $this->request->getModuleName();
+            } elseif ('mfproducttabs' == $this->request->getModuleName()) {
                 $type = $this->request->getModuleName();
             }
 

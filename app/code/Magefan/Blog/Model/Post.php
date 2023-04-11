@@ -451,7 +451,7 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
             if (!$image) {
                 $content = $this->getFilteredContent();
                 $match = null;
-                preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $content, $match);
+                preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', (string)$content, $match);
                 if (!empty($match['src'])) {
                     $image = $match['src'];
                 }
@@ -482,10 +482,10 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
     /**
      * Retrieve short filtered content
      * @param  mixed $len
-     * @param  mixed $endСharacters
+     * @param  mixed $endCharacters
      * @return string
      */
-    public function getShortFilteredContent($len = null, $endСharacters = null)
+    public function getShortFilteredContent($len = null, $endCharacters = null)
     {
         /* Fix for custom themes that send wrong parameters to this function, and that brings the error */
         if (is_object($len)) {
@@ -503,7 +503,7 @@ class Post extends \Magento\Framework\Model\AbstractModel implements \Magento\Fr
                 $content = (string)$this->getContent() ?: '';
             }
 
-            $content = $this->getShortContentExtractor()->execute($content, $len, $endСharacters);
+            $content = $this->getShortContentExtractor()->execute($content, $len, $endCharacters);
 
             $this->setData($key, $content);
         }

@@ -15,8 +15,8 @@ namespace Magiccart\Magicproduct\Model\System\Config;
 class Category implements \Magento\Framework\Option\ArrayInterface
 {
 
-    const PREFIX_ROOT = '*';    
-    const REPEATER = '*';
+    const PREFIX_ROOT = '&nbsp;&nbsp;';    
+    const REPEATER = '&nbsp;&nbsp;';
     const PREFIX_END = '';
 
     /**
